@@ -1,0 +1,139 @@
+import 'dart:ui';
+
+import 'package:graphilia_board/graphilia_board.dart';
+
+class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentation> with SinglePointDrawer {
+  const SimpleCircleDrawing({
+    required super.id,
+    required super.zIndex,
+    required super.representation,
+    required super.color,
+    required super.width,
+  });
+
+  factory SimpleCircleDrawing.fromMap(Map<String, dynamic> map) {
+    return SimpleCircleDrawing(
+      id: map['id'],
+      zIndex: map['zIndex'],
+      representation: AnchoredDrawingRepresentation.fromMap(map['representation']),
+      color: Color(map['color']),
+      width: map['width'],
+    );
+  }
+
+  double get diameter => getBounds().width;
+
+  double get radius => diameter / 2;
+
+  @override
+  SimpleCircleDrawing<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);
+
+  @override
+  Rect getBounds() {
+    if (representation.isInitializedOnlyOnePoint()) {
+      return Rect.zero;
+    }
+
+    final representationRect = Rect.fromPoints(
+      representation.anchorPoint,
+      representation.endPoint,
+    );
+
+    final radius = representationRect.shortestSide / 2;
+
+    final center = representationRect.center;
+
+    return Rect.fromCircle(
+      center: center,
+      radius: radius,
+    );
+  }
+
+  @override
+  bool isPointInside(
+    BoardState state,
+    Point point,
+    double tolerance, {
+    required bool simulatePressure,
+  }) {
+    final center = getBounds().center;
+
+    final distance = center.distanceTo(point);
+
+    return distance <= radius + tolerance;
+  }
+
+  @override
+  bool isInsidePolygon(
+    BoardState state,
+    List<Point> vertices,
+    PointsInPolygonMode mode, {
+    required bool simulatePressure,
+  }) {
+    final center = getBounds().center;
+    return doesCircleTouchPolygon(center, radius, vertices);
+  }
+
+  @override
+  bool shouldDrawSinglePoint() => representation.isInitializedOnlyOnePoint();
+
+  @override
+  Point getSinglePoint() => representation.getSinglePoint();
+
+  @override
+  void drawSinglePoint(
+    BoardState state,
+    Canvas canvas,
+    Point point,
+  ) =>
+      drawPoint(
+        canvas,
+        point,
+        width,
+        SimpleDrawing.createSimplePaint(color),
+      );
+
+  @override
+  void drawMultiplePoints(
+    BoardState state,
+    Canvas canvas, {
+    required bool simulatePressure,
+    required bool isSelected,
+  }) {
+    final center = getBounds().center;
+
+    canvas.drawCircle(
+      center,
+      radius,
+      getPaint(),
+    );
+  }
+
+  SimpleCircleDrawing<T> copyWith({
+    T? id,
+    int? zIndex,
+    AnchoredDrawingRepresentation? representation,
+    Color? color,
+    double? width,
+  }) {
+    return SimpleCircleDrawing(
+      id: id ?? this.id,
+      zIndex: zIndex ?? this.zIndex,
+      representation: representation ?? this.representation,
+      color: color ?? this.color,
+      width: width ?? this.width,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'simple_circle',
+      'id': id,
+      'zIndex': zIndex,
+      'representation': representation.toMap(),
+      'color': color.value,
+      'width': width,
+    };
+  }
+}

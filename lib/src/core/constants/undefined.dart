@@ -1,0 +1,3 @@
+class Undefinied {
+  const Undefinied();
+}

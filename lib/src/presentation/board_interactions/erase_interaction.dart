@@ -1,0 +1,363 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:graphilia_board/graphilia_board.dart';
+import 'package:graphilia_board/src/presentation/layers/layers.dart';
+
+class _ErasingState {
+  _ErasingState() {
+    initialize();
+  }
+
+  late Point? lastErasedPoint;
+  late int skippedUpdateEventsCount;
+  late bool isFirstMoveEvent;
+  late List<Drawing> erasedDrawings;
+  late InteractionFeedback? interactionFeedback;
+
+  void initialize() {
+    lastErasedPoint = null;
+    skippedUpdateEventsCount = 0;
+    isFirstMoveEvent = true;
+    erasedDrawings = [];
+    interactionFeedback = null;
+  }
+}
+
+class EraseInteraction extends BoardInteraction {
+  EraseInteraction({
+    required this.eraserWidth,
+  }) : _interactionState = _ErasingState();
+
+  final double eraserWidth;
+
+  final _ErasingState _interactionState;
+
+  BoardState _removeMouseCursor(BoardState state) {
+    return state.copyWith(
+      mouseCursor: SystemMouseCursors.none,
+    );
+  }
+
+  BoardState _restoreMouseCursor(BoardState state) {
+    return state.copyWith(
+      mouseCursor: null,
+    );
+  }
+
+  BoardState _setInteractionFeedback(BoardState state, CanvasPaintCallback canvasPaintCallback) {
+    final previousInteractionFeedback = _interactionState.interactionFeedback;
+    _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
+
+    final updatedInteractionFeedbacks = [
+      ...state.interactionFeedbacks.where((e) => e != previousInteractionFeedback),
+      _interactionState.interactionFeedback!,
+    ];
+
+    return state.copyWith(
+      interactionFeedbacks: updatedInteractionFeedbacks,
+    );
+  }
+
+  BoardState _clearInteractionFeedback(BoardState state) {
+    if (_interactionState.interactionFeedback == null) return state;
+
+    return state.copyWith(
+      interactionFeedbacks: state.interactionFeedbacks.where((e) => e != _interactionState.interactionFeedback).toList(),
+    );
+  }
+
+  void _drawEraser(Canvas canvas, BoardState state, BoardStateConfig config) {
+    if (state.pointerPosition == null) return;
+
+    // Pointer position is not null
+
+    final maybeScaledEraserWidth = scaleEraserWidthIfNecessary(
+      eraserWidth: eraserWidth,
+      scaleFactor: state.scaleFactor,
+      config: config,
+    );
+
+    canvas.drawCircle(
+      state.pointerPosition!,
+      maybeScaledEraserWidth / 2,
+      Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke,
+    );
+  }
+
+  BoardState disposeResources(BoardState state) {
+    var updatedState = _clearInteractionFeedback(state);
+
+    // Restore mouse cursor
+    updatedState = _restoreMouseCursor(updatedState);
+
+    // Reset the interaction state
+    _interactionState.initialize();
+
+    return updatedState;
+  }
+
+  @override
+  void onRemoved(BoardNotifier notifier) {
+    final state = notifier.value;
+
+    final updatedState = disposeResources(state);
+
+    notifier.setBoardState(
+      state: updatedState,
+      shouldAddToHistory: false,
+    );
+  }
+
+  @override
+  PointerHoverEventListenerHandler? get handlePointerHoverEvent => (
+        PointerHoverEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        // Update the mouse cursor
+        var updatedState = _removeMouseCursor(state);
+
+        // Update the interaction feedback
+        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawEraser(canvas, updatedState, notifier.config));
+
+        notifier.setBoardState(
+          state: updatedState,
+          shouldAddToHistory: false,
+        );
+        return true;
+      };
+
+  @override
+  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+        ScaleStartDetails details,
+        PointerEvent initialEvent,
+        PointerEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
+
+        var updatedState = _eraseDrawingsByPoint(point, state, notifier.config);
+
+        // Update the interaction feedback
+        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawEraser(canvas, updatedState, notifier.config));
+
+        notifier.setBoardState(
+          state: updatedState,
+          shouldAddToHistory: false,
+        );
+        return true;
+      };
+
+  @override
+  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+        ScaleUpdateDetails details,
+        PointerEvent initialEvent,
+        PointerEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
+
+        late BoardState updatedState;
+        final shouldErase = _interactionState.isFirstMoveEvent || _interactionState.skippedUpdateEventsCount >= 3;
+        if (shouldErase) {
+          updatedState = _eraseDrawingsByPoint(point, state, notifier.config);
+          _interactionState.skippedUpdateEventsCount = 0;
+          _interactionState.lastErasedPoint = point;
+        } else {
+          updatedState = state;
+          _interactionState.skippedUpdateEventsCount++;
+        }
+        _interactionState.isFirstMoveEvent = false;
+
+        // Update the interaction feedback
+        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawEraser(canvas, updatedState, notifier.config));
+
+        notifier.setBoardState(
+          state: updatedState,
+          shouldAddToHistory: false,
+        );
+        return true;
+      };
+
+  @override
+  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+        ScaleEndDetails details,
+        PointerEvent initialEvent,
+        PointerEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
+
+        var updatedState = _eraseDrawingsByPoint(point, state, notifier.config);
+
+        updatedState = _setBoardStateDelta(updatedState);
+
+        updatedState = _clearInteractionFeedback(updatedState);
+
+        final wereErasedDrawings = _interactionState.erasedDrawings.isNotEmpty;
+
+        // Reset the interaction state
+        _interactionState.initialize();
+
+        // After initialization create a new interaction feedback
+        // Without this, the eraser will not be drawn when the user stops erasing
+        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawEraser(canvas, updatedState, notifier.config));
+
+        notifier.setBoardState(
+          state: updatedState,
+          // Update the history only if there were erased drawings
+          shouldAddToHistory: wereErasedDrawings,
+        );
+        return true;
+      };
+
+  @override
+  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+        PointerCancelEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
+
+        var updatedState = _eraseDrawingsByPoint(point, state, notifier.config);
+
+        updatedState = _setBoardStateDelta(updatedState);
+
+        updatedState = _clearInteractionFeedback(updatedState);
+
+        // Reset the interaction state
+        _interactionState.initialize();
+
+        // After initialization create a new interaction feedback
+        // Without this, the eraser will not be drawn when the user stops erasing
+        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawEraser(canvas, updatedState, notifier.config));
+
+        notifier.setBoardState(
+          state: updatedState,
+          shouldAddToHistory: false,
+        );
+        return true;
+      };
+
+  @override
+  PointerExitEventListenerHandler get handlePointerExitEvent => (
+        PointerExitEvent event,
+        BoardNotifier notifier,
+      ) {
+        final state = notifier.value;
+
+        var updatedState = _setBoardStateDelta(state);
+
+        updatedState = disposeResources(updatedState);
+
+        notifier.setBoardState(
+          state: updatedState,
+          shouldAddToHistory: false,
+        );
+        return true;
+      };
+
+  BoardState _eraseDrawingsByPoint(
+    Point point,
+    BoardState state,
+    BoardStateConfig config,
+  ) {
+    final maybeScaledEraserWidth = scaleEraserWidthIfNecessary(
+      eraserWidth: eraserWidth,
+      scaleFactor: state.scaleFactor,
+      config: config,
+    );
+
+    late List<Drawing> erasedDrawings;
+    if (_interactionState.lastErasedPoint == null) {
+      erasedDrawings = state.sketch.getDrawingsByPoint(
+        state,
+        point,
+        tolerance: maybeScaledEraserWidth / 2,
+        simulatePressure: config.simulatePressure,
+      );
+    } else {
+      erasedDrawings = [];
+
+      // Use the last stroke point to generate a polygon from that last point
+      // and the point received so we can erase drawings inside that polygon
+      // allowing to delete drawings that are inside the "erasing line"
+      // performed by the user also if the user is moving the pointer fast
+
+      final eraseStrokeRect = Rect.fromPoints(
+        _interactionState.lastErasedPoint!,
+        point,
+      ).inflate(maybeScaledEraserWidth / 2);
+
+      final eraseStrokeRectVertices = eraseStrokeRect.vertices.map((v) => Point.fromOffset(v)).toList();
+      final drawingsInBounds = state.sketch.getDrawingsByRect(eraseStrokeRect);
+
+      // TODO: Currently the erase bound is a rectangle, but it should be a circle. Implement a method to get the drawings inside a circle.
+      for (final drawing in drawingsInBounds) {
+        final isInside = drawing.isInsidePolygon(
+          state,
+          eraseStrokeRectVertices,
+          PointsInPolygonMode.partial,
+          simulatePressure: config.simulatePressure,
+        );
+
+        if (isInside) {
+          erasedDrawings.add(drawing);
+        }
+      }
+    }
+
+    if (erasedDrawings.isEmpty) return state;
+
+    // ErasedDrawings contains some drawings
+
+    _addErasedDrawingToInteractionState(erasedDrawings);
+
+    final eraseDelta = SketchDelta.delete(
+      erasedDrawings,
+      state.sketchDelta.version + 1,
+    );
+
+    return state.copyWith(
+      sketchDelta: eraseDelta,
+    );
+  }
+
+  BoardState _setBoardStateDelta(BoardState state) {
+    if (_interactionState.erasedDrawings.isEmpty) return state;
+
+    return state.copyWith(
+      sketchDelta: SketchDelta.delete(
+        [..._interactionState.erasedDrawings],
+        state.sketchDelta.version,
+      ),
+      shouldApplySketchDeltaToSketch: false,
+    );
+  }
+
+  void _addErasedDrawingToInteractionState(List<Drawing> erasedDrawings) {
+    _interactionState.erasedDrawings = [
+      ..._interactionState.erasedDrawings,
+      ...erasedDrawings,
+    ];
+  }
+}
+
+extension EraseInteractionNonOverridableMethodsExtension on EraseInteraction {
+  double scaleEraserWidthIfNecessary({
+    required double eraserWidth,
+    required double scaleFactor,
+    required BoardStateConfig config,
+  }) =>
+      config.shouldScaleEraserWidth ? eraserWidth / scaleFactor : eraserWidth;
+}
