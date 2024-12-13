@@ -14,7 +14,7 @@ class HighlighterStraightLineTool<T> extends SimpleDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     return HighlighterStraightLine(
       id: id,

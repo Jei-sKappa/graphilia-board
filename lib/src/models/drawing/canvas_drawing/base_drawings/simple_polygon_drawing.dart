@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/src/core/helpers/helpers.dart';
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentation> with EquatableMixin {
@@ -51,7 +52,7 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
 
   @override
   void draw(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
     required bool simulatePressure,
     required bool isSelected,
@@ -93,7 +94,7 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
 
   @override
   bool isPointInside(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Point point,
     double tolerance, {
     required bool simulatePressure,
@@ -113,7 +114,7 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
 
   @override
   bool isInsidePolygon(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
     PointsInPolygonMode mode, {
     required bool simulatePressure,

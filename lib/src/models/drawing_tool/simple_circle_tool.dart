@@ -12,7 +12,7 @@ class SimpleCircleDrawingTool<T> extends SimpleDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     return SimpleCircleDrawing(
       id: id,

@@ -2,14 +2,13 @@ import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 import 'package:graphilia_board/src/core/constants/undefined.dart';
-import 'package:graphilia_board/src/presentation/layers/layers.dart';
 
 typedef StateLayerPainter = void Function(Canvas canvas, Size size);
 
 // TODO: This should be removed
-typedef UpdatedSketchDetails = ({
+typedef UpdatedSketchDetails<T> = ({
   bool shouldAddToUndoHistory,
-  SketchDelta sketchDelta,
+  SketchDelta<T> sketchDelta,
 });
 
 /// {@template graphilia_board_state}
@@ -104,7 +103,7 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
 
   StateLayerPainter? get paintStateLayer => null;
 
-  bool shouldRepaintStateLayer(BoardState other) => false;
+  bool shouldRepaintStateLayer(BoardState<T, BoardStateConfig> other) => false;
 
   /// Returns the oldState while preserving the necessary data in the current
   /// state.

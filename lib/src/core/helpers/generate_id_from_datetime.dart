@@ -1,4 +1,4 @@
-int generateUnsecureDrawingId() {
+int generateIdFromDateTime() {
   final initial = DateTime.now().microsecondsSinceEpoch;
   while (true) {
     final now = DateTime.now().microsecondsSinceEpoch;

@@ -12,7 +12,7 @@ enum _DrawingType {
   widget,
 }
 
-extension _DrawingTypeExtension on Drawing {
+extension _DrawingTypeExtension<T> on Drawing<T> {
   _DrawingType get type {
     if (this is CanvasDrawing) {
       return _DrawingType.canvas;
@@ -24,24 +24,24 @@ extension _DrawingTypeExtension on Drawing {
   }
 }
 
-class _CategoryGroup {
+class _CategoryGroup<T> {
   _CategoryGroup(
-    Drawing drawing,
+    Drawing<T> drawing,
     this.catergory,
   )   : drawings = [drawing],
         stateListener = drawing.stateListener;
 
-  void addToGroup(Drawing drawing) {
+  void addToGroup(Drawing<T> drawing) {
     drawings.add(drawing);
   }
 
-  final List<Drawing> drawings;
-  final BoardStateListener? stateListener;
-  final _DrawingCatergory catergory;
+  final List<Drawing<T>> drawings;
+  final BoardStateListener<T, BoardStateConfig>? stateListener;
+  final _DrawingCatergory<T> catergory;
 }
 
-class _DrawingCatergory {
-  _DrawingCatergory(Drawing drawing)
+class _DrawingCatergory<T> {
+  _DrawingCatergory(Drawing<T> drawing)
       : drawingType = drawing.type,
         listenerType = drawing.stateListener?.runtimeType;
 
@@ -52,7 +52,7 @@ class _DrawingCatergory {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is _DrawingCatergory && other.drawingType == drawingType && other.listenerType == listenerType;
+    return other is _DrawingCatergory<T> && other.drawingType == drawingType && other.listenerType == listenerType;
   }
 
   @override
@@ -67,24 +67,27 @@ class _DrawingCatergory {
   }
 }
 
-class DrawingsLayerGroup extends StatefulWidget {
+class DrawingsLayerGroup<T> extends StatefulWidget {
   const DrawingsLayerGroup({
     super.key,
     required this.notifier,
     required this.viewPortSize,
   });
 
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
   final Size viewPortSize;
 
   @override
-  State<DrawingsLayerGroup> createState() => _DrawingsLayerGroupState();
+  State<DrawingsLayerGroup<T>> createState() => _DrawingsLayerGroupState<T>();
 }
 
-class _DrawingsLayerGroupState extends State<DrawingsLayerGroup> {
+class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
   Rect? lastRenderedRect;
 
-  Rect _getPrerenderRect(Size viewPortSize, BoardState state) {
+  Rect _getPrerenderRect(
+    Size viewPortSize,
+    BoardState<T, BoardStateConfig> state,
+  ) {
     // Render double the viewport bounds to avoid flickering when scrolling.
     // TODO: !!! Consider lowering the area to render to avoid performance issues.
     // TODO: !!! Consider adding a dyanmic area render feature based on the direction and velocity of the scroll trying to predict the next visible area.
@@ -99,30 +102,33 @@ class _DrawingsLayerGroupState extends State<DrawingsLayerGroup> {
     );
   }
 
-  CanvasDrawingsLayer _canvasDrawingLayerBuilder(
-    _CategoryGroup group,
-    BoardState state,
+  CanvasDrawingsLayer<T> _canvasDrawingLayerBuilder(
+    _CategoryGroup<T> group,
+    BoardState<T, BoardStateConfig> state,
   ) =>
-      CanvasDrawingsLayer(
+      CanvasDrawingsLayer<T>(
         drawings: List.castFrom(group.drawings),
         state: state,
         areDrawingsSelected: false,
         simulatePressure: widget.notifier.config.simulatePressure,
       );
 
-  WidgetDrawingsLayer _widgetDrawingLayerBuilder(
-    _CategoryGroup group,
-    BoardState state,
+  WidgetDrawingsLayer<T> _widgetDrawingLayerBuilder(
+    _CategoryGroup<T> group,
+    BoardState<T, BoardStateConfig> state,
   ) =>
-      WidgetDrawingsLayer(
+      WidgetDrawingsLayer<T>(
         drawings: List.castFrom(group.drawings),
         state: state,
         areDrawingsSelected: false,
       );
 
   ValueListenableBuilder _createValueListenableBuilder(
-    _CategoryGroup group,
-    Widget Function(_CategoryGroup group, BoardState state) layerBuilder,
+    _CategoryGroup<T> group,
+    Widget Function(
+      _CategoryGroup<T> group,
+      BoardState<T, BoardStateConfig> state,
+    ) layerBuilder,
   ) =>
       ValueListenableBuilder(
         valueListenable: widget.notifier.where(
@@ -148,12 +154,12 @@ class _DrawingsLayerGroupState extends State<DrawingsLayerGroup> {
 
           // TODO: Check only if the selected drawings in the visible area changed
           final prevSelectedDrawingsIds = switch (previous) {
-            SelectedState s => s.selectedDrawings.map((e) => e.id).toList(),
+            SelectedState<T, BoardStateConfig> s => s.selectedDrawings.map((e) => e.id).toList(),
             _ => null,
           };
           // TODO: Check only if the selected drawings in the visible area changed
           final selectedDrawingsIds = switch (next) {
-            SelectedState s => s.selectedDrawings.map((e) => e.id).toList(),
+            SelectedState<T, BoardStateConfig> s => s.selectedDrawings.map((e) => e.id).toList(),
             _ => null,
           };
           final areSelectedDrawingsIdsChanged = !(const DeepCollectionEquality().equals(
@@ -203,17 +209,17 @@ class _DrawingsLayerGroupState extends State<DrawingsLayerGroup> {
         drawings.sort((a, b) => a.zIndex.compareTo(b.zIndex));
 
         // Set the selected drawings
-        late final List<dynamic> selectedDrawingsIds;
+        late final List<T> selectedDrawingsIds;
 
-        if (state is SelectedState) {
+        if (state is SelectedState<T, BoardStateConfig>) {
           // TODO: Check only if the selected drawings in the visible area changed
           selectedDrawingsIds = state.selectedDrawings.expandDrawingGroups().map((e) => e.id).toList();
         } else {
           selectedDrawingsIds = [];
         }
 
-        final zIndexedDrawingsMatrix = <_CategoryGroup>[];
-        late _DrawingCatergory lastDrawingCategory;
+        final zIndexedDrawingsMatrix = <_CategoryGroup<T>>[];
+        late _DrawingCatergory<T> lastDrawingCategory;
         for (final drawing in drawings) {
           if (selectedDrawingsIds.contains(drawing.id)) {
             continue;
@@ -221,7 +227,7 @@ class _DrawingsLayerGroupState extends State<DrawingsLayerGroup> {
 
           // The drawing is not selected
 
-          if (drawing is! CanvasDrawing && drawing is! WidgetDrawing) {
+          if (drawing is! CanvasDrawing<T> && drawing is! WidgetDrawing<T>) {
             throw Exception('Invalid drawing type');
           }
 

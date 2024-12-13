@@ -3,15 +3,15 @@ import 'package:graphilia_board/src/presentation/interaction_controller/interact
 import 'package:graphilia_board/src/presentation/layers/layers.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 
-class RootLayerGroup extends StatelessWidget {
+class RootLayerGroup<T> extends StatelessWidget {
   const RootLayerGroup({
     super.key,
     required this.notifier,
     required this.interactionController,
   });
 
-  final BoardNotifier notifier;
-  final InteractionControllerBase interactionController;
+  final BoardNotifier<T, BoardStateConfig> notifier;
+  final InteractionControllerBase<T> interactionController;
 
   @override
   Widget build(BuildContext context) {

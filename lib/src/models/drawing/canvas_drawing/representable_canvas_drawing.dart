@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/src/models/models.dart';
 
-abstract class RepresentableCanvasDrawing<T, R extends DrawingRepresentation> extends CanvasDrawing<T> with EquatableMixin, RepresentableDrawingMixin {
+abstract class RepresentableCanvasDrawing<T, R extends DrawingRepresentation> extends CanvasDrawing<T> with EquatableMixin, RepresentableDrawingMixin<T> {
   const RepresentableCanvasDrawing({
     required super.id,
     required super.zIndex,
@@ -15,5 +15,5 @@ abstract class RepresentableCanvasDrawing<T, R extends DrawingRepresentation> ex
   List<Object?> get props => [...super.props, representation];
 
   @override
-  Drawing updateRepresentation(DrawingRepresentation value);
+  Drawing<T> updateRepresentation(DrawingRepresentation value);
 }

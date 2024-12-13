@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:meta/meta.dart';
 import 'package:graphilia_board/src/models/drawing/drawing.dart';
 import 'package:graphilia_board/src/models/point/point.dart';
@@ -10,10 +11,10 @@ mixin SinglePointDrawer<T> on CanvasDrawing<T> {
 
   Point getSinglePoint();
 
-  void drawSinglePoint(BoardState state, Canvas canvas, Point point);
+  void drawSinglePoint(BoardState<T, BoardStateConfig> state, Canvas canvas, Point point);
 
   void drawMultiplePoints(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
     required bool simulatePressure,
     required bool isSelected,
@@ -22,7 +23,7 @@ mixin SinglePointDrawer<T> on CanvasDrawing<T> {
   @nonVirtual
   @override
   void draw(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
     required bool simulatePressure,
     required bool isSelected,

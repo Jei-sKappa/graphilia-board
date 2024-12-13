@@ -31,7 +31,7 @@ class _MoveVisibleAreaInteractionState {
   }
 }
 
-class MoveVisibleAreaInteraction extends BoardInteraction {
+class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
   MoveVisibleAreaInteraction({
     this.enabledDevices = BoardPointersHelper.all,
     required TickerProvider tickerProvider,
@@ -58,11 +58,11 @@ class MoveVisibleAreaInteraction extends BoardInteraction {
   }
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) return false;
 
@@ -84,11 +84,11 @@ class MoveVisibleAreaInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+  DetailedGestureScaleUpdateCallbackHandler<T> get handleOnScaleUpdate => (
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) {
           initializeAll();
@@ -109,11 +109,11 @@ class MoveVisibleAreaInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+  DetailedGestureScaleEndCallbackHandler<T> get handleOnScaleEnd => (
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         _interactionState.panAnimation?.removeListener(_onAnimate);
         _panAnimationController.reset();
@@ -173,9 +173,9 @@ class MoveVisibleAreaInteraction extends BoardInteraction {
       };
 
   @override
-  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+  PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) return false;
 
@@ -184,9 +184,9 @@ class MoveVisibleAreaInteraction extends BoardInteraction {
         return true;
       };
 
-  BoardState _updateVisibleArea(
+  BoardState<T, BoardStateConfig> _updateVisibleArea(
     ScaleUpdateDetails scaleUpdateDetails,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     final scale = scaleUpdateDetails.scale;
     final point = Point.fromOffset(scaleUpdateDetails.localFocalPoint);

@@ -4,7 +4,7 @@ import 'package:graphilia_board/src/presentation/layers/layers.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
-class TransformedLayerGroup extends StatelessWidget {
+class TransformedLayerGroup<T> extends StatelessWidget {
   const TransformedLayerGroup({
     super.key,
     required this.notifier,
@@ -12,8 +12,8 @@ class TransformedLayerGroup extends StatelessWidget {
     required this.viewPortSize,
   });
 
-  final BoardNotifier notifier;
-  final InteractionControllerBase interactionController;
+  final BoardNotifier<T, BoardStateConfig> notifier;
+  final InteractionControllerBase<T> interactionController;
   final Size viewPortSize;
 
   @override

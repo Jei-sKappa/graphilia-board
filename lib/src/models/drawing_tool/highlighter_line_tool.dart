@@ -10,7 +10,12 @@ class HighlighterLineTool<T> extends SimpleDrawingTool<T> {
   }) : super(color: color.withOpacity(highlighterOpactity));
 
   @override
-  HighlighterLine<T> createDrawing(Point firstPoint, T id, int zIndex, BoardState state) {
+  HighlighterLine<T> createDrawing(
+    Point firstPoint,
+    T id,
+    int zIndex,
+    BoardState<T, BoardStateConfig> state,
+  ) {
     return HighlighterLine(
       id: id,
       zIndex: zIndex,

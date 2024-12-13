@@ -6,14 +6,14 @@ import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
-class LinedLayer extends StatelessWidget {
+class LinedLayer<T> extends StatelessWidget {
   const LinedLayer({
     super.key,
     required this.notifier,
     this.spacing = 25,
   });
 
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
 
   final double spacing;
 

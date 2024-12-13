@@ -54,7 +54,7 @@ abstract class Drawing<T> with EquatableMixin {
   @override
   List<Object?> get props => [id, zIndex];
 
-  BoardStateListener? get stateListener => null;
+  BoardStateListener<T, BoardStateConfig>? get stateListener => null;
 
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
@@ -70,11 +70,11 @@ abstract class Drawing<T> with EquatableMixin {
     required bool simulatePressure,
   });
 
-  Drawing? update(BoardState<T, BoardStateConfig> state, Point newPoint);
+  Drawing<T>? update(BoardState<T, BoardStateConfig> state, Point newPoint);
 
-  Drawing move(BoardState<T, BoardStateConfig> state, Point offset);
+  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset);
 
-  Drawing resize(
+  Drawing<T> resize(
     BoardState<T, BoardStateConfig> state,
     Rect resizeRect,
     ResizeAnchor anchor,
@@ -87,13 +87,21 @@ abstract class Drawing<T> with EquatableMixin {
   /// The callback that gets called when a tap down gesture is detected on a
   /// drawing.
   /// {@endtemplate}
-  TapEventSketchResult onTapDown(BoardState<T, BoardStateConfig> state, PointerEvent details) => const EventResult.ignored();
+  TapEventSketchResult<T> onTapDown(
+    BoardState<T, BoardStateConfig> state,
+    PointerEvent details,
+  ) =>
+      const EventResult.ignored();
 
   /// {@template drawing.on_tap_up}
   /// The callback that gets called when a tap up gesture is detected on a
   /// drawing.
   /// {@endtemplate}
-  TapEventSketchResult onTapUp(BoardState<T, BoardStateConfig> state, PointerEvent details) => const EventResult.ignored();
+  TapEventSketchResult<T> onTapUp(
+    BoardState<T, BoardStateConfig> state,
+    PointerEvent details,
+  ) =>
+      const EventResult.ignored();
 
   /// Converts the drawing to a map.
   ///

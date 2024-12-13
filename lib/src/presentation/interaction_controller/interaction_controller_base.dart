@@ -4,21 +4,21 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 
-abstract class InteractionControllerBase {
+abstract class InteractionControllerBase<T> {
   InteractionControllerBase({
-    Set<BoardInteraction> graphiliaBoardInteractions = const {},
+    Set<BoardInteraction<T>> graphiliaBoardInteractions = const {},
   }) : _graphiliaBoardInteractionsNotifier = ValueNotifier(graphiliaBoardInteractions);
 
   // TODO: Use a logging package
   void _log(String message) => debugPrint('log | InteractionControllerBase | $message');
 
-  final ValueNotifier<Set<BoardInteraction>> _graphiliaBoardInteractionsNotifier;
+  final ValueNotifier<Set<BoardInteraction<T>>> _graphiliaBoardInteractionsNotifier;
 
-  ValueNotifier<Set<BoardInteraction>> get graphiliaBoardInteractionsNotifier => _graphiliaBoardInteractionsNotifier;
+  ValueNotifier<Set<BoardInteraction<T>>> get graphiliaBoardInteractionsNotifier => _graphiliaBoardInteractionsNotifier;
 
-  Set<BoardInteraction> get graphiliaBoardInteractions => _graphiliaBoardInteractionsNotifier.value;
+  Set<BoardInteraction<T>> get graphiliaBoardInteractions => _graphiliaBoardInteractionsNotifier.value;
 
-  void updateHandlers(Set<BoardInteraction> value) {
+  void updateHandlers(Set<BoardInteraction<T>> value) {
     _log('updateHandlers: $value');
     _graphiliaBoardInteractionsNotifier.value = value;
   }

@@ -57,7 +57,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  Drawing move(BoardState<T, BoardStateConfig> state, Point offset) {
+  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset) {
     final movedDrawings = drawings.map((d) => d.move(state, offset)).toList();
 
     return copyWith(
@@ -66,7 +66,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  Drawing resize(
+  Drawing<T> resize(
     BoardState<T, BoardStateConfig> state,
     Rect resizeRect,
     ResizeAnchor anchor,
@@ -80,8 +80,8 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  Drawing? update(BoardState<T, BoardStateConfig> state, Point newPoint) {
-    final updatedDrawings = drawings.map((d) => d.update(state, newPoint)).whereType<Drawing>().toList();
+  Drawing<T>? update(BoardState<T, BoardStateConfig> state, Point newPoint) {
+    final updatedDrawings = drawings.map((d) => d.update(state, newPoint)).whereType<Drawing<T>>().toList();
 
     return copyWith(
       drawings: updatedDrawings,
@@ -97,10 +97,10 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
     };
   }
 
-  DrawingGroup copyWith({
+  DrawingGroup<T> copyWith({
     T? id,
     int? zIndex,
-    List<Drawing>? drawings,
+    List<Drawing<T>>? drawings,
   }) {
     return DrawingGroup(
       id: id ?? this.id,

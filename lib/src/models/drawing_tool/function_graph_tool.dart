@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:equatable/equatable.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:graphilia_board/src/core/core.dart';
 import 'package:graphilia_board/src/models/models.dart';
@@ -23,7 +24,7 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
   void drawPreview(
     Canvas canvas,
     Point point,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     drawPoint(
       canvas,
@@ -47,7 +48,13 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
   }
 
   @override
-  FunctionGraphDrawing<T> createDrawing(Point firstPoint, T id, int zIndex, BoardState state) => FunctionGraphDrawing(
+  FunctionGraphDrawing<T> createDrawing(
+    Point firstPoint,
+    T id,
+    int zIndex,
+    BoardState<T, BoardStateConfig> state,
+  ) =>
+      FunctionGraphDrawing(
         id: id,
         zIndex: zIndex,
         representation: AnchoredDrawingRepresentation.initial(firstPoint),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 import 'package:graphilia_board/src/core/constants/undefined.dart';
-import 'package:graphilia_board/src/presentation/layers/layers.dart';
 
 class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with EquatableMixin {
   const SelectedState({
@@ -113,8 +112,8 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
       };
 
   @override
-  bool shouldRepaintStateLayer(BoardState other) {
-    if (other is! SelectedState) return true;
+  bool shouldRepaintStateLayer(BoardState<T, BoardStateConfig> other) {
+    if (other is! SelectedState<T, BoardStateConfig>) return true;
 
     if (displayRectangularSelection != other.displayRectangularSelection) return true;
 

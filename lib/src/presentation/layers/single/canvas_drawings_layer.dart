@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
-class CanvasDrawingsLayer extends StatelessWidget {
+class CanvasDrawingsLayer<T> extends StatelessWidget {
   const CanvasDrawingsLayer({
     super.key,
     required this.drawings,
@@ -11,8 +12,8 @@ class CanvasDrawingsLayer extends StatelessWidget {
     required this.simulatePressure,
   });
 
-  final List<CanvasDrawing> drawings;
-  final BoardState state;
+  final List<CanvasDrawing<T>> drawings;
+  final BoardState<T, BoardStateConfig> state;
   final bool areDrawingsSelected;
   final bool simulatePressure;
 
@@ -30,7 +31,7 @@ class CanvasDrawingsLayer extends StatelessWidget {
 }
 
 /// A painter for drawing a sketch.
-class CanvasDrawingPainter extends CustomPainter {
+class CanvasDrawingPainter<T> extends CustomPainter {
   /// Creates a new [CanvasDrawingPainter] instance.
   CanvasDrawingPainter({
     required this.drawings,
@@ -39,8 +40,8 @@ class CanvasDrawingPainter extends CustomPainter {
     required this.areDrawingsSelected,
   });
 
-  final List<CanvasDrawing> drawings;
-  final BoardState state;
+  final List<CanvasDrawing<T>> drawings;
+  final BoardState<T, BoardStateConfig> state;
   final bool simulatePressure;
   final bool areDrawingsSelected;
 

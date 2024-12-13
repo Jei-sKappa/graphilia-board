@@ -1,15 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:graphilia_board/src/core/constants/uuid.dart';
 import 'package:one_dollar_unistroke_recognizer/one_dollar_unistroke_recognizer.dart' as one_dollar_recognizer;
 import 'package:graphilia_board/graphilia_board.dart';
-import 'package:graphilia_board/src/presentation/layers/layers.dart';
 
-class _DrawingState {
+class _DrawingState<T> {
   _DrawingState() {
     initialize();
   }
 
-  late Drawing? activeDrawing;
+  late Drawing<T>? activeDrawing;
   late InteractionFeedback? interactionFeedback;
 
   void initialize() {
@@ -18,38 +18,65 @@ class _DrawingState {
   }
 }
 
-class DrawInteraction extends BoardInteraction {
+class DrawInteraction<T> extends BoardInteraction<T> {
   DrawInteraction({
     required this.tool,
     this.enableStraightLineRecognition = true,
     this.enableCircleRecognition = true,
     this.enableRectangleRecognition = true,
     this.enableTriangleRecognition = true,
-  }) : _interactionState = _DrawingState();
+    T Function(BoardState<T, BoardStateConfig>? state)? idGenerator,
+  }) : _interactionState = _DrawingState() {
+    if (idGenerator != null) {
+      this.idGenerator = idGenerator;
+    } else if (T == int) {
+      this.idGenerator = ((state) => generateIdFromDateTime() as T);
+    } else if (T == String) {
+      this.idGenerator = ((state) => uuid.v4() as T);
+    } else {
+      throw ArgumentError('idGenerator must be provided for type $T');
+    }
+  }
 
   /// The tool that is currently selected for drawing.
-  final DrawingTool tool;
+  final DrawingTool<T> tool;
 
-  final _DrawingState _interactionState;
+  final _DrawingState<T> _interactionState;
 
   final bool enableStraightLineRecognition;
   final bool enableCircleRecognition;
   final bool enableRectangleRecognition;
   final bool enableTriangleRecognition;
 
-  BoardState _removeMouseCursor(BoardState state) {
+  /// An id generator that is used to generate ids for the drawings.
+  ///
+  /// If `null`, and [T] is [int] or [String] a default id generator will be
+  /// used, otherwise an exception will be thrown.
+  ///
+  /// The default id generator for [int] is the current time in microseconds
+  /// since epoch, and for [String] is UUID v4.
+  late final T Function(BoardState<T, BoardStateConfig>? state) idGenerator;
+
+  BoardState<T, BoardStateConfig> _removeMouseCursor(
+    BoardState<T, BoardStateConfig> state,
+  ) {
     return state.copyWith(
       mouseCursor: SystemMouseCursors.none,
     );
   }
 
-  BoardState _restoreMouseCursor(BoardState state) {
+  BoardState<T, BoardStateConfig> _restoreMouseCursor(
+    BoardState<T, BoardStateConfig> state,
+  ) {
     return state.copyWith(
       mouseCursor: null,
     );
   }
 
-  BoardState _setInteractionFeedback(BoardState state, CanvasPaintCallback canvasPaintCallback) {
+  BoardState<T, BoardStateConfig> _setInteractionFeedback(
+    BoardState<T, BoardStateConfig> state,
+    CanvasPaintCallback canvasPaintCallback,
+  ) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
     _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
 
@@ -63,7 +90,7 @@ class DrawInteraction extends BoardInteraction {
     );
   }
 
-  BoardState _clearInteractionFeedback(BoardState state) {
+  BoardState<T, BoardStateConfig> _clearInteractionFeedback(BoardState<T, BoardStateConfig> state) {
     if (_interactionState.interactionFeedback == null) return state;
 
     return state.copyWith(
@@ -71,7 +98,7 @@ class DrawInteraction extends BoardInteraction {
     );
   }
 
-  void _drawPointer(Canvas canvas, BoardState state, BoardStateConfig config) {
+  void _drawPointer(Canvas canvas, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (state.pointerPosition != null) {
       tool.drawPreview(
         canvas,
@@ -81,7 +108,7 @@ class DrawInteraction extends BoardInteraction {
     }
   }
 
-  void _drawActiveDrawing(Canvas canvas, BoardState state, BoardStateConfig config) {
+  void _drawActiveDrawing(Canvas canvas, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (_interactionState.activeDrawing is CanvasDrawing) {
       (_interactionState.activeDrawing! as CanvasDrawing).draw(
         state,
@@ -92,7 +119,7 @@ class DrawInteraction extends BoardInteraction {
     }
   }
 
-  BoardState disposeResources(BoardState state) {
+  BoardState<T, BoardStateConfig> disposeResources(BoardState<T, BoardStateConfig> state) {
     var updatedState = _clearInteractionFeedback(state);
 
     // Restore mouse cursor
@@ -105,7 +132,7 @@ class DrawInteraction extends BoardInteraction {
   }
 
   @override
-  void onRemoved(BoardNotifier notifier) {
+  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {
     final state = notifier.value;
 
     final updatedState = disposeResources(state);
@@ -117,9 +144,9 @@ class DrawInteraction extends BoardInteraction {
   }
 
   @override
-  PointerHoverEventListenerHandler? get handlePointerHoverEvent => (
+  PointerHoverEventListenerHandler<T> get handlePointerHoverEvent => (
         PointerHoverEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -137,17 +164,17 @@ class DrawInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
-        final autoGeneratedId = notifier.config.idGenerator(state);
+        final autoGeneratedId = idGenerator(state);
         final autoGeneratedZIndex = notifier.config.zIndexManager.read();
 
         final drawing = tool.createDrawing(
@@ -170,11 +197,11 @@ class DrawInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+  DetailedGestureScaleUpdateCallbackHandler<T> get handleOnScaleUpdate => (
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -193,17 +220,17 @@ class DrawInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+  DetailedGestureScaleEndCallbackHandler<T> get handleOnScaleEnd => (
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         // Try to recognize the drawing;
-        if (_interactionState.activeDrawing is SimpleLine) {
-          final simpleLine = _interactionState.activeDrawing as SimpleLine;
+        if (_interactionState.activeDrawing is SimpleLine<T>) {
+          final simpleLine = _interactionState.activeDrawing as SimpleLine<T>;
           final recognizedName = simpleLine.recognizeUnistroke();
           if (recognizedName != null) {
             if (_shouldConvertDrawing(recognizedName)) {
@@ -233,9 +260,9 @@ class DrawInteraction extends BoardInteraction {
       };
 
   @override
-  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+  PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         var updatedState = _addActiveDrawingToSketch(notifier.value, notifier.config);
 
@@ -253,9 +280,9 @@ class DrawInteraction extends BoardInteraction {
       };
 
   @override
-  PointerExitEventListenerHandler get handlePointerExitEvent => (
+  PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         var updatedState = _addActiveDrawingToSketch(notifier.value, notifier.config);
 
@@ -283,11 +310,11 @@ class DrawInteraction extends BoardInteraction {
     }
   }
 
-  void _setActiveDrawing(Drawing activeDrawing) {
+  void _setActiveDrawing(Drawing<T> activeDrawing) {
     _interactionState.activeDrawing = activeDrawing;
   }
 
-  void _addPointToDrawing(Point point, BoardState state) {
+  void _addPointToDrawing(Point point, BoardState<T, BoardStateConfig> state) {
     if (_interactionState.activeDrawing == null) return;
 
     // TODO: Consider determining if the point is far enough away from the
@@ -304,8 +331,8 @@ class DrawInteraction extends BoardInteraction {
     _interactionState.activeDrawing = updatedActiveDrawing;
   }
 
-  BoardState _addActiveDrawingToSketch(
-    BoardState state,
+  BoardState<T, BoardStateConfig> _addActiveDrawingToSketch(
+    BoardState<T, BoardStateConfig> state,
     BoardStateConfig config,
   ) {
     if (_interactionState.activeDrawing == null) return state;
@@ -319,7 +346,7 @@ class DrawInteraction extends BoardInteraction {
   }
 }
 
-extension ConvertLineToOtherDrawing on SimpleLine {
+extension ConvertLineToOtherDrawing<T> on SimpleLine<T> {
   one_dollar_recognizer.DefaultUnistrokeNames? recognizeUnistroke() {
     final recognized = one_dollar_recognizer.recognizeUnistroke(representation.points);
 
@@ -330,7 +357,7 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     return recognized.name;
   }
 
-  Drawing? tryConvertToRecognizedDrawing(one_dollar_recognizer.DefaultUnistrokeNames name) {
+  Drawing<T>? tryConvertToRecognizedDrawing(one_dollar_recognizer.DefaultUnistrokeNames name) {
     switch (name) {
       case one_dollar_recognizer.DefaultUnistrokeNames.line:
         return convertToStraightLine();
@@ -345,8 +372,8 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     }
   }
 
-  SimpleStraightLine convertToStraightLine() {
-    return SimpleStraightLine(
+  SimpleStraightLine<T> convertToStraightLine() {
+    return SimpleStraightLine<T>(
       id: id,
       zIndex: zIndex,
       representation: AnchoredDrawingRepresentation(
@@ -358,9 +385,9 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     );
   }
 
-  SimpleCircleDrawing convertToCircleDrawing() {
+  SimpleCircleDrawing<T> convertToCircleDrawing() {
     final bounds = getBounds();
-    return SimpleCircleDrawing(
+    return SimpleCircleDrawing<T>(
       id: id,
       zIndex: zIndex,
       representation: AnchoredDrawingRepresentation(
@@ -372,9 +399,9 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     );
   }
 
-  SimplePolygonDrawing convertToSquare() {
+  SimplePolygonDrawing<T> convertToSquare() {
     final bounds = getBounds();
-    return SimplePolygonDrawing(
+    return SimplePolygonDrawing<T>(
       id: id,
       zIndex: zIndex,
       representation: AnchoredDrawingRepresentation(
@@ -387,7 +414,7 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     );
   }
 
-  SimplePolygonDrawing convertToRectangle() {
+  SimplePolygonDrawing<T> convertToRectangle() {
     final bounds = getBounds();
 
     // Check if the with and height are similar by a certain threshold: 10%. If so convert it to a square
@@ -395,7 +422,7 @@ extension ConvertLineToOtherDrawing on SimpleLine {
       return convertToSquare();
     }
 
-    return SimplePolygonDrawing(
+    return SimplePolygonDrawing<T>(
       id: id,
       zIndex: zIndex,
       representation: AnchoredDrawingRepresentation(
@@ -408,9 +435,9 @@ extension ConvertLineToOtherDrawing on SimpleLine {
     );
   }
 
-  SimplePolygonDrawing convertToTriangle() {
+  SimplePolygonDrawing<T> convertToTriangle() {
     final bounds = getBounds();
-    return SimplePolygonDrawing(
+    return SimplePolygonDrawing<T>(
       id: id,
       zIndex: zIndex,
       representation: AnchoredDrawingRepresentation(

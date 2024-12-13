@@ -17,21 +17,21 @@ class _MovingSelectionState {
   }
 }
 
-class MoveSelectionInteraction extends BoardInteraction {
+class MoveSelectionInteraction<T> extends BoardInteraction<T> {
   MoveSelectionInteraction() : _interactionState = _MovingSelectionState();
 
   final _MovingSelectionState _interactionState;
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
-        if (state is! SelectedState) return false;
+        if (state is! SelectedState<T, BoardStateConfig>) return false;
 
         // The state is [SelectedState]
 
@@ -71,17 +71,17 @@ class MoveSelectionInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+  DetailedGestureScaleUpdateCallbackHandler<T> get handleOnScaleUpdate => (
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         // If the state is not [SelectedState], or the interactionPoint is null
         // then the interaction can't be executed
-        if (state is! SelectedState || _interactionState.interactionPoint == null) {
+        if (state is! SelectedState<T, BoardStateConfig> || _interactionState.interactionPoint == null) {
           _interactionState.initialize();
           return false;
         }
@@ -124,17 +124,17 @@ class MoveSelectionInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+  DetailedGestureScaleEndCallbackHandler<T> get handleOnScaleEnd => (
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         // If the state is not [SelectedState], or the interactionPoint is null
         // then the interaction can't be executed
-        if (state is! SelectedState || _interactionState.interactionPoint == null) {
+        if (state is! SelectedState<T, BoardStateConfig> || _interactionState.interactionPoint == null) {
           _interactionState.initialize();
           return false;
         }
@@ -152,15 +152,15 @@ class MoveSelectionInteraction extends BoardInteraction {
       };
 
   @override
-  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+  PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         // If the state is not [SelectedState], or the interactionPoint is null
         // then the interaction can't be executed
-        if (state is! SelectedState || _interactionState.interactionPoint == null) {
+        if (state is! SelectedState<T, BoardStateConfig> || _interactionState.interactionPoint == null) {
           _interactionState.initialize();
           return false;
         }
@@ -178,15 +178,15 @@ class MoveSelectionInteraction extends BoardInteraction {
       };
 
   @override
-  PointerExitEventListenerHandler get handlePointerExitEvent => (
+  PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         // If the state is not [SelectedState], or the interactionPoint is null
         // then the interaction can't be executed
-        if (state is! SelectedState || _interactionState.interactionPoint == null) {
+        if (state is! SelectedState<T, BoardStateConfig> || _interactionState.interactionPoint == null) {
           _interactionState.initialize();
           return false;
         }
@@ -203,8 +203,8 @@ class MoveSelectionInteraction extends BoardInteraction {
         return true;
       };
 
-  ({BoardState state, bool shouldAddToHistory}) _handleInteractionEnd(
-    SelectedState state,
+  ({BoardState<T, BoardStateConfig> state, bool shouldAddToHistory}) _handleInteractionEnd(
+    SelectedState<T, BoardStateConfig> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -224,8 +224,8 @@ class MoveSelectionInteraction extends BoardInteraction {
     }
   }
 
-  SelectedState _updateSketch(
-    SelectedState state,
+  SelectedState<T, BoardStateConfig> _updateSketch(
+    SelectedState<T, BoardStateConfig> state,
     BoardStateConfig config,
   ) {
     if (!_interactionState.hasMovedSelection) return state;
@@ -233,7 +233,7 @@ class MoveSelectionInteraction extends BoardInteraction {
     // The user has moved the selection
 
     // Finalize the movement of the selected drawings
-    late final SketchDelta delta;
+    late final SketchDelta<T> delta;
     if (config.shouldMoveSelectedDrawingsOnTop) {
       delta = SketchDelta(
         version: state.sketchDelta.version + 1,

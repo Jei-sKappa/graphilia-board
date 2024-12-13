@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
-class MouseRegionLayer extends StatelessWidget {
+class MouseRegionLayer<T> extends StatelessWidget {
   const MouseRegionLayer({
     super.key,
     required this.notifier,
     required this.onExit,
   });
 
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
   final void Function(PointerExitEvent)? onExit;
 
   @override

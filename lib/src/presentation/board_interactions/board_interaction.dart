@@ -4,149 +4,149 @@ import 'package:graphilia_board/graphilia_board.dart';
 // TODO: This should go in a separate file/packagea
 typedef CanvasPaintCallback = void Function(Canvas);
 
-abstract class BoardInteraction {
+abstract class BoardInteraction<T> {
   const BoardInteraction();
 
   /// Triggered when the interaction is removed from the available interactions
-  void onRemoved(BoardNotifier notifier) {}
+  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {}
 
   // MOUSE REGION EVENT HANDLERS
 
-  PointerExitEventListenerHandler? get handlePointerExitEvent => null;
+  PointerExitEventListenerHandler<T>? get handlePointerExitEvent => null;
 
   // LISTENER EVENT HANDLERS
 
-  PointerHoverEventListenerHandler? get handlePointerHoverEvent => null;
+  PointerHoverEventListenerHandler<T>? get handlePointerHoverEvent => null;
 
-  PointerDownEventListenerHandler? get handlePointerDownEvent => null;
+  PointerDownEventListenerHandler<T>? get handlePointerDownEvent => null;
 
-  PointerMoveEventListenerHandler? get handlePointerMoveEvent => null;
+  PointerMoveEventListenerHandler<T>? get handlePointerMoveEvent => null;
 
-  PointerUpEventListenerHandler? get handlePointerUpEvent => null;
+  PointerUpEventListenerHandler<T>? get handlePointerUpEvent => null;
 
-  PointerCancelEventListenerHandler? get handlePointerCancelEvent => null;
+  PointerCancelEventListenerHandler<T>? get handlePointerCancelEvent => null;
 
-  PointerPanZoomStartEventListenerHandler? get handlePointerPanZoomStartEvent => null;
+  PointerPanZoomStartEventListenerHandler<T>? get handlePointerPanZoomStartEvent => null;
 
-  PointerPanZoomUpdateEventListenerHandler? get handlePointerPanZoomUpdateEvent => null;
+  PointerPanZoomUpdateEventListenerHandler<T>? get handlePointerPanZoomUpdateEvent => null;
 
-  PointerPanZoomEndEventListenerHandler? get handlePointerPanZoomEndEvent => null;
+  PointerPanZoomEndEventListenerHandler<T>? get handlePointerPanZoomEndEvent => null;
 
-  PointerSignalEventListenerHandler? get handlePointerSignalEvent => null;
+  PointerSignalEventListenerHandler<T>? get handlePointerSignalEvent => null;
 
   // DETAILED GESTURE DETECTOR EVENT HANDLERS
 
-  DetailedGestureTapUpCallbackHandler? get handleOnTapUp => null;
+  DetailedGestureTapUpCallbackHandler<T>? get handleOnTapUp => null;
 
-  DetailedGestureTapDownCallbackHandler? get handleOnTapDown => null;
+  DetailedGestureTapDownCallbackHandler<T>? get handleOnTapDown => null;
 
-  DetailedGestureTapCallbackHandler? get handleOnTap => null;
+  DetailedGestureTapCallbackHandler<T>? get handleOnTap => null;
 
-  DetailedGestureTapCancelCallbackHandler? get handleOnTapCancel => null;
+  DetailedGestureTapCancelCallbackHandler<T>? get handleOnTapCancel => null;
 
-  DetailedGestureTapCallbackHandler? get handleOnSecondaryTap => null;
+  DetailedGestureTapCallbackHandler<T>? get handleOnSecondaryTap => null;
 
-  DetailedGestureTapDownCallbackHandler? get handleOnSecondaryTapDown => null;
+  DetailedGestureTapDownCallbackHandler<T>? get handleOnSecondaryTapDown => null;
 
-  DetailedGestureTapUpCallbackHandler? get handleOnSecondaryTapUp => null;
+  DetailedGestureTapUpCallbackHandler<T>? get handleOnSecondaryTapUp => null;
 
-  DetailedGestureTapCancelCallbackHandler? get handleOnSecondaryTapCancel => null;
+  DetailedGestureTapCancelCallbackHandler<T>? get handleOnSecondaryTapCancel => null;
 
-  DetailedGestureTapDownCallbackHandler? get handleOnTertiaryTapDown => null;
+  DetailedGestureTapDownCallbackHandler<T>? get handleOnTertiaryTapDown => null;
 
-  DetailedGestureTapUpCallbackHandler? get handleOnTertiaryTapUp => null;
+  DetailedGestureTapUpCallbackHandler<T>? get handleOnTertiaryTapUp => null;
 
-  DetailedGestureTapCancelCallbackHandler? get handleOnTertiaryTapCancel => null;
+  DetailedGestureTapCancelCallbackHandler<T>? get handleOnTertiaryTapCancel => null;
 
-  DetailedGestureDoubleTapDownCallbackHandler? get handleOnDoubleTapDown => null;
+  DetailedGestureDoubleTapDownCallbackHandler<T>? get handleOnDoubleTapDown => null;
 
-  DetailedGestureDoubleTapCallbackHandler? get handleOnDoubleTap => null;
+  DetailedGestureDoubleTapCallbackHandler<T>? get handleOnDoubleTap => null;
 
-  DetailedGestureDoubleTapCancelCallbackHandler? get handleOnDoubleTapCancel => null;
+  DetailedGestureDoubleTapCancelCallbackHandler<T>? get handleOnDoubleTapCancel => null;
 
-  DetailedGestureLongPressDownCallbackHandler? get handleOnLongPressDown => null;
+  DetailedGestureLongPressDownCallbackHandler<T>? get handleOnLongPressDown => null;
 
-  DetailedGestureLongPressCancelCallbackHandler? get handleOnLongPressCancel => null;
+  DetailedGestureLongPressCancelCallbackHandler<T>? get handleOnLongPressCancel => null;
 
-  DetailedGestureLongPressCallbackHandler? get handleOnLongPress => null;
+  DetailedGestureLongPressCallbackHandler<T>? get handleOnLongPress => null;
 
-  DetailedGestureLongPressStartCallbackHandler? get handleOnLongPressStart => null;
+  DetailedGestureLongPressStartCallbackHandler<T>? get handleOnLongPressStart => null;
 
-  DetailedGestureLongPressMoveUpdateCallbackHandler? get handleOnLongPressMoveUpdate => null;
+  DetailedGestureLongPressMoveUpdateCallbackHandler<T>? get handleOnLongPressMoveUpdate => null;
 
-  DetailedGestureLongPressUpCallbackHandler? get handleOnLongPressUp => null;
+  DetailedGestureLongPressUpCallbackHandler<T>? get handleOnLongPressUp => null;
 
-  DetailedGestureLongPressEndCallbackHandler? get handleOnLongPressEnd => null;
+  DetailedGestureLongPressEndCallbackHandler<T>? get handleOnLongPressEnd => null;
 
-  DetailedGestureLongPressDownCallbackHandler? get handleOnSecondaryLongPressDown => null;
+  DetailedGestureLongPressDownCallbackHandler<T>? get handleOnSecondaryLongPressDown => null;
 
-  DetailedGestureLongPressCancelCallbackHandler? get handleOnSecondaryLongPressCancel => null;
+  DetailedGestureLongPressCancelCallbackHandler<T>? get handleOnSecondaryLongPressCancel => null;
 
-  DetailedGestureLongPressCallbackHandler? get handleOnSecondaryLongPress => null;
+  DetailedGestureLongPressCallbackHandler<T>? get handleOnSecondaryLongPress => null;
 
-  DetailedGestureLongPressStartCallbackHandler? get handleOnSecondaryLongPressStart => null;
+  DetailedGestureLongPressStartCallbackHandler<T>? get handleOnSecondaryLongPressStart => null;
 
-  DetailedGestureLongPressMoveUpdateCallbackHandler? get handleOnSecondaryLongPressMoveUpdate => null;
+  DetailedGestureLongPressMoveUpdateCallbackHandler<T>? get handleOnSecondaryLongPressMoveUpdate => null;
 
-  DetailedGestureLongPressUpCallbackHandler? get handleOnSecondaryLongPressUp => null;
+  DetailedGestureLongPressUpCallbackHandler<T>? get handleOnSecondaryLongPressUp => null;
 
-  DetailedGestureLongPressEndCallbackHandler? get handleOnSecondaryLongPressEnd => null;
+  DetailedGestureLongPressEndCallbackHandler<T>? get handleOnSecondaryLongPressEnd => null;
 
-  DetailedGestureLongPressDownCallbackHandler? get handleOnTertiaryLongPressDown => null;
+  DetailedGestureLongPressDownCallbackHandler<T>? get handleOnTertiaryLongPressDown => null;
 
-  DetailedGestureLongPressCancelCallbackHandler? get handleOnTertiaryLongPressCancel => null;
+  DetailedGestureLongPressCancelCallbackHandler<T>? get handleOnTertiaryLongPressCancel => null;
 
-  DetailedGestureLongPressCallbackHandler? get handleOnTertiaryLongPress => null;
+  DetailedGestureLongPressCallbackHandler<T>? get handleOnTertiaryLongPress => null;
 
-  DetailedGestureLongPressStartCallbackHandler? get handleOnTertiaryLongPressStart => null;
+  DetailedGestureLongPressStartCallbackHandler<T>? get handleOnTertiaryLongPressStart => null;
 
-  DetailedGestureLongPressMoveUpdateCallbackHandler? get handleOnTertiaryLongPressMoveUpdate => null;
+  DetailedGestureLongPressMoveUpdateCallbackHandler<T>? get handleOnTertiaryLongPressMoveUpdate => null;
 
-  DetailedGestureLongPressUpCallbackHandler? get handleOnTertiaryLongPressUp => null;
+  DetailedGestureLongPressUpCallbackHandler<T>? get handleOnTertiaryLongPressUp => null;
 
-  DetailedGestureLongPressEndCallbackHandler? get handleOnTertiaryLongPressEnd => null;
+  DetailedGestureLongPressEndCallbackHandler<T>? get handleOnTertiaryLongPressEnd => null;
 
-  DetailedGestureDragDownCallbackHandler? get handleOnVerticalDragDown => null;
+  DetailedGestureDragDownCallbackHandler<T>? get handleOnVerticalDragDown => null;
 
-  DetailedGestureDragStartCallbackHandler? get handleOnVerticalDragStart => null;
+  DetailedGestureDragStartCallbackHandler<T>? get handleOnVerticalDragStart => null;
 
-  DetailedGestureDragUpdateCallbackHandler? get handleOnVerticalDragUpdate => null;
+  DetailedGestureDragUpdateCallbackHandler<T>? get handleOnVerticalDragUpdate => null;
 
-  DetailedGestureDragEndCallbackHandler? get handleOnVerticalDragEnd => null;
+  DetailedGestureDragEndCallbackHandler<T>? get handleOnVerticalDragEnd => null;
 
-  DetailedGestureDragCancelCallbackHandler? get handleOnVerticalDragCancel => null;
+  DetailedGestureDragCancelCallbackHandler<T>? get handleOnVerticalDragCancel => null;
 
-  DetailedGestureDragDownCallbackHandler? get handleOnHorizontalDragDown => null;
+  DetailedGestureDragDownCallbackHandler<T>? get handleOnHorizontalDragDown => null;
 
-  DetailedGestureDragStartCallbackHandler? get handleOnHorizontalDragStart => null;
+  DetailedGestureDragStartCallbackHandler<T>? get handleOnHorizontalDragStart => null;
 
-  DetailedGestureDragUpdateCallbackHandler? get handleOnHorizontalDragUpdate => null;
+  DetailedGestureDragUpdateCallbackHandler<T>? get handleOnHorizontalDragUpdate => null;
 
-  DetailedGestureDragEndCallbackHandler? get handleOnHorizontalDragEnd => null;
+  DetailedGestureDragEndCallbackHandler<T>? get handleOnHorizontalDragEnd => null;
 
-  DetailedGestureDragCancelCallbackHandler? get handleOnHorizontalDragCancel => null;
+  DetailedGestureDragCancelCallbackHandler<T>? get handleOnHorizontalDragCancel => null;
 
-  DetailedGestureDragDownCallbackHandler? get handleOnPanDown => null;
+  DetailedGestureDragDownCallbackHandler<T>? get handleOnPanDown => null;
 
-  DetailedGestureDragStartCallbackHandler? get handleOnPanStart => null;
+  DetailedGestureDragStartCallbackHandler<T>? get handleOnPanStart => null;
 
-  DetailedGestureDragUpdateCallbackHandler? get handleOnPanUpdate => null;
+  DetailedGestureDragUpdateCallbackHandler<T>? get handleOnPanUpdate => null;
 
-  DetailedGestureDragEndCallbackHandler? get handleOnPanEnd => null;
+  DetailedGestureDragEndCallbackHandler<T>? get handleOnPanEnd => null;
 
-  DetailedGestureDragCancelCallbackHandler? get handleOnPanCancel => null;
+  DetailedGestureDragCancelCallbackHandler<T>? get handleOnPanCancel => null;
 
-  DetailedGestureScaleStartCallbackHandler? get handleOnScaleStart => null;
+  DetailedGestureScaleStartCallbackHandler<T>? get handleOnScaleStart => null;
 
-  DetailedGestureScaleUpdateCallbackHandler? get handleOnScaleUpdate => null;
+  DetailedGestureScaleUpdateCallbackHandler<T>? get handleOnScaleUpdate => null;
 
-  DetailedGestureScaleEndCallbackHandler? get handleOnScaleEnd => null;
+  DetailedGestureScaleEndCallbackHandler<T>? get handleOnScaleEnd => null;
 
-  DetailedGestureForcePressStartCallbackHandler? get handleOnForcePressStart => null;
+  DetailedGestureForcePressStartCallbackHandler<T>? get handleOnForcePressStart => null;
 
-  DetailedGestureForcePressPeakCallbackHandler? get handleOnForcePressPeak => null;
+  DetailedGestureForcePressPeakCallbackHandler<T>? get handleOnForcePressPeak => null;
 
-  DetailedGestureForcePressUpdateCallbackHandler? get handleOnForcePressUpdate => null;
+  DetailedGestureForcePressUpdateCallbackHandler<T>? get handleOnForcePressUpdate => null;
 
-  DetailedGestureForcePressEndCallbackHandler? get handleOnForcePressEnd => null;
+  DetailedGestureForcePressEndCallbackHandler<T>? get handleOnForcePressEnd => null;
 }

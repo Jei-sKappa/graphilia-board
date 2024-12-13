@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/src/core/helpers/draw_point.dart';
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 abstract class SimpleDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
@@ -26,7 +27,7 @@ abstract class SimpleDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
   void drawPreview(
     Canvas canvas,
     Point point,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     drawPoint(
       canvas,
@@ -37,6 +38,6 @@ abstract class SimpleDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
   }
 }
 
-extension CalculateScaledWidthIfNecessary on SimpleDrawingTool {
-  double getScaledWidthIfNecessary(BoardState state) => shouldScale ? width / state.scaleFactor : width;
+extension CalculateScaledWidthIfNecessary<T> on SimpleDrawingTool<T> {
+  double getScaledWidthIfNecessary(BoardState<T, BoardStateConfig> state) => shouldScale ? width / state.scaleFactor : width;
 }

@@ -13,7 +13,7 @@ class _TapDrawingState {
   }
 }
 
-class TapDrawingInteraction extends BoardInteraction {
+class TapDrawingInteraction<T> extends BoardInteraction<T> {
   TapDrawingInteraction({
     this.handleTapWithScaleGestures = false,
   }) : _interactionState = _TapDrawingState();
@@ -23,39 +23,39 @@ class TapDrawingInteraction extends BoardInteraction {
   final _TapDrawingState _interactionState;
 
   @override
-  DetailedGestureTapDownCallbackHandler? get handleOnTapDown {
+  DetailedGestureTapDownCallbackHandler<T>? get handleOnTapDown {
     if (handleTapWithScaleGestures) return null;
 
     return (
       TapDownDetails details,
       PointerDownEvent pointerDownEvent,
-      BoardNotifier notifier,
+      BoardNotifier<T, BoardStateConfig> notifier,
     ) =>
         _handleTapDownEvent(notifier, pointerDownEvent);
   }
 
   @override
-  DetailedGestureTapUpCallbackHandler? get handleOnTapUp {
+  DetailedGestureTapUpCallbackHandler<T>? get handleOnTapUp {
     if (handleTapWithScaleGestures) return null;
 
     return (
       TapUpDetails details,
       PointerDownEvent pointerDownEvent,
       PointerUpEvent pointerUpEvent,
-      BoardNotifier notifier,
+      BoardNotifier<T, BoardStateConfig> notifier,
     ) =>
         _handleTapUpEvent(notifier, pointerUpEvent);
   }
 
   @override
-  DetailedGestureScaleStartCallbackHandler? get handleOnScaleStart {
+  DetailedGestureScaleStartCallbackHandler<T>? get handleOnScaleStart {
     if (!handleTapWithScaleGestures) return null;
 
     return (
       ScaleStartDetails details,
       PointerEvent initialEvent,
       PointerEvent event,
-      BoardNotifier notifier,
+      BoardNotifier<T, BoardStateConfig> notifier,
     ) {
       // Initialize the interaction state
       _interactionState.initialize();
@@ -71,12 +71,14 @@ class TapDrawingInteraction extends BoardInteraction {
   }
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate {
+  DetailedGestureScaleUpdateCallbackHandler<T>? get handleOnScaleUpdate {
+    if (!handleTapWithScaleGestures) return null;
+
     return (
       ScaleUpdateDetails details,
       PointerEvent initialEvent,
       PointerEvent event,
-      BoardNotifier notifier,
+      BoardNotifier<T, BoardStateConfig> notifier,
     ) {
       final state = notifier.value;
 
@@ -93,14 +95,14 @@ class TapDrawingInteraction extends BoardInteraction {
   }
 
   @override
-  DetailedGestureScaleEndCallbackHandler? get handleOnScaleEnd {
+  DetailedGestureScaleEndCallbackHandler<T>? get handleOnScaleEnd {
     if (!handleTapWithScaleGestures) return null;
 
     return (
       ScaleEndDetails details,
       PointerEvent initialEvent,
       PointerEvent event,
-      BoardNotifier notifier,
+      BoardNotifier<T, BoardStateConfig> notifier,
     ) {
       final state = notifier.value;
 
@@ -121,14 +123,14 @@ class TapDrawingInteraction extends BoardInteraction {
     };
   }
 
-  bool _handleTapDownEvent(BoardNotifier notifier, PointerEvent event) {
+  bool _handleTapDownEvent(BoardNotifier<T, BoardStateConfig> notifier, PointerEvent event) {
     final state = notifier.value;
 
     final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
     final handlers = [
-      (Drawing drawing, BoardState s) => drawing.onTapDown(s, event),
-      if (notifier.config.onTapDown != null) (Drawing drawing, BoardState s) => notifier.config.onTapDown!(event, s, drawing),
+      (Drawing<T> drawing, BoardState<T, BoardStateConfig> s) => drawing.onTapDown(s, event),
+      if (notifier.config.onTapDown != null) (Drawing<T> drawing, BoardState<T, BoardStateConfig> s) => notifier.config.onTapDown!(event, s, drawing),
     ];
 
     final details = _handleTapEvent(state, point, handlers, notifier.config);
@@ -143,14 +145,14 @@ class TapDrawingInteraction extends BoardInteraction {
     return true;
   }
 
-  bool _handleTapUpEvent(BoardNotifier notifier, PointerEvent event) {
+  bool _handleTapUpEvent(BoardNotifier<T, BoardStateConfig> notifier, PointerEvent event) {
     final state = notifier.value;
 
     final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
     final handlers = [
-      (Drawing drawing, BoardState s) => drawing.onTapUp(s, event),
-      if (notifier.config.onTapUp != null) (Drawing drawing, BoardState s) => notifier.config.onTapUp!(event, s, drawing),
+      (Drawing<T> drawing, BoardState<T, BoardStateConfig> s) => drawing.onTapUp(s, event),
+      if (notifier.config.onTapUp != null) (Drawing<T> drawing, BoardState<T, BoardStateConfig> s) => notifier.config.onTapUp!(event, s, drawing),
     ];
 
     final details = _handleTapEvent(state, point, handlers, notifier.config);
@@ -165,10 +167,10 @@ class TapDrawingInteraction extends BoardInteraction {
     return true;
   }
 
-  ({BoardState state, bool shouldAddToHistory})? _handleTapEvent(
-    BoardState state,
+  ({BoardState<T, BoardStateConfig> state, bool shouldAddToHistory})? _handleTapEvent(
+    BoardState<T, BoardStateConfig> state,
     Point tapPoint,
-    List<EventResult<UpdatedSketchDetails> Function(Drawing, BoardState)> tapEventHandlers,
+    List<EventResult<UpdatedSketchDetails<T>> Function(Drawing<T>, BoardState<T, BoardStateConfig>)> tapEventHandlers,
     BoardStateConfig config,
   ) {
     final tappedDrawings = state.sketch.getDrawingsByPoint(
@@ -179,7 +181,7 @@ class TapDrawingInteraction extends BoardInteraction {
       simulatePressure: config.simulatePressure,
     );
 
-    BoardState stateCopy = state;
+    BoardState<T, BoardStateConfig> stateCopy = state;
     bool handled = false;
     bool shouldAddToUndoHistory = false;
     for (final drawing in tappedDrawings) {
@@ -209,7 +211,7 @@ class TapDrawingInteraction extends BoardInteraction {
 
   bool canPointerEventBeConsideredTapUpGesture(
     PointerEvent event,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     BoardStateConfig config,
   ) {
     // If the strokePoints are less than or equal to 1, then it is a tap up

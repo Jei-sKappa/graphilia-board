@@ -3,7 +3,6 @@ import 'dart:math' hide Point;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphilia_board/graphilia_board.dart';
-import 'package:graphilia_board/src/presentation/layers/layers.dart';
 
 class _SelectingState {
   _SelectingState() {
@@ -21,7 +20,7 @@ class _SelectingState {
   }
 }
 
-class SelectInteraction extends BoardInteraction {
+class SelectInteraction<T> extends BoardInteraction<T> {
   SelectInteraction({
     this.selectionLineSimplificationTolerance = 2.0,
   }) : _interactionState = _SelectingState();
@@ -30,19 +29,19 @@ class SelectInteraction extends BoardInteraction {
 
   final _SelectingState _interactionState;
 
-  BoardState _setPrecisionMouseCursor(BoardState state) {
+  BoardState<T, BoardStateConfig> _setPrecisionMouseCursor(BoardState<T, BoardStateConfig> state) {
     return state.copyWith(
       mouseCursor: SystemMouseCursors.precise,
     );
   }
 
-  BoardState _restoreMouseCursor(BoardState state) {
+  BoardState<T, BoardStateConfig> _restoreMouseCursor(BoardState<T, BoardStateConfig> state) {
     return state.copyWith(
       mouseCursor: null,
     );
   }
 
-  BoardState _setInteractionFeedback(BoardState state, CanvasPaintCallback canvasPaintCallback) {
+  BoardState<T, BoardStateConfig> _setInteractionFeedback(BoardState<T, BoardStateConfig> state, CanvasPaintCallback canvasPaintCallback) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
     _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
 
@@ -56,7 +55,7 @@ class SelectInteraction extends BoardInteraction {
     );
   }
 
-  BoardState _clearInteractionFeedback(BoardState state) {
+  BoardState<T, BoardStateConfig> _clearInteractionFeedback(BoardState<T, BoardStateConfig> state) {
     if (_interactionState.interactionFeedback == null) return state;
 
     return state.copyWith(
@@ -64,7 +63,7 @@ class SelectInteraction extends BoardInteraction {
     );
   }
 
-  void _drawLazo(Canvas canvas, List<Point> selectionPoints, BoardState state, BoardStateConfig config) {
+  void _drawLazo(Canvas canvas, List<Point> selectionPoints, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (selectionPoints.isEmpty) return;
 
     // The selection points are more than one
@@ -82,7 +81,7 @@ class SelectInteraction extends BoardInteraction {
     );
   }
 
-  BoardState disposeResources(BoardState state) {
+  BoardState<T, BoardStateConfig> disposeResources(BoardState<T, BoardStateConfig> state) {
     var updatedState = _clearInteractionFeedback(state);
 
     // Restore mouse cursor
@@ -95,7 +94,7 @@ class SelectInteraction extends BoardInteraction {
   }
 
   @override
-  void onRemoved(BoardNotifier notifier) {
+  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {
     final state = notifier.value;
 
     final updatedState = disposeResources(state);
@@ -107,9 +106,9 @@ class SelectInteraction extends BoardInteraction {
   }
 
   @override
-  PointerHoverEventListenerHandler? get handlePointerHoverEvent => (
+  PointerHoverEventListenerHandler<T> get handlePointerHoverEvent => (
         PointerHoverEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -124,11 +123,11 @@ class SelectInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -148,11 +147,11 @@ class SelectInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+  DetailedGestureScaleUpdateCallbackHandler<T> get handleOnScaleUpdate => (
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -177,11 +176,11 @@ class SelectInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+  DetailedGestureScaleEndCallbackHandler<T> get handleOnScaleEnd => (
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         // Actual implementation of the pointer up event
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
@@ -206,9 +205,9 @@ class SelectInteraction extends BoardInteraction {
       };
 
   @override
-  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+  PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -232,9 +231,9 @@ class SelectInteraction extends BoardInteraction {
       };
 
   @override
-  PointerExitEventListenerHandler get handlePointerExitEvent => (
+  PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -259,8 +258,8 @@ class SelectInteraction extends BoardInteraction {
         return true;
       };
 
-  ({BoardState state, bool shouldAddToHistory}) _handleInteractionEnd(
-    BoardState state,
+  ({BoardState<T, BoardStateConfig> state, bool shouldAddToHistory}) _handleInteractionEnd(
+    BoardState<T, BoardStateConfig> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -282,7 +281,7 @@ class SelectInteraction extends BoardInteraction {
 
     // Add to undo history only if the state has become a [SelectedState]
     // because it means that the user has selected something
-    if (updatedState is SelectedState) {
+    if (updatedState is SelectedState<T, BoardStateConfig>) {
       return (state: updatedState, shouldAddToHistory: true);
     }
 
@@ -291,8 +290,8 @@ class SelectInteraction extends BoardInteraction {
     return (state: updatedState, shouldAddToHistory: false);
   }
 
-  BoardState? _tryConvertBoardStateToSelectedState(
-    BoardState state,
+  BoardState<T, BoardStateConfig>? _tryConvertBoardStateToSelectedState(
+    BoardState<T, BoardStateConfig> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -314,7 +313,7 @@ class SelectInteraction extends BoardInteraction {
       _interactionState.selectionRect!,
     );
 
-    final selectedDrawings = <Drawing>[];
+    final selectedDrawings = <Drawing<T>>[];
     for (final drawing in drawingInSelectionBounds) {
       final isInsideSelection = drawing.isInsidePolygon(
         state,

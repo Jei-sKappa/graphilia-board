@@ -1,4 +1,5 @@
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class SimpleLineTool<T> extends SimpleDrawingTool<T> {
@@ -13,7 +14,7 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   ) {
     return SimpleLine(
       id: id,

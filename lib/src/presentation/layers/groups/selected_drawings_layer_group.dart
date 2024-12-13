@@ -6,13 +6,13 @@ import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
-class SelectedDrawingsLayerGroup extends StatelessWidget {
+class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
   const SelectedDrawingsLayerGroup(
     this.notifier, {
     super.key,
   });
 
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SelectedDrawingsLayerGroup extends StatelessWidget {
       // example due to a movement of the drawings
       valueListenable: notifier.select(
         (value) {
-          if (value is SelectedState) {
+          if (value is SelectedState<T, BoardStateConfig>) {
             // TODO: Check only if the selected drawings in the visible area changed
             return value.selectedDrawings;
           }

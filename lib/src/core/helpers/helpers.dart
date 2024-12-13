@@ -5,7 +5,7 @@ export 'do_circles_intersect.dart';
 export 'does_circle_touch_polygon.dart';
 export 'draw_dashed_path.dart';
 export 'draw_point.dart';
-export 'generate_unsecure_drawing_id_from_state.dart';
+export 'generate_id_from_datetime.dart';
 export 'get_intermediate_points.dart';
 export 'get_outline_points.dart';
 export 'get_point_list_bounds.dart';

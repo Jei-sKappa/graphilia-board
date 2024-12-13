@@ -23,7 +23,7 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
   }
 
   // TODO: This shoul be final
-  BoardStateConfig _config;
+  BoardStateConfig<T> _config;
 
   /// Workaround to detect whether the [transformHistoryValue] was called by an
   /// undo or redo operation.
@@ -33,9 +33,9 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
   /// Null after the operation was completed.
   bool? _hasTriggeredUndo;
 
-  BoardStateConfig get config => _config;
+  BoardStateConfig<T> get config => _config;
 
-  void setConfig(BoardStateConfig config) => _config = config;
+  void setConfig(BoardStateConfig<T> config) => _config = config;
 
   @override
   @protected

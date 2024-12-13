@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:graphilia_board/graphilia_board.dart';
-import 'package:graphilia_board/src/presentation/layers/layers.dart';
 
-class _ErasingState {
+class _ErasingState<T> {
   _ErasingState() {
     initialize();
   }
@@ -11,7 +10,7 @@ class _ErasingState {
   late Point? lastErasedPoint;
   late int skippedUpdateEventsCount;
   late bool isFirstMoveEvent;
-  late List<Drawing> erasedDrawings;
+  late List<Drawing<T>> erasedDrawings;
   late InteractionFeedback? interactionFeedback;
 
   void initialize() {
@@ -23,28 +22,31 @@ class _ErasingState {
   }
 }
 
-class EraseInteraction extends BoardInteraction {
+class EraseInteraction<T> extends BoardInteraction<T> {
   EraseInteraction({
     required this.eraserWidth,
   }) : _interactionState = _ErasingState();
 
   final double eraserWidth;
 
-  final _ErasingState _interactionState;
+  final _ErasingState<T> _interactionState;
 
-  BoardState _removeMouseCursor(BoardState state) {
+  BoardState<T, BoardStateConfig> _removeMouseCursor(BoardState<T, BoardStateConfig> state) {
     return state.copyWith(
       mouseCursor: SystemMouseCursors.none,
     );
   }
 
-  BoardState _restoreMouseCursor(BoardState state) {
+  BoardState<T, BoardStateConfig> _restoreMouseCursor(BoardState<T, BoardStateConfig> state) {
     return state.copyWith(
       mouseCursor: null,
     );
   }
 
-  BoardState _setInteractionFeedback(BoardState state, CanvasPaintCallback canvasPaintCallback) {
+  BoardState<T, BoardStateConfig> _setInteractionFeedback(
+    BoardState<T, BoardStateConfig> state,
+    CanvasPaintCallback canvasPaintCallback,
+  ) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
     _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
 
@@ -58,7 +60,9 @@ class EraseInteraction extends BoardInteraction {
     );
   }
 
-  BoardState _clearInteractionFeedback(BoardState state) {
+  BoardState<T, BoardStateConfig> _clearInteractionFeedback(
+    BoardState<T, BoardStateConfig> state,
+  ) {
     if (_interactionState.interactionFeedback == null) return state;
 
     return state.copyWith(
@@ -66,7 +70,7 @@ class EraseInteraction extends BoardInteraction {
     );
   }
 
-  void _drawEraser(Canvas canvas, BoardState state, BoardStateConfig config) {
+  void _drawEraser(Canvas canvas, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (state.pointerPosition == null) return;
 
     // Pointer position is not null
@@ -86,7 +90,7 @@ class EraseInteraction extends BoardInteraction {
     );
   }
 
-  BoardState disposeResources(BoardState state) {
+  BoardState<T, BoardStateConfig> disposeResources(BoardState<T, BoardStateConfig> state) {
     var updatedState = _clearInteractionFeedback(state);
 
     // Restore mouse cursor
@@ -99,7 +103,7 @@ class EraseInteraction extends BoardInteraction {
   }
 
   @override
-  void onRemoved(BoardNotifier notifier) {
+  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {
     final state = notifier.value;
 
     final updatedState = disposeResources(state);
@@ -111,9 +115,9 @@ class EraseInteraction extends BoardInteraction {
   }
 
   @override
-  PointerHoverEventListenerHandler? get handlePointerHoverEvent => (
+  PointerHoverEventListenerHandler<T> get handlePointerHoverEvent => (
         PointerHoverEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -131,11 +135,11 @@ class EraseInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -154,17 +158,17 @@ class EraseInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleUpdateCallbackHandler get handleOnScaleUpdate => (
+  DetailedGestureScaleUpdateCallbackHandler<T> get handleOnScaleUpdate => (
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
         final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
-        late BoardState updatedState;
+        late BoardState<T, BoardStateConfig> updatedState;
         final shouldErase = _interactionState.isFirstMoveEvent || _interactionState.skippedUpdateEventsCount >= 3;
         if (shouldErase) {
           updatedState = _eraseDrawingsByPoint(point, state, notifier.config);
@@ -187,11 +191,11 @@ class EraseInteraction extends BoardInteraction {
       };
 
   @override
-  DetailedGestureScaleEndCallbackHandler get handleOnScaleEnd => (
+  DetailedGestureScaleEndCallbackHandler<T> get handleOnScaleEnd => (
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -221,9 +225,9 @@ class EraseInteraction extends BoardInteraction {
       };
 
   @override
-  PointerCancelEventListenerHandler get handlePointerCancelEvent => (
+  PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -250,9 +254,9 @@ class EraseInteraction extends BoardInteraction {
       };
 
   @override
-  PointerExitEventListenerHandler get handlePointerExitEvent => (
+  PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         final state = notifier.value;
 
@@ -267,9 +271,9 @@ class EraseInteraction extends BoardInteraction {
         return true;
       };
 
-  BoardState _eraseDrawingsByPoint(
+  BoardState<T, BoardStateConfig> _eraseDrawingsByPoint(
     Point point,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     BoardStateConfig config,
   ) {
     final maybeScaledEraserWidth = scaleEraserWidthIfNecessary(
@@ -278,7 +282,7 @@ class EraseInteraction extends BoardInteraction {
       config: config,
     );
 
-    late List<Drawing> erasedDrawings;
+    late List<Drawing<T>> erasedDrawings;
     if (_interactionState.lastErasedPoint == null) {
       erasedDrawings = state.sketch.getDrawingsByPoint(
         state,
@@ -333,7 +337,7 @@ class EraseInteraction extends BoardInteraction {
     );
   }
 
-  BoardState _setBoardStateDelta(BoardState state) {
+  BoardState<T, BoardStateConfig> _setBoardStateDelta(BoardState<T, BoardStateConfig> state) {
     if (_interactionState.erasedDrawings.isEmpty) return state;
 
     return state.copyWith(
@@ -345,7 +349,7 @@ class EraseInteraction extends BoardInteraction {
     );
   }
 
-  void _addErasedDrawingToInteractionState(List<Drawing> erasedDrawings) {
+  void _addErasedDrawingToInteractionState(List<Drawing<T>> erasedDrawings) {
     _interactionState.erasedDrawings = [
       ..._interactionState.erasedDrawings,
       ...erasedDrawings,

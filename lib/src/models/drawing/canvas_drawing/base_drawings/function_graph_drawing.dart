@@ -33,7 +33,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
   List<Object?> get props => [...super.props, expression, unit];
 
   @override
-  ScaleFactorListener get stateListener => const ScaleFactorListener();
+  ScaleFactorListener<T, BoardStateConfig> get stateListener => ScaleFactorListener<T, BoardStateConfig>();
 
   @override
   FunctionGraphDrawing<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);

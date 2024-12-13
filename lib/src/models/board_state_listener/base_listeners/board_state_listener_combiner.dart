@@ -20,8 +20,8 @@ final class BoardStateListenerCombiner<T, C extends BoardStateConfig> extends Bo
   }
 }
 
-extension BoardStateListenerCombineExtension on BoardStateListener {
-  BoardStateListenerCombiner combine(BoardStateListener listener) {
-    return BoardStateListenerCombiner([this, listener]);
+extension BoardStateListenerCombineExtension<T, C extends BoardStateConfig> on BoardStateListener<T, C> {
+  BoardStateListenerCombiner<T, C> combine(BoardStateListener<T, C> listener) {
+    return BoardStateListenerCombiner<T, C>([this, listener]);
   }
 }

@@ -3,15 +3,15 @@ import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/board_interactions/board_interactions.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
-class ConvertSelectedStateToBoardStateInteraction extends BoardInteraction {
+class ConvertSelectedStateToBoardStateInteraction<T> extends BoardInteraction<T> {
   const ConvertSelectedStateToBoardStateInteraction();
 
   @override
-  DetailedGestureScaleStartCallbackHandler get handleOnScaleStart => (
+  DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier notifier,
+        BoardNotifier<T, BoardStateConfig> notifier,
       ) {
         if (notifier.value is! SelectedState) {
           return false;

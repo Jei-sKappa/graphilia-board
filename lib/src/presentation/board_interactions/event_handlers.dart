@@ -1,223 +1,222 @@
 import 'package:flutter/gestures.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
-import 'package:graphilia_board/src/presentation/state/state.dart';
 
 // MOUSE REGION EVENT HANDLERS
 
-typedef PointerExitEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerExitEventListenerHandler<T> = bool Function(
   PointerExitEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
 // LISTENER EVENT HANDLERS
 
-typedef PointerHoverEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerHoverEventListenerHandler<T> = bool Function(
   PointerHoverEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerDownEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerDownEventListenerHandler<T> = bool Function(
   PointerDownEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerMoveEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerMoveEventListenerHandler<T> = bool Function(
   PointerMoveEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerUpEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerUpEventListenerHandler<T> = bool Function(
   PointerUpEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerCancelEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerCancelEventListenerHandler<T> = bool Function(
   PointerCancelEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerPanZoomStartEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerPanZoomStartEventListenerHandler<T> = bool Function(
   PointerPanZoomStartEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerPanZoomUpdateEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerPanZoomUpdateEventListenerHandler<T> = bool Function(
   PointerPanZoomUpdateEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerPanZoomEndEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerPanZoomEndEventListenerHandler<T> = bool Function(
   PointerPanZoomEndEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef PointerSignalEventListenerHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef PointerSignalEventListenerHandler<T> = bool Function(
   PointerSignalEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
 // DETAILED GESTURE DETECTOR EVENT HANDLERS
 
-typedef DetailedGestureTapDownCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureTapDownCallbackHandler<T> = bool Function(
   TapDownDetails details,
   PointerDownEvent pointerDownEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureTapUpCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureTapUpCallbackHandler<T> = bool Function(
   TapUpDetails details,
   PointerDownEvent pointerDownEvent,
   PointerUpEvent pointerUpEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureTapCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureTapCallbackHandler<T> = bool Function(
   PointerDownEvent pointerDownEvent,
   PointerUpEvent pointerUpEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureTapCancelCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureTapCancelCallbackHandler<T> = bool Function(
   PointerDownEvent pointerDownEvent,
   PointerCancelEvent? cancelEvent,
   String reason,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDoubleTapDownCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDoubleTapDownCallbackHandler<T> = bool Function(
   TapDownDetails details,
   PointerEvent firstEvent,
   PointerDownEvent secondEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDoubleTapCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDoubleTapCallbackHandler<T> = bool Function(
   PointerEvent firstEvent,
   PointerEvent secondEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDoubleTapCancelCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDoubleTapCancelCallbackHandler<T> = bool Function(
   PointerEvent firstEvent,
   PointerEvent? cancelEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressDownCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressDownCallbackHandler<T> = bool Function(
   LongPressDownDetails details,
   PointerDownEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressCancelCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressCancelCallbackHandler<T> = bool Function(
   PointerDownEvent firstEvent,
   PointerCancelEvent? event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressCallbackHandler<T> = bool Function(
   PointerDownEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressStartCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressStartCallbackHandler<T> = bool Function(
   LongPressStartDetails details,
   PointerDownEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressMoveUpdateCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressMoveUpdateCallbackHandler<T> = bool Function(
   LongPressMoveUpdateDetails details,
   PointerDownEvent initialEvent,
   PointerMoveEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressUpCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressUpCallbackHandler<T> = bool Function(
   PointerDownEvent initialEvent,
   PointerUpEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureLongPressEndCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureLongPressEndCallbackHandler<T> = bool Function(
   LongPressEndDetails details,
   PointerDownEvent initialEvent,
   PointerUpEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDragDownCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDragDownCallbackHandler<T> = bool Function(
   DragDownDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDragStartCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDragStartCallbackHandler<T> = bool Function(
   DragStartDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDragUpdateCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDragUpdateCallbackHandler<T> = bool Function(
   DragUpdateDetails details,
   PointerEvent initialEvent,
   PointerEvent? event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDragEndCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDragEndCallbackHandler<T> = bool Function(
   DragEndDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureDragCancelCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureDragCancelCallbackHandler<T> = bool Function(
   PointerEvent initialEvent,
   PointerEvent finalEvent,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureScaleStartCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureScaleStartCallbackHandler<T> = bool Function(
   ScaleStartDetails details,
   PointerEvent initialEvent,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureScaleUpdateCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureScaleUpdateCallbackHandler<T> = bool Function(
   ScaleUpdateDetails details,
   PointerEvent initialEvent,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureScaleEndCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureScaleEndCallbackHandler<T> = bool Function(
   ScaleEndDetails details,
   PointerEvent initialEvent,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureForcePressStartCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureForcePressStartCallbackHandler<T> = bool Function(
   ForcePressDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureForcePressPeakCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureForcePressPeakCallbackHandler<T> = bool Function(
   ForcePressDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureForcePressUpdateCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureForcePressUpdateCallbackHandler<T> = bool Function(
   ForcePressDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );
 
-typedef DetailedGestureForcePressEndCallbackHandler<S extends BoardState, C extends BoardStateConfig> = bool Function(
+typedef DetailedGestureForcePressEndCallbackHandler<T> = bool Function(
   ForcePressDetails details,
   PointerEvent event,
-  BoardNotifier notifier,
+  BoardNotifier<T, BoardStateConfig> notifier,
 );

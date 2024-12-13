@@ -5,7 +5,7 @@ import 'package:graphilia_board/graphilia_board.dart';
 import 'package:graphilia_board/src/core/constants/undefined.dart';
 import 'package:graphilia_board/src/presentation/notifier/z_index_generator.dart';
 
-int _generateUnsecureDrawingIdFromState(BoardState? _) => generateUnsecureDrawingId();
+int _generateUnsecureDrawingIdFromState(BoardState? _) => generateIdFromDateTime();
 
 class BoardStateConfig<T> with EquatableMixin {
   BoardStateConfig({
@@ -87,7 +87,7 @@ class BoardStateConfig<T> with EquatableMixin {
   /// The [onTapDown] callback of a specific drawing will be called first. If it
   /// doesn't handle the gesture, this will be called.
   /// {@endtemplate}
-  final BoardTapHandler? onTapDown;
+  final BoardTapHandler<T>? onTapDown;
 
   /// {@template graphilia_board.on_tap_up}
   /// The callback that gets called when a tap up gesture is detected on a
@@ -96,7 +96,7 @@ class BoardStateConfig<T> with EquatableMixin {
   /// The [onTapUp] callback of a specific drawing will be called first. If it
   /// doesn't handle the gesture, this will be called.
   /// {@endtemplate}
-  final BoardTapHandler? onTapUp;
+  final BoardTapHandler<T>? onTapUp;
 
   // Erasing
 
@@ -144,12 +144,12 @@ class BoardStateConfig<T> with EquatableMixin {
 
   bool isPointerDeviceKindSupported(PointerDeviceKind kind) => allowedPointerKinds.contains(kind);
 
-  BoardStateConfig copyWith({
+  BoardStateConfig<T> copyWith({
     Set<PointerDeviceKind>? allowedPointerKinds,
     Object? maxHistoryLength = const Undefinied(),
     Curve? pointPressureCurve,
     ZIndexManager? zIndexManager,
-    List<Drawing>? initialDrawings,
+    List<Drawing<T>>? initialDrawings,
     DrawingTool? initialTool,
     Object Function(BoardState? state)? idGenerator,
     PointsSimplifier? pointsSimplifier,
@@ -164,9 +164,9 @@ class BoardStateConfig<T> with EquatableMixin {
     bool? shouldMoveSelectedDrawingsOnTop,
   }) {
     assert(maxHistoryLength is int? || maxHistoryLength is Undefinied);
-    assert(onTapDown is BoardTapHandler? || onTapDown is Undefinied);
-    assert(onTapUp is BoardTapHandler? || onTapUp is Undefinied);
-    return BoardStateConfig(
+    assert(onTapDown is BoardTapHandler<T>? || onTapDown is Undefinied);
+    assert(onTapUp is BoardTapHandler<T>? || onTapUp is Undefinied);
+    return BoardStateConfig<T>(
       allowedPointerKinds: allowedPointerKinds ?? this.allowedPointerKinds,
       maxHistoryLength: maxHistoryLength is int? ? maxHistoryLength : this.maxHistoryLength,
       pointPressureCurve: pointPressureCurve ?? this.pointPressureCurve,
@@ -177,8 +177,8 @@ class BoardStateConfig<T> with EquatableMixin {
       pointsSimplifier: pointsSimplifier ?? this.pointsSimplifier,
       simplificationTolerance: simplificationTolerance ?? this.simplificationTolerance,
       simulatePressure: simulatePressure ?? this.simulatePressure,
-      onTapDown: onTapDown is BoardTapHandler? ? onTapDown : this.onTapDown,
-      onTapUp: onTapUp is BoardTapHandler? ? onTapUp : this.onTapUp,
+      onTapDown: onTapDown is BoardTapHandler<T>? ? onTapDown : this.onTapDown,
+      onTapUp: onTapUp is BoardTapHandler<T>? ? onTapUp : this.onTapUp,
       initialEraserWidth: initialEraserWidth ?? this.initialEraserWidth,
       shouldScaleEraserWidth: shouldScaleEraserWidth ?? this.shouldScaleEraserWidth,
       selectionMode: selectionMode ?? this.selectionMode,
@@ -188,8 +188,8 @@ class BoardStateConfig<T> with EquatableMixin {
   }
 }
 
-typedef BoardTapHandler = TapEventSketchResult Function(
+typedef BoardTapHandler<T> = TapEventSketchResult<T> Function(
   PointerEvent details,
-  BoardState state,
-  Drawing drawing,
+  BoardState<T, BoardStateConfig> state,
+  Drawing<T> drawing,
 );

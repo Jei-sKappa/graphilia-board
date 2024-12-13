@@ -14,7 +14,7 @@ import 'package:value_notifier_tools/value_notifier_tools.dart';
 /// You can control its behavior from code using the [notifier] instance you
 /// pass in.
 /// {@endtemplate}
-class GraphiliaBoard extends StatefulWidget {
+class GraphiliaBoard<T> extends StatefulWidget {
   /// {@macro graphilia_board}
   const GraphiliaBoard({
     /// The notifier that controls this canvas.
@@ -26,20 +26,20 @@ class GraphiliaBoard extends StatefulWidget {
   });
 
   /// The notifier that controls this canvas.
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
 
-  final InteractionControllerBase interactionController;
+  final InteractionControllerBase<T> interactionController;
 
   final Map<String, DrawingFactory>? drawingFactories;
 
   final Map<String, DrawingRepresentationFactory>? drawingRepresentationFactories;
 
   @override
-  State<GraphiliaBoard> createState() => _GraphiliaBoardState();
+  State<GraphiliaBoard<T>> createState() => _GraphiliaBoardState<T>();
 }
 
-class _GraphiliaBoardState extends State<GraphiliaBoard> {
-  Set<BoardInteraction> previousBoardInteractions = {};
+class _GraphiliaBoardState<T> extends State<GraphiliaBoard<T>> {
+  Set<BoardInteraction<T>> previousBoardInteractions = {};
 
   @override
   void initState() {
@@ -92,14 +92,14 @@ class _GraphiliaBoardState extends State<GraphiliaBoard> {
       );
 }
 
-class _Board extends StatelessWidget {
+class _Board<T> extends StatelessWidget {
   const _Board({
     required this.notifier,
     required this.interactionController,
   });
 
-  final BoardNotifier notifier;
-  final InteractionControllerBase interactionController;
+  final BoardNotifier<T, BoardStateConfig> notifier;
+  final InteractionControllerBase<T> interactionController;
 
   @override
   Widget build(BuildContext context) {

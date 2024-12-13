@@ -51,7 +51,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
 
   @override
   bool isPointInside(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Point point,
     double tolerance, {
     required bool simulatePressure,
@@ -65,7 +65,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
 
   @override
   bool isInsidePolygon(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
     PointsInPolygonMode mode, {
     required bool simulatePressure,
@@ -82,7 +82,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
 
   @override
   void drawSinglePoint(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Canvas canvas,
     Point point,
   ) =>
@@ -95,7 +95,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
 
   @override
   void drawMultiplePoints(
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
     required bool simulatePressure,
     required bool isSelected,

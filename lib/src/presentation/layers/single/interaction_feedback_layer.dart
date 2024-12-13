@@ -10,13 +10,13 @@ class InteractionFeedback {
   final CanvasPaintCallback canvasPaintCallback;
 }
 
-class InteractionFeedbackLayer extends StatelessWidget {
+class InteractionFeedbackLayer<T> extends StatelessWidget {
   const InteractionFeedbackLayer({
     super.key,
     required this.notifier,
   });
 
-  final BoardNotifier notifier;
+  final BoardNotifier<T, BoardStateConfig> notifier;
 
   @override
   Widget build(BuildContext context) {

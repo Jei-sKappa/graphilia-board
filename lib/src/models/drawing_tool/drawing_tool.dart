@@ -20,12 +20,12 @@ abstract class DrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   );
 
   void drawPreview(
     Canvas canvas,
     Point point,
-    BoardState state,
+    BoardState<T, BoardStateConfig> state,
   );
 }

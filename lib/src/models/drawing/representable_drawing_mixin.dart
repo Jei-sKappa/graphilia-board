@@ -1,16 +1,17 @@
 import 'dart:ui';
 
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 mixin RepresentableDrawingMixin<T> on Drawing<T> {
   DrawingRepresentation get representation;
 
-  Drawing updateRepresentation(covariant DrawingRepresentation value);
+  Drawing<T> updateRepresentation(covariant DrawingRepresentation value);
 
   @override
-  Drawing? update(
-    BoardState state,
+  Drawing<T>? update(
+    BoardState<T, BoardStateConfig> state,
     Point newPoint,
   ) {
     final shouldUpdate = representation.isPointDistanceEnoughFromLastPoint(
@@ -24,13 +25,13 @@ mixin RepresentableDrawingMixin<T> on Drawing<T> {
   }
 
   @override
-  Drawing move(BoardState state, Point offset) => updateRepresentation(
+  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset) => updateRepresentation(
         representation.move(state, offset),
       );
 
   @override
-  Drawing resize(
-    BoardState state,
+  Drawing<T> resize(
+    BoardState<T, BoardStateConfig> state,
     Rect resizeRect,
     ResizeAnchor anchor,
     Offset delta,
