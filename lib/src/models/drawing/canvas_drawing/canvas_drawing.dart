@@ -15,9 +15,6 @@ abstract class CanvasDrawing<T> extends Drawing<T> {
   void draw(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    // TODO: simulatePressure should be a property of only the classes that require it.
-    // for example a shape doesn't need to simulate pressure.
-    required bool simulatePressure,
     required bool isSelected,
   });
 }

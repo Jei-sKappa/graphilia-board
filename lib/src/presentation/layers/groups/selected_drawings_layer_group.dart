@@ -64,7 +64,6 @@ class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
                     drawings: canvasDrawings,
                     state: notifier.value,
                     areDrawingsSelected: true,
-                    simulatePressure: notifier.config.simulatePressure,
                   ),
                 ),
               ),

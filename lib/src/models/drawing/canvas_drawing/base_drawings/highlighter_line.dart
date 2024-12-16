@@ -10,6 +10,7 @@ class HighlighterLine<T> extends SimpleLine<T> {
     required super.representation,
     required super.color,
     required super.width,
+    required super.simulatePressure,
   });
 
   factory HighlighterLine.fromMap(Map<String, dynamic> map) {
@@ -19,6 +20,7 @@ class HighlighterLine<T> extends SimpleLine<T> {
       representation: LineRepresentation.fromMap(map['representation']),
       color: Color(map['color']),
       width: map['width'],
+      simulatePressure: map['simulatePressure'],
     );
   }
 
@@ -29,6 +31,7 @@ class HighlighterLine<T> extends SimpleLine<T> {
     LineRepresentation? representation,
     Color? color,
     double? width,
+    bool? simulatePressure,
   }) {
     return HighlighterLine(
       id: id ?? this.id,
@@ -36,6 +39,7 @@ class HighlighterLine<T> extends SimpleLine<T> {
       representation: representation ?? this.representation,
       color: color ?? this.color,
       width: width ?? this.width,
+      simulatePressure: simulatePressure ?? this.simulatePressure,
     );
   }
 
@@ -48,6 +52,7 @@ class HighlighterLine<T> extends SimpleLine<T> {
       'representation': representation.toMap(),
       'color': color.value,
       'width': width,
+      'simulatePressure': simulatePressure,
     };
   }
 }

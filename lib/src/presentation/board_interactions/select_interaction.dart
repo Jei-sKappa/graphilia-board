@@ -319,7 +319,6 @@ class SelectInteraction<T> extends BoardInteraction<T> {
         state,
         _interactionState.selectionPoints,
         config.selectionMode,
-        simulatePressure: config.simulatePressure,
       );
       if (isInsideSelection) {
         selectedDrawings.add(drawing);

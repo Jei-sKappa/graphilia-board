@@ -16,7 +16,6 @@ mixin SinglePointDrawer<T> on CanvasDrawing<T> {
   void drawMultiplePoints(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   });
 
@@ -25,7 +24,6 @@ mixin SinglePointDrawer<T> on CanvasDrawing<T> {
   void draw(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     if (shouldDrawSinglePoint()) {
@@ -38,7 +36,6 @@ mixin SinglePointDrawer<T> on CanvasDrawing<T> {
       drawMultiplePoints(
         state,
         canvas,
-        simulatePressure: simulatePressure,
         isSelected: isSelected,
       );
     }

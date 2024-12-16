@@ -20,7 +20,6 @@ class BoardStateConfig<T> with EquatableMixin {
     Object Function(BoardState? state)? idGenerator,
     this.pointsSimplifier = const VisvalingamPointsSimplifier(),
     this.simplificationTolerance = 0,
-    this.simulatePressure = true,
     this.onTapDown,
     this.onTapUp,
     // Erasing
@@ -76,10 +75,6 @@ class BoardStateConfig<T> with EquatableMixin {
   /// 0 means no simplification.
   final double simplificationTolerance;
 
-  /// Whether to simulate pressure when drawing lines that don't have pressure
-  /// information (all points have the same pressure).
-  final bool simulatePressure;
-
   /// {@template graphilia_board.on_tap_down}
   /// The callback that gets called when a tap down gesture is detected on a
   /// drawing.
@@ -132,7 +127,6 @@ class BoardStateConfig<T> with EquatableMixin {
         idGenerator,
         pointsSimplifier,
         simplificationTolerance,
-        simulatePressure,
         onTapDown,
         onTapUp,
         initialEraserWidth,
@@ -154,7 +148,6 @@ class BoardStateConfig<T> with EquatableMixin {
     Object Function(BoardState? state)? idGenerator,
     PointsSimplifier? pointsSimplifier,
     double? simplificationTolerance,
-    bool? simulatePressure,
     Object? onTapDown = const Undefinied(),
     Object? onTapUp = const Undefinied(),
     double? initialEraserWidth,
@@ -176,7 +169,6 @@ class BoardStateConfig<T> with EquatableMixin {
       idGenerator: idGenerator ?? this.idGenerator,
       pointsSimplifier: pointsSimplifier ?? this.pointsSimplifier,
       simplificationTolerance: simplificationTolerance ?? this.simplificationTolerance,
-      simulatePressure: simulatePressure ?? this.simulatePressure,
       onTapDown: onTapDown is BoardTapHandler<T>? ? onTapDown : this.onTapDown,
       onTapUp: onTapUp is BoardTapHandler<T>? ? onTapUp : this.onTapUp,
       initialEraserWidth: initialEraserWidth ?? this.initialEraserWidth,

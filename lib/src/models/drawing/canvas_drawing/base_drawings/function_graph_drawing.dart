@@ -94,7 +94,6 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
   void draw(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     final bounds = getBounds();
@@ -268,18 +267,16 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  }) =>
+    PointsInPolygonMode mode,
+  ) =>
       isPolygonInsideOther(_getVertices(), vertices, mode);
 
   @override
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  }) =>
+    double tolerance,
+  ) =>
       doesCircleTouchPolygon(
         point,
         tolerance,

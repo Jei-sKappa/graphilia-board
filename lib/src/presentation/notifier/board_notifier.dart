@@ -138,13 +138,6 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
     );
   }
 
-  /// Sets the pressure simulation to the given value.
-  void setSimulatePressure(bool simulatePressure) {
-    _config = _config.copyWith(
-      simulatePressure: simulatePressure,
-    );
-  }
-
   void setSelectionMode(PointsInPolygonMode mode) {
     if (_config.selectionMode == mode) return;
 

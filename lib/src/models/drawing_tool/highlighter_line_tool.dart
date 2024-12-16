@@ -7,7 +7,10 @@ class HighlighterLineTool<T> extends SimpleDrawingTool<T> {
     required Color color,
     required super.width,
     super.shouldScale,
+    this.simulatePressure = false,
   }) : super(color: color.withOpacity(highlighterOpactity));
+
+  final bool simulatePressure;
 
   @override
   HighlighterLine<T> createDrawing(
@@ -22,6 +25,7 @@ class HighlighterLineTool<T> extends SimpleDrawingTool<T> {
       representation: LineRepresentation.initial(firstPoint),
       color: color,
       width: getScaledWidthIfNecessary(state),
+      simulatePressure: simulatePressure,
     );
   }
 }

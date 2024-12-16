@@ -110,7 +110,6 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
         drawings: List.castFrom(group.drawings),
         state: state,
         areDrawingsSelected: false,
-        simulatePressure: widget.notifier.config.simulatePressure,
       );
 
   WidgetDrawingsLayer<T> _widgetDrawingLayerBuilder(

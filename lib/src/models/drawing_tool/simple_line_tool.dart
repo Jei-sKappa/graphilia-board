@@ -7,7 +7,10 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> {
     required super.color,
     required super.width,
     super.shouldScale,
+    this.simulatePressure = false,
   });
+
+  final bool simulatePressure;
 
   @override
   SimpleLine<T> createDrawing(
@@ -22,6 +25,7 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> {
       representation: LineRepresentation.initial(firstPoint),
       color: color,
       width: getScaledWidthIfNecessary(state),
+      simulatePressure: simulatePressure,
     );
   }
 }

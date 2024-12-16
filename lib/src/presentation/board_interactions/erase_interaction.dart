@@ -288,7 +288,6 @@ class EraseInteraction<T> extends BoardInteraction<T> {
         state,
         point,
         tolerance: maybeScaledEraserWidth / 2,
-        simulatePressure: config.simulatePressure,
       );
     } else {
       erasedDrawings = [];
@@ -312,7 +311,6 @@ class EraseInteraction<T> extends BoardInteraction<T> {
           state,
           eraseStrokeRectVertices,
           PointsInPolygonMode.partial,
-          simulatePressure: config.simulatePressure,
         );
 
         if (isInside) {

@@ -70,7 +70,6 @@ class Sketch<T> {
     BoardState<T, BoardStateConfig> state,
     Point point, {
     required double tolerance,
-    required bool simulatePressure,
   }) {
     late final List<Drawing<T>> requestedDrawings;
 
@@ -84,7 +83,6 @@ class Sketch<T> {
         state,
         point,
         tolerance,
-        simulatePressure: simulatePressure,
       );
 
       if (isInside) {

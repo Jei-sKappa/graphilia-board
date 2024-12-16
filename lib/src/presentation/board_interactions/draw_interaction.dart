@@ -113,7 +113,6 @@ class DrawInteraction<T> extends BoardInteraction<T> {
       (_interactionState.activeDrawing! as CanvasDrawing).draw(
         state,
         canvas,
-        simulatePressure: config.simulatePressure,
         isSelected: false,
       );
     }

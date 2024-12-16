@@ -54,7 +54,6 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
   void draw(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     // Check if the polygon representation has only one point
@@ -96,9 +95,8 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  }) {
+    double tolerance,
+  ) {
     // Check if the polygon representation has only one point
     if (representation.isInitializedOnlyOnePoint()) {
       // TODO: Refer to [// TODO: Consider drawing a mini version of the polygon]
@@ -116,9 +114,8 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  }) {
+    PointsInPolygonMode mode,
+  ) {
     // Check if the polygon representation has only one point
     if (representation.isInitializedOnlyOnePoint()) {
       return false;

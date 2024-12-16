@@ -33,9 +33,13 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   Rect _getBounds() => getTotalBounds(drawings) ?? Rect.zero;
 
   @override
-  bool isInsidePolygon(BoardState<T, BoardStateConfig> state, List<Point> vertices, PointsInPolygonMode mode, {required bool simulatePressure}) {
+  bool isInsidePolygon(
+    BoardState<T, BoardStateConfig> state,
+    List<Point> vertices,
+    PointsInPolygonMode mode,
+  ) {
     for (final drawing in drawings) {
-      final isInside = drawing.isInsidePolygon(state, vertices, mode, simulatePressure: simulatePressure);
+      final isInside = drawing.isInsidePolygon(state, vertices, mode);
       if (isInside) {
         return true;
       }
@@ -45,9 +49,13 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  bool isPointInside(BoardState<T, BoardStateConfig> state, Point point, double tolerance, {required bool simulatePressure}) {
+  bool isPointInside(
+    BoardState<T, BoardStateConfig> state,
+    Point point,
+    double tolerance,
+  ) {
     for (final drawing in drawings) {
-      final isInside = drawing.isPointInside(state, point, tolerance, simulatePressure: simulatePressure);
+      final isInside = drawing.isPointInside(state, point, tolerance);
       if (isInside) {
         return true;
       }

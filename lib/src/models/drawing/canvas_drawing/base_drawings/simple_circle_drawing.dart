@@ -53,9 +53,8 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  }) {
+    double tolerance,
+  ) {
     final center = getBounds().center;
 
     final distance = center.distanceTo(point);
@@ -67,9 +66,8 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  }) {
+    PointsInPolygonMode mode,
+  ) {
     final center = getBounds().center;
     return doesCircleTouchPolygon(center, radius, vertices);
   }
@@ -97,7 +95,6 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
   void drawMultiplePoints(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     final center = getBounds().center;

@@ -10,7 +10,10 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     required super.representation,
     required super.color,
     required super.width,
+    required this.simulatePressure,
   });
+
+  final bool simulatePressure;
 
   factory SimpleLine.fromMap(Map<String, dynamic> map) {
     return SimpleLine(
@@ -19,6 +22,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
       representation: LineRepresentation.fromMap(map['representation']),
       color: Color(map['color']),
       width: map['width'],
+      simulatePressure: map['simulatePressure'],
     );
   }
 
@@ -59,7 +63,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     }
 
     final points = getOutlinePoints(
-      simulatePressure: false, // TODO: This is  hardcoded
+      simulatePressure: simulatePressure,
     );
 
     return getPointListBounds(points);
@@ -69,9 +73,8 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  }) {
+    double tolerance,
+  ) {
     final outlinePoints = getOutlinePoints(simulatePressure: simulatePressure);
 
     return doesCircleTouchPolygon(point, tolerance, outlinePoints);
@@ -81,9 +84,8 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  }) {
+    PointsInPolygonMode mode,
+  ) {
     final outLinePoints = getOutlinePoints(simulatePressure: simulatePressure);
 
     return isPolygonInsideOther(outLinePoints, vertices, mode);
@@ -112,7 +114,6 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
   void drawMultiplePoints(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     final path = getPath(simulatePressure: simulatePressure);
@@ -165,6 +166,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     LineRepresentation? representation,
     Color? color,
     double? width,
+    bool? simulatePressure,
   }) {
     return SimpleLine(
       id: id ?? this.id,
@@ -172,6 +174,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
       representation: representation ?? this.representation,
       color: color ?? this.color,
       width: width ?? this.width,
+      simulatePressure: simulatePressure ?? this.simulatePressure,
     );
   }
 
@@ -184,6 +187,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
       'representation': representation.toMap(),
       'color': color.value,
       'width': width,
+      'simulatePressure': simulatePressure,
     };
   }
 }

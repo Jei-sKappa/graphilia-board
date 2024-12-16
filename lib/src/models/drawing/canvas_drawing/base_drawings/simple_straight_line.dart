@@ -116,9 +116,8 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  }) {
+    double tolerance,
+  ) {
     final rectangleVertices = getCartesianPlaneBounds(includeRoundedEdges: false).vertices;
 
     // Check if the point is inside the rectangle
@@ -150,9 +149,8 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  }) {
+    PointsInPolygonMode mode,
+  ) {
     final rectangleVertices = getCartesianPlaneBounds(includeRoundedEdges: false).vertices;
 
     var isPolygonInside = isPolygonInsideOther(rectangleVertices, vertices, mode);
@@ -204,7 +202,6 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   void drawMultiplePoints(
     BoardState<T, BoardStateConfig> state,
     Canvas canvas, {
-    required bool simulatePressure,
     required bool isSelected,
   }) {
     final halfWidth = width / 2;

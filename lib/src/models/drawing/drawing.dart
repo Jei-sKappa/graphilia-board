@@ -59,16 +59,14 @@ abstract class Drawing<T> with EquatableMixin {
   bool isPointInside(
     BoardState<T, BoardStateConfig> state,
     Point point,
-    double tolerance, {
-    required bool simulatePressure,
-  });
+    double tolerance,
+  );
 
   bool isInsidePolygon(
     BoardState<T, BoardStateConfig> state,
     List<Point> vertices,
-    PointsInPolygonMode mode, {
-    required bool simulatePressure,
-  });
+    PointsInPolygonMode mode,
+  );
 
   Drawing<T>? update(BoardState<T, BoardStateConfig> state, Point newPoint);
 

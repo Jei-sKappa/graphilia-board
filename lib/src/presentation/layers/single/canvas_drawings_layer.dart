@@ -9,13 +9,11 @@ class CanvasDrawingsLayer<T> extends StatelessWidget {
     required this.drawings,
     required this.state,
     required this.areDrawingsSelected,
-    required this.simulatePressure,
   });
 
   final List<CanvasDrawing<T>> drawings;
   final BoardState<T, BoardStateConfig> state;
   final bool areDrawingsSelected;
-  final bool simulatePressure;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,6 @@ class CanvasDrawingsLayer<T> extends StatelessWidget {
       painter: CanvasDrawingPainter(
         drawings: drawings,
         state: state,
-        simulatePressure: simulatePressure,
         areDrawingsSelected: areDrawingsSelected,
       ),
     );
@@ -36,13 +33,11 @@ class CanvasDrawingPainter<T> extends CustomPainter {
   CanvasDrawingPainter({
     required this.drawings,
     required this.state,
-    required this.simulatePressure,
     required this.areDrawingsSelected,
   });
 
   final List<CanvasDrawing<T>> drawings;
   final BoardState<T, BoardStateConfig> state;
-  final bool simulatePressure;
   final bool areDrawingsSelected;
 
   @override
@@ -51,7 +46,6 @@ class CanvasDrawingPainter<T> extends CustomPainter {
       drawing.draw(
         state,
         canvas,
-        simulatePressure: simulatePressure,
         isSelected: areDrawingsSelected,
       );
     }

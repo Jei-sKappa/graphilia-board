@@ -178,7 +178,6 @@ class TapDrawingInteraction<T> extends BoardInteraction<T> {
       tapPoint,
       // TODO: Use Flutter's default tolerance for thumbs or mouse pointers (flutter/lib/gestures/constants.dart)
       tolerance: 10 / state.scaleFactor,
-      simulatePressure: config.simulatePressure,
     );
 
     BoardState<T, BoardStateConfig> stateCopy = state;
