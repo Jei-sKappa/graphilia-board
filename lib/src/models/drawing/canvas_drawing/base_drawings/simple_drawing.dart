@@ -23,4 +23,13 @@ abstract class SimpleDrawing<T, R extends DrawingRepresentation> extends Represe
   static Paint createSimplePaint(Color color) => Paint()
     ..style = PaintingStyle.fill
     ..color = color;
+
+  @override
+  SimpleDrawing<T, R> copyWith({
+    T? id,
+    int? zIndex,
+    R? representation,
+    Color? color,
+    double? width,
+  });
 }

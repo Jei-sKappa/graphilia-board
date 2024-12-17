@@ -106,6 +106,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
     );
   }
 
+  @override
   SimpleCircleDrawing<T> copyWith({
     T? id,
     int? zIndex,

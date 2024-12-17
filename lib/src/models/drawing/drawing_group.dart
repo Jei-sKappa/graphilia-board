@@ -105,6 +105,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
     };
   }
 
+  @override
   DrawingGroup<T> copyWith({
     T? id,
     int? zIndex,

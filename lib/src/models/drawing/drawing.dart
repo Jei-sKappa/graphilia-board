@@ -100,6 +100,11 @@ abstract class Drawing<T> with EquatableMixin {
     PointerEvent details,
   ) =>
       const EventResult.ignored();
+  
+  Drawing<T> copyWith({
+    T? id,
+    int? zIndex,
+  });
 
   /// Converts the drawing to a map.
   ///

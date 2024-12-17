@@ -247,6 +247,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
     );
   }
 
+  @override
   SimpleStraightLine<T> copyWith({
     T? id,
     int? zIndex,

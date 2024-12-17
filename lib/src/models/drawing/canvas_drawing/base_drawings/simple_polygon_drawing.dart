@@ -136,6 +136,7 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
         representation.endPoint,
       );
 
+  @override
   SimplePolygonDrawing<T> copyWith({
     T? id,
     int? zIndex,

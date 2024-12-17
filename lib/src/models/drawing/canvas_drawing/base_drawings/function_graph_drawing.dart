@@ -294,6 +294,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
     ];
   }
 
+  @override
   FunctionGraphDrawing<T> copyWith({
     T? id,
     int? zIndex,

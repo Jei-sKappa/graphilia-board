@@ -160,6 +160,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     }
   }
 
+  @override
   SimpleLine<T> copyWith({
     T? id,
     int? zIndex,
