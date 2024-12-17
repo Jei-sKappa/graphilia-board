@@ -13,9 +13,6 @@ abstract class RepresentableWidgetDrawing<T> extends WidgetDrawing<T> with Repre
   final AnchoredDrawingRepresentation representation;
 
   @override
-  Drawing<T> updateRepresentation(DrawingRepresentation value);
-
-  @override
   Rect getBounds() => Rect.fromPoints(
         representation.anchorPoint,
         representation.endPoint,

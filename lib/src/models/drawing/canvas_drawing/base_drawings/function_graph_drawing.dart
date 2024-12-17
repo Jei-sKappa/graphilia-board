@@ -35,9 +35,6 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
   @override
   ScaleFactorListener<T, BoardStateConfig> get stateListener => ScaleFactorListener<T, BoardStateConfig>();
 
-  @override
-  FunctionGraphDrawing<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);
-
   double unitMultiplier(num value) => value * unit;
 
   double unitDivider(num value) => value / unit;

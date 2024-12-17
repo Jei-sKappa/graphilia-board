@@ -13,7 +13,4 @@ abstract class RepresentableCanvasDrawing<T, R extends DrawingRepresentation> ex
 
   @override
   List<Object?> get props => [...super.props, representation];
-
-  @override
-  Drawing<T> updateRepresentation(DrawingRepresentation value);
 }

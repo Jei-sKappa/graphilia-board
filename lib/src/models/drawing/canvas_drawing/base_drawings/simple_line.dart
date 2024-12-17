@@ -26,9 +26,6 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     );
   }
 
-  @override
-  SimpleLine<T> updateRepresentation(LineRepresentation value) => copyWith(representation: value);
-
   // Cache used to store the outline points of the line
   List<Point>? _outlinePointsCache;
 

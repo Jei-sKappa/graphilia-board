@@ -33,9 +33,6 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
   List<Object?> get props => [...super.props, polygonTemplate];
 
   @override
-  SimplePolygonDrawing<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);
-
-  @override
   Rect getBounds() {
     // Check if the polygon representation has only one point
     if (representation.isInitializedOnlyOnePoint()) return Rect.zero;

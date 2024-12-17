@@ -7,8 +7,6 @@ import 'package:graphilia_board/src/presentation/state/state.dart';
 mixin RepresentableDrawingMixin<T> on Drawing<T> {
   DrawingRepresentation get representation;
 
-  Drawing<T> updateRepresentation(covariant DrawingRepresentation value);
-
   @override
   Drawing<T>? update(
     BoardState<T, BoardStateConfig> state,
@@ -21,12 +19,13 @@ mixin RepresentableDrawingMixin<T> on Drawing<T> {
     if (!shouldUpdate) return null;
 
     final r = representation.setNewPoint(state, newPoint);
-    return updateRepresentation(r);
+
+    return copyWith(representation: r);
   }
 
   @override
-  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset) => updateRepresentation(
-        representation.move(state, offset),
+  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset) => copyWith(
+        representation: representation.move(state, offset),
       );
 
   @override
@@ -36,7 +35,14 @@ mixin RepresentableDrawingMixin<T> on Drawing<T> {
     ResizeAnchor anchor,
     Offset delta,
   ) =>
-      updateRepresentation(
-        representation.resize(state, resizeRect, anchor, delta),
+      copyWith(
+        representation: representation.resize(state, resizeRect, anchor, delta),
       );
+
+  @override
+  RepresentableDrawingMixin<T> copyWith({
+    T? id,
+    int? zIndex,
+    covariant DrawingRepresentation? representation,
+  });
 }

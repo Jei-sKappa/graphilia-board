@@ -26,9 +26,6 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
   double get radius => diameter / 2;
 
   @override
-  SimpleCircleDrawing<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);
-
-  @override
   Rect getBounds() {
     if (representation.isInitializedOnlyOnePoint()) {
       return Rect.zero;

@@ -30,9 +30,6 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   static double snapThreshold = kDefaultSnapTreshold;
 
   @override
-  SimpleStraightLine<T> updateRepresentation(AnchoredDrawingRepresentation value) => copyWith(representation: value);
-
-  @override
   Rect getBounds() {
     final bounds = getCartesianPlaneBounds(includeRoundedEdges: true);
     final left = min(bounds.topLeft.dx, bounds.bottomLeft.dx);
