@@ -2,15 +2,13 @@ import 'dart:ui';
 
 import 'package:graphilia_board/graphilia_board.dart';
 
-class HighlighterLineTool<T> extends SimpleDrawingTool<T> {
+class HighlighterLineTool<T> extends SimpleLineTool<T> {
   HighlighterLineTool({
     required Color color,
     required super.width,
     super.shouldScale,
-    this.simulatePressure = false,
+    super.simulatePressure,
   }) : super(color: color.withOpacity(highlighterOpactity));
-
-  final bool simulatePressure;
 
   @override
   HighlighterLine<T> createDrawing(

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:graphilia_board/graphilia_board.dart';
 
-class HighlighterStraightLineTool<T> extends SimpleDrawingTool<T> {
+class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
   HighlighterStraightLineTool({
     required Color color,
     required super.width,

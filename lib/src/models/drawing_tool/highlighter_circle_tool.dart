@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:graphilia_board/graphilia_board.dart';
 
-class HighlighterCircleDrawingTool<T> extends SimpleDrawingTool<T> {
+class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
   HighlighterCircleDrawingTool({
     required Color color,
     required super.width,
