@@ -1,10 +1,11 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/src/models/models.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
-class SimpleLineTool<T> extends SimpleDrawingTool<T> {
+class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
   const SimpleLineTool({
     required super.color,
     required super.width,
@@ -13,6 +14,9 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> {
   });
 
   final bool simulatePressure;
+
+  @override
+  List<Object?> get props => [...super.props, simulatePressure];
 
   @override
   SimpleLine<T> createDrawing(
