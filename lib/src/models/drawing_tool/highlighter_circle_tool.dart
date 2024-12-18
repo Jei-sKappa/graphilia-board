@@ -24,4 +24,17 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
       width: getScaledWidthIfNecessary(state),
     );
   }
+
+  @override
+  HighlighterCircleDrawingTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+  }) {
+    return HighlighterCircleDrawingTool(
+      color: color ?? this.color,
+      width: width ?? this.width,
+      shouldScale: shouldScale ?? this.shouldScale,
+    );
+  }
 }

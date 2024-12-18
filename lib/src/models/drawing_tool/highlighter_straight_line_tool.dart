@@ -24,4 +24,17 @@ class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
       width: getScaledWidthIfNecessary(state),
     );
   }
+
+  @override
+  HighlighterStraightLineTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+  }) {
+    return HighlighterStraightLineTool(
+      color: color ?? this.color,
+      width: width ?? this.width,
+      shouldScale: shouldScale ?? this.shouldScale,
+    );
+  }
 }

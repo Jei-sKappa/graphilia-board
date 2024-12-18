@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:graphilia_board/src/models/models.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
@@ -26,6 +28,21 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> {
       color: color,
       width: getScaledWidthIfNecessary(state),
       simulatePressure: simulatePressure,
+    );
+  }
+
+  @override
+  SimpleLineTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+    bool? simulatePressure,
+  }) {
+    return SimpleLineTool(
+      color: color ?? super.color,
+      width: width ?? super.width,
+      shouldScale: shouldScale ?? super.shouldScale,
+      simulatePressure: simulatePressure ?? this.simulatePressure,
     );
   }
 }

@@ -36,6 +36,12 @@ abstract class SimpleDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
       SimpleDrawing.createSimplePaint(color),
     );
   }
+
+  SimpleDrawingTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+  });
 }
 
 extension CalculateScaledWidthIfNecessary<T> on SimpleDrawingTool<T> {

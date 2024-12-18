@@ -26,4 +26,19 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
       polygonTemplate: polygonTemplate,
     );
   }
+
+  @override
+  HighlighterPolygonDrawingTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+    PolygonTemplate? polygonTemplate,
+  }) {
+    return HighlighterPolygonDrawingTool(
+      color: color ?? this.color,
+      width: width ?? this.width,
+      shouldScale: shouldScale ?? this.shouldScale,
+      polygonTemplate: polygonTemplate ?? this.polygonTemplate,
+    );
+  }
 }

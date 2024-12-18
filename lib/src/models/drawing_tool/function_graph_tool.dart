@@ -60,4 +60,14 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
         representation: AnchoredDrawingRepresentation.initial(firstPoint),
         expression: expression,
       );
+  
+  @override
+  FunctionGraphDrawingTool<T> copyWith({
+    Expression? expression,
+    bool? shouldScale,
+  }) =>
+      FunctionGraphDrawingTool(
+        expression: expression ?? this.expression,
+        shouldScale: shouldScale ?? this.shouldScale,
+      );
 }

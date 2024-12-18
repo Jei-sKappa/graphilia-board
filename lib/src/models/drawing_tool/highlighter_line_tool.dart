@@ -26,4 +26,19 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
       simulatePressure: simulatePressure,
     );
   }
+
+  @override
+  HighlighterLineTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+    bool? simulatePressure,
+  }) {
+    return HighlighterLineTool(
+      color: color ?? this.color,
+      width: width ?? this.width,
+      shouldScale: shouldScale ?? this.shouldScale,
+      simulatePressure: simulatePressure ?? this.simulatePressure,
+    );
+  }
 }

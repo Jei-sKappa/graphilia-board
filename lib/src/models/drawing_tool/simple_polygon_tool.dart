@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 
@@ -28,6 +30,21 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
       color: color,
       width: getScaledWidthIfNecessary(state),
       polygonTemplate: polygonTemplate,
+    );
+  }
+
+  @override
+  SimplePolygonDrawingTool<T> copyWith({
+    Color? color,
+    double? width,
+    bool? shouldScale,
+    PolygonTemplate? polygonTemplate,
+  }) {
+    return SimplePolygonDrawingTool(
+      color: color ?? super.color,
+      width: width ?? super.width,
+      shouldScale: shouldScale ?? super.shouldScale,
+      polygonTemplate: polygonTemplate ?? this.polygonTemplate,
     );
   }
 }

@@ -28,4 +28,6 @@ abstract class DrawingTool<T> {
     Point point,
     BoardState<T, BoardStateConfig> state,
   );
+
+  DrawingTool<T> copyWith();
 }
