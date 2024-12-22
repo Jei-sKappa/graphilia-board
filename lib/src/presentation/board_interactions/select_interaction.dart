@@ -23,9 +23,11 @@ class _SelectingState {
 class SelectInteraction<T> extends BoardInteraction<T> {
   SelectInteraction({
     this.selectionLineSimplificationTolerance = 2.0,
+    this.enableRectangularSelection = false,
   }) : _interactionState = _SelectingState();
 
   final double selectionLineSimplificationTolerance;
+  final bool enableRectangularSelection;
 
   final _SelectingState _interactionState;
 
@@ -340,7 +342,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
       selectionRect: _interactionState.selectionRect!,
       selectedDrawingsBounds: bounds,
       selectedDrawings: selectedDrawings,
-      displayRectangularSelection: config.autoToggleRectangularSelectionOnSelectionEnd,
+      displayRectangularSelection: enableRectangularSelection,
     );
   }
 

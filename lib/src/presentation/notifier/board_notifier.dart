@@ -169,6 +169,15 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
     );
   }
 
+  void setDisplayRectangularSelection(bool enabled) {
+    if (value is! SelectedState<T, C>) return;
+
+    final state = value as SelectedState<T, C>;
+    temporaryValue = state.copyWith(
+      displayRectangularSelection: enabled,
+    );
+  }
+
   /// Sets the simplification degree for the sketch in logical pixels.
   ///
   /// 0 means no simplification, 1px is a good starting point for most sketches.

@@ -27,7 +27,6 @@ class BoardStateConfig<T> with EquatableMixin {
     this.shouldScaleEraserWidth = true,
     // Selecting
     this.selectionMode = PointsInPolygonMode.partial,
-    this.autoToggleRectangularSelectionOnSelectionEnd = false,
     this.shouldMoveSelectedDrawingsOnTop = false,
   })  : zIndexManager = zIndexManager ?? ZIndexManager(),
         idGenerator = idGenerator ?? _generateUnsecureDrawingIdFromState;
@@ -108,10 +107,6 @@ class BoardStateConfig<T> with EquatableMixin {
   /// Defaults to [PointsInPolygonMode.partial].
   final PointsInPolygonMode selectionMode;
 
-  /// Whether to automatically toggle the resize mode when the user stops
-  /// selecting drawings.
-  final bool autoToggleRectangularSelectionOnSelectionEnd;
-
   /// Whether to move the selected drawings to the top of the sketch when they
   /// are selected.
   final bool shouldMoveSelectedDrawingsOnTop;
@@ -132,7 +127,6 @@ class BoardStateConfig<T> with EquatableMixin {
         initialEraserWidth,
         shouldScaleEraserWidth,
         selectionMode,
-        autoToggleRectangularSelectionOnSelectionEnd,
         shouldMoveSelectedDrawingsOnTop,
       ];
 
@@ -174,7 +168,6 @@ class BoardStateConfig<T> with EquatableMixin {
       initialEraserWidth: initialEraserWidth ?? this.initialEraserWidth,
       shouldScaleEraserWidth: shouldScaleEraserWidth ?? this.shouldScaleEraserWidth,
       selectionMode: selectionMode ?? this.selectionMode,
-      autoToggleRectangularSelectionOnSelectionEnd: autoToggleRectangularSelectionOnSelectionEnd ?? this.autoToggleRectangularSelectionOnSelectionEnd,
       shouldMoveSelectedDrawingsOnTop: shouldMoveSelectedDrawingsOnTop ?? this.shouldMoveSelectedDrawingsOnTop,
     );
   }
