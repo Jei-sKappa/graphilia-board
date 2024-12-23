@@ -12,6 +12,13 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
     this.shouldScale = true,
   });
 
+  factory FunctionGraphDrawingTool.fromMap(Map<String, dynamic> map) {
+    return FunctionGraphDrawingTool(
+      expression: Parser().parse(map['expression']),
+      shouldScale: map['shouldScale'],
+    );
+  }
+
   final Expression expression;
 
   /// Whether the drawing should be scaled based on the zoom level.
@@ -70,4 +77,13 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
         expression: expression ?? this.expression,
         shouldScale: shouldScale ?? this.shouldScale,
       );
+  
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'function_graph_tool',
+      'expression': expression.toString(),
+      'shouldScale': shouldScale,
+    };
+  }
 }

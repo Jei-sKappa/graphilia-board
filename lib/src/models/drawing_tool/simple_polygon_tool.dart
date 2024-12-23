@@ -11,6 +11,15 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
     required this.polygonTemplate,
   });
 
+  factory SimplePolygonDrawingTool.fromMap(Map<String, dynamic> map) {
+    return SimplePolygonDrawingTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+      polygonTemplate: PolygonTemplate.fromJson(map['polygonTemplate']),
+    );
+  }
+
   final PolygonTemplate polygonTemplate;
 
   @override
@@ -46,5 +55,16 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
       shouldScale: shouldScale ?? super.shouldScale,
       polygonTemplate: polygonTemplate ?? this.polygonTemplate,
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'simple_polygon_tool',
+      'color': super.color.value,
+      'width': super.width,
+      'shouldScale': super.shouldScale,
+      'polygonTemplate': polygonTemplate.toJson(),
+    };
   }
 }

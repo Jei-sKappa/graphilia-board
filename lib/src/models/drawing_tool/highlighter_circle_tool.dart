@@ -9,6 +9,14 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
     super.shouldScale,
   }) : super(color: color.withOpacity(highlighterOpactity));
 
+  factory HighlighterCircleDrawingTool.fromMap(Map<String, dynamic> map) {
+    return HighlighterCircleDrawingTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+    );
+  }
+
   @override
   HighlighterCircleDrawing<T> createDrawing(
     Point firstPoint,
@@ -36,5 +44,15 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
       width: width ?? this.width,
       shouldScale: shouldScale ?? this.shouldScale,
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'highlighter_circle_tool',
+      'color': color.value,
+      'width': width,
+      'shouldScale': shouldScale,
+    };
   }
 }

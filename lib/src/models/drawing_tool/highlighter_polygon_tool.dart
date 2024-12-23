@@ -10,6 +10,15 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
     required super.polygonTemplate,
   }) : super(color: color.withOpacity(highlighterOpactity));
 
+  factory HighlighterPolygonDrawingTool.fromMap(Map<String, dynamic> map) {
+    return HighlighterPolygonDrawingTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+      polygonTemplate: PolygonTemplate.fromJson(map['polygonTemplate']),
+    );
+  }
+
   @override
   HighlighterPolygonDrawing<T> createDrawing(
     Point firstPoint,
@@ -40,5 +49,16 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
       shouldScale: shouldScale ?? this.shouldScale,
       polygonTemplate: polygonTemplate ?? this.polygonTemplate,
     );
+  }
+
+    @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'highlighter_polygon_tool',
+      'color': color.value,
+      'width': width,
+      'shouldScale': shouldScale,
+      'polygonTemplate': polygonTemplate.toJson(),
+    };
   }
 }

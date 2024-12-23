@@ -13,6 +13,15 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
     this.simulatePressure = false,
   });
 
+  factory SimpleLineTool.fromMap(Map<String, dynamic> map) {
+    return SimpleLineTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+      simulatePressure: map['simulatePressure'],
+    );
+  }
+
   final bool simulatePressure;
 
   @override
@@ -48,5 +57,16 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
       shouldScale: shouldScale ?? super.shouldScale,
       simulatePressure: simulatePressure ?? this.simulatePressure,
     );
+  }
+
+    @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'simple_line_tool',
+      'color': color.value,
+      'width': width,
+      'shouldScale': shouldScale,
+      'simulatePressure': simulatePressure,
+    };
   }
 }

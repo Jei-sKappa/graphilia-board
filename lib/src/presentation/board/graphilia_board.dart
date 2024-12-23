@@ -20,8 +20,6 @@ class GraphiliaBoard<T> extends StatefulWidget {
     /// The notifier that controls this canvas.
     required this.notifier,
     required this.interactionController,
-    this.drawingFactories,
-    this.drawingRepresentationFactories,
     super.key,
   });
 
@@ -30,12 +28,55 @@ class GraphiliaBoard<T> extends StatefulWidget {
 
   final InteractionControllerBase<T> interactionController;
 
-  final Map<String, DrawingFactory>? drawingFactories;
-
-  final Map<String, DrawingRepresentationFactory>? drawingRepresentationFactories;
-
   @override
   State<GraphiliaBoard<T>> createState() => _GraphiliaBoardState<T>();
+
+  // Helper methods
+  static void registerFactories<T>({
+    Map<String, DrawingToolFactory<T>>? drawingToolFactories,
+    Map<String, DrawingFactory>? drawingFactories,
+    Map<String, DrawingRepresentationFactory>? drawingRepresentationFactories,
+  }) {
+    _registerDrawingToolFactories<T>(
+      drawingToolFactories: drawingToolFactories,
+    );
+    _registerDrawingFactories(
+      drawingFactories: drawingFactories,
+    );
+    _registerDrawingRepresentationFactories(
+      drawingRepresentationFactories: drawingRepresentationFactories,
+    );
+  }
+
+  static void _registerDrawingToolFactories<T>({
+    Map<String, DrawingToolFactory<T>>? drawingToolFactories,
+  }) {
+    final fixedDrawingToolFactories = drawingToolFactories ?? getBaseDrawingToolFactories<T>();
+
+    for (final entry in fixedDrawingToolFactories.entries) {
+      DrawingTool.registerFactory(entry.key, entry.value);
+    }
+  }
+
+  static void _registerDrawingFactories({
+    Map<String, DrawingFactory>? drawingFactories,
+  }) {
+    final fixedDrawingFactories = drawingFactories ?? baseDrawingFactories;
+
+    for (final entry in fixedDrawingFactories.entries) {
+      Drawing.registerFactory(entry.key, entry.value);
+    }
+  }
+
+  static void _registerDrawingRepresentationFactories({
+    Map<String, DrawingRepresentationFactory>? drawingRepresentationFactories,
+  }) {
+    final fixedDrawingRepresentationFactories = drawingRepresentationFactories ?? baseDrawingRepresentationFactories;
+
+    for (final entry in fixedDrawingRepresentationFactories.entries) {
+      DrawingRepresentation.registerFactory(entry.key, entry.value);
+    }
+  }
 }
 
 class _GraphiliaBoardState<T> extends State<GraphiliaBoard<T>> {
@@ -43,8 +84,6 @@ class _GraphiliaBoardState<T> extends State<GraphiliaBoard<T>> {
 
   @override
   void initState() {
-    registerDrawingFactories();
-    registerDrawingRepresentationFactories();
     widget.interactionController.graphiliaBoardInteractionsNotifier.where((previous, next) => !(const DeepCollectionEquality().equals(previous, next))).addListener(interactionsChangedListener);
     super.initState();
   }
@@ -53,22 +92,6 @@ class _GraphiliaBoardState<T> extends State<GraphiliaBoard<T>> {
   void dispose() {
     widget.interactionController.graphiliaBoardInteractionsNotifier.removeListener(interactionsChangedListener);
     super.dispose();
-  }
-
-  void registerDrawingFactories() {
-    final drawingFactories = widget.drawingFactories ?? baseDrawingFactories;
-
-    for (final entry in drawingFactories.entries) {
-      Drawing.registerFactory(entry.key, entry.value);
-    }
-  }
-
-  void registerDrawingRepresentationFactories() {
-    final drawingRepresentationFactories = widget.drawingRepresentationFactories ?? baseDrawingRepresentationFactories;
-
-    for (final entry in drawingRepresentationFactories.entries) {
-      DrawingRepresentation.registerFactory(entry.key, entry.value);
-    }
   }
 
   void interactionsChangedListener() {

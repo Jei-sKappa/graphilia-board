@@ -9,6 +9,14 @@ class SimpleStraightLineTool<T> extends SimpleDrawingTool<T> {
     super.shouldScale,
   });
 
+  factory SimpleStraightLineTool.fromMap(Map<String, dynamic> map) {
+    return SimpleStraightLineTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+    );
+  }
+
   @override
   SimpleStraightLine<T> createDrawing(
     Point firstPoint,
@@ -36,5 +44,15 @@ class SimpleStraightLineTool<T> extends SimpleDrawingTool<T> {
       width: width ?? super.width,
       shouldScale: shouldScale ?? super.shouldScale,
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'simple_straight_line_tool',
+      'color': super.color.value,
+      'width': super.width,
+      'shouldScale': super.shouldScale,
+    };
   }
 }

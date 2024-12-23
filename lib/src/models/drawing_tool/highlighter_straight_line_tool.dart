@@ -9,6 +9,14 @@ class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
     super.shouldScale,
   }) : super(color: color.withOpacity(highlighterOpactity));
 
+  factory HighlighterStraightLineTool.fromMap(Map<String, dynamic> map) {
+    return HighlighterStraightLineTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+    );
+  }
+
   @override
   HighlighterStraightLine<T> createDrawing(
     Point firstPoint,
@@ -36,5 +44,15 @@ class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
       width: width ?? this.width,
       shouldScale: shouldScale ?? this.shouldScale,
     );
+  }
+
+    @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'highlighter_straight_line_tool',
+      'color': color.value,
+      'width': width,
+      'shouldScale': shouldScale,
+    };
   }
 }

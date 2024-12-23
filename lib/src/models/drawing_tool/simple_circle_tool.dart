@@ -9,6 +9,14 @@ class SimpleCircleDrawingTool<T> extends SimpleDrawingTool<T> {
     super.shouldScale,
   });
 
+  factory SimpleCircleDrawingTool.fromMap(Map<String, dynamic> map) {
+    return SimpleCircleDrawingTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+    );
+  }
+
   @override
   SimpleCircleDrawing<T> createDrawing(
     Point firstPoint,
@@ -36,5 +44,15 @@ class SimpleCircleDrawingTool<T> extends SimpleDrawingTool<T> {
       width: width ?? super.width,
       shouldScale: shouldScale ?? super.shouldScale,
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'simple_circle_tool',
+      'color': super.color.value,
+      'width': super.width,
+      'shouldScale': super.shouldScale,
+    };
   }
 }

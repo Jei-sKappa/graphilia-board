@@ -10,6 +10,15 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
     super.simulatePressure,
   }) : super(color: color.withOpacity(highlighterOpactity));
 
+  factory HighlighterLineTool.fromMap(Map<String, dynamic> map) {
+    return HighlighterLineTool(
+      color: Color(map['color']),
+      width: map['width'],
+      shouldScale: map['shouldScale'],
+      simulatePressure: map['simulatePressure'],
+    );
+  }
+
   @override
   HighlighterLine<T> createDrawing(
     Point firstPoint,
@@ -40,5 +49,16 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
       shouldScale: shouldScale ?? this.shouldScale,
       simulatePressure: simulatePressure ?? this.simulatePressure,
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'type': 'highlighter_line_tool',
+      'color': color.value,
+      'width': width,
+      'shouldScale': shouldScale,
+      'simulatePressure': simulatePressure,
+    };
   }
 }

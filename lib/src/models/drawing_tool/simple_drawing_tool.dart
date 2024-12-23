@@ -37,6 +37,7 @@ abstract class SimpleDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
     );
   }
 
+  @override
   SimpleDrawingTool<T> copyWith({
     Color? color,
     double? width,
