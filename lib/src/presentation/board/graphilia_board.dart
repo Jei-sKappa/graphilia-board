@@ -211,10 +211,13 @@ class _Board<T> extends StatelessWidget {
           color: Colors.transparent,
           child: ConstrainedBox(
             constraints: const BoxConstraints.expand(),
-            child: ClipRect(
-              child: RootLayerGroup(
-                notifier: notifier,
-                interactionController: interactionController,
+            child: RepaintBoundary(
+              key: notifier.repaintBoundaryKey,
+              child: ClipRect(
+                child: RootLayerGroup(
+                  notifier: notifier,
+                  interactionController: interactionController,
+                ),
               ),
             ),
           ),

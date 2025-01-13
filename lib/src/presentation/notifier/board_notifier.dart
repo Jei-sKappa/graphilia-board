@@ -1,5 +1,8 @@
-import 'package:flutter/gestures.dart';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
@@ -22,6 +25,8 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
     maxHistoryLength = config.maxHistoryLength;
   }
 
+  final GlobalKey _repaintBoundaryKey = GlobalKey();
+
   // TODO: This shoul be final
   BoardStateConfig<T> _config;
 
@@ -32,6 +37,8 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
   ///
   /// Null after the operation was completed.
   bool? _hasTriggeredUndo;
+
+  GlobalKey get repaintBoundaryKey => _repaintBoundaryKey;
 
   BoardStateConfig<T> get config => _config;
 
@@ -103,6 +110,23 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
   /// Clear the entire drawing.
   void clear() {
     value = value.clear();
+  }
+
+  Future<ByteData> renderImage({
+    double pixelRatio = 1.0,
+    ImageByteFormat format = ImageByteFormat.png,
+  }) async {
+    final renderObject = repaintBoundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (renderObject == null) {
+      throw StateError(
+        'Tried to convert GraphiliaBoard to Image, but no valid RenderObject '
+        'was found!',
+      );
+    }
+
+    final img = await renderObject.toImage(pixelRatio: pixelRatio);
+
+    return (await img.toByteData(format: format))!;
   }
 
   /// Sets the current mode of allowed pointers to the given
