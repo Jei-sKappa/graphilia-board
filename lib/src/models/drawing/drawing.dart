@@ -10,7 +10,7 @@ export 'connectable_drawing_mixin.dart';
 export 'drawing_group.dart';
 export 'representable_drawing_mixin.dart';
 
-typedef DrawingFactory = Drawing Function(Map<String, dynamic>);
+typedef DrawingFactory<T> = Drawing<T> Function(Map<String, dynamic>);
 
 abstract class Drawing<T> with EquatableMixin {
   const Drawing({
@@ -19,9 +19,15 @@ abstract class Drawing<T> with EquatableMixin {
   });
 
   factory Drawing.fromMap(Map<String, dynamic> map) {
+    final factories = Drawing._factoriesOfExactType[T];
+    if (factories == null) {
+      throw ArgumentError('No factories registered for type $T');
+    }
+
     final type = map['type'];
-    if (_factories.containsKey(type)) {
-      final constructed = _factories[type]!(map);
+
+    if (factories.containsKey(type)) {
+      final constructed = factories[type]!(map);
       if (constructed is Drawing<T>) {
         return constructed;
       } else {
@@ -33,11 +39,15 @@ abstract class Drawing<T> with EquatableMixin {
   }
 
   // Factory registration map.
-  static final Map<String, DrawingFactory> _factories = {};
+  static final Map<Type, Map<String, DrawingFactory>> _factoriesOfExactType = {};
 
   // Register factory method.
-  static void registerFactory(String type, DrawingFactory factory) {
-    Drawing._factories[type] = factory;
+  static void registerFactory<T>(String type, DrawingFactory<T> factory) {
+    // TODO: Add a explaination for this assert: This is likely to be caused by calling "GraphiliaBoard.registerDrawingFactories()" with no parameters and no type parameters. This can be fixed by calling "GraphiliaBoard.registerDrawingFactories<MyType>()" instead.
+    assert(T != dynamic);
+
+    Drawing._factoriesOfExactType[T] ??= {};
+    Drawing._factoriesOfExactType[T]![type] = factory;
   }
 
   // TODO: Add lockAspectRatio on resize property to Drawing
@@ -100,7 +110,7 @@ abstract class Drawing<T> with EquatableMixin {
     PointerEvent details,
   ) =>
       const EventResult.ignored();
-  
+
   Drawing<T> copyWith({
     T? id,
     int? zIndex,

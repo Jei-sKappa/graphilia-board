@@ -34,13 +34,13 @@ class GraphiliaBoard<T> extends StatefulWidget {
   // Helper methods
   static void registerFactories<T>({
     Map<String, DrawingToolFactory<T>>? drawingToolFactories,
-    Map<String, DrawingFactory>? drawingFactories,
+    Map<String, DrawingFactory<T>>? drawingFactories,
     Map<String, DrawingRepresentationFactory>? drawingRepresentationFactories,
   }) {
     _registerDrawingToolFactories<T>(
       drawingToolFactories: drawingToolFactories,
     );
-    _registerDrawingFactories(
+    _registerDrawingFactories<T>(
       drawingFactories: drawingFactories,
     );
     _registerDrawingRepresentationFactories(
@@ -58,10 +58,10 @@ class GraphiliaBoard<T> extends StatefulWidget {
     }
   }
 
-  static void _registerDrawingFactories({
-    Map<String, DrawingFactory>? drawingFactories,
+  static void _registerDrawingFactories<T>({
+    Map<String, DrawingFactory<T>>? drawingFactories,
   }) {
-    final fixedDrawingFactories = drawingFactories ?? baseDrawingFactories;
+    final fixedDrawingFactories = drawingFactories ?? getBaseDrawingFactories<T>();
 
     for (final entry in fixedDrawingFactories.entries) {
       Drawing.registerFactory(entry.key, entry.value);
