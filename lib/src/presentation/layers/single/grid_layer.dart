@@ -6,11 +6,13 @@ import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
+const _kGridSpacing = 25.0;
+
 class GridLayer<T> extends StatelessWidget {
   const GridLayer({
     super.key,
     required this.notifier,
-    this.spacing = 25,
+    this.spacing = _kGridSpacing,
   });
 
   final BoardNotifier<T, BoardStateConfig> notifier;
@@ -34,14 +36,36 @@ class GridLayer<T> extends StatelessWidget {
         },
       ),
       builder: (context, state, _) {
-        return CustomPaint(
-          painter: GridPainter(
-            originOffset: state.originOffset,
-            scaleFactor: state.scaleFactor,
-            spacing: spacing,
-          ),
+        return StaticGridLayer(
+          originOffset: state.originOffset,
+          scaleFactor: state.scaleFactor,
+          spacing: spacing,
         );
       },
+    );
+  }
+}
+
+class StaticGridLayer extends StatelessWidget {
+  const StaticGridLayer({
+    this.originOffset = Offset.zero,
+    this.scaleFactor = 1.0,
+    this.spacing = _kGridSpacing,
+    super.key,
+  });
+
+  final Offset originOffset;
+  final double scaleFactor;
+  final double spacing;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: GridPainter(
+        originOffset: originOffset,
+        scaleFactor: scaleFactor,
+        spacing: spacing,
+      ),
     );
   }
 }
@@ -52,7 +76,7 @@ class GridPainter extends CustomPainter {
   GridPainter({
     required this.originOffset,
     required this.scaleFactor,
-    required this.spacing,
+    this.spacing = _kGridSpacing,
   });
 
   final Offset originOffset;
@@ -104,16 +128,6 @@ class GridPainter extends CustomPainter {
         gridPaint,
       );
     }
-
-    // Draw a circle on the origin point.
-    canvas.drawCircle(
-      -originOffset * scaleFactor,
-      4.0,
-      Paint()
-        ..color = Colors.blueGrey.shade600
-        ..strokeWidth = 1.0
-        ..style = PaintingStyle.fill,
-    );
   }
 
   @override
