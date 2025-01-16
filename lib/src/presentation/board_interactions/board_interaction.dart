@@ -1,8 +1,4 @@
-import 'package:flutter/widgets.dart';
 import 'package:graphilia_board/graphilia_board.dart';
-
-// TODO: This should go in a separate file/packagea
-typedef CanvasPaintCallback = void Function(Canvas);
 
 abstract class BoardInteraction<T> {
   const BoardInteraction();

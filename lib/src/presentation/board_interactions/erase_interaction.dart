@@ -48,7 +48,7 @@ class EraseInteraction<T> extends BoardInteraction<T> {
     CanvasPaintCallback canvasPaintCallback,
   ) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
-    _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
+    _interactionState.interactionFeedback = CanvasInteractionFeedback(canvasPaintCallback);
 
     final updatedInteractionFeedbacks = [
       ...state.interactionFeedbacks.where((e) => e != previousInteractionFeedback),

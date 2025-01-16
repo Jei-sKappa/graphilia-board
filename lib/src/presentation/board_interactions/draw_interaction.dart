@@ -75,10 +75,10 @@ class DrawInteraction<T> extends BoardInteraction<T> {
 
   BoardState<T, BoardStateConfig> _setInteractionFeedback(
     BoardState<T, BoardStateConfig> state,
-    CanvasPaintCallback canvasPaintCallback,
+    InteractionFeedback interactionFeedback,
   ) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
-    _interactionState.interactionFeedback = InteractionFeedback(canvasPaintCallback);
+    _interactionState.interactionFeedback = interactionFeedback;
 
     final updatedInteractionFeedbacks = [
       ...state.interactionFeedbacks.where((e) => e != previousInteractionFeedback),
@@ -108,13 +108,26 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     }
   }
 
-  void _drawActiveDrawing(Canvas canvas, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
+  InteractionFeedback? _createActiveInteractionFeedback(BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (_interactionState.activeDrawing is CanvasDrawing) {
-      (_interactionState.activeDrawing! as CanvasDrawing).draw(
-        state,
-        canvas,
-        isSelected: false,
+      return CanvasInteractionFeedback(
+        (canvas) => (_interactionState.activeDrawing as CanvasDrawing).draw(
+          state,
+          canvas,
+          isSelected: false,
+        ),
       );
+    } else if (_interactionState.activeDrawing is WidgetDrawing) {
+      final widgetDrawing = _interactionState.activeDrawing as WidgetDrawing;
+      return WidgetInteractionFeedback(
+        (context) => Positioned.fromRect(
+          rect: widgetDrawing.getBounds(),
+          child: widgetDrawing.build(context, state, isSelected: false),
+        ),
+      );
+    } else {
+      // TODO: Add a log / Think about how to handle this case (in every case rember that here the activeDrawing can be another type but also null)
+      return null;
     }
   }
 
@@ -153,7 +166,12 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         var updatedState = _removeMouseCursor(state);
 
         // Update the interaction feedback
-        updatedState = _setInteractionFeedback(updatedState, (canvas) => _drawPointer(canvas, updatedState, notifier.config));
+        updatedState = _setInteractionFeedback(
+          updatedState,
+          CanvasInteractionFeedback(
+            (canvas) => _drawPointer(canvas, updatedState, notifier.config),
+          ),
+        );
 
         notifier.setBoardState(
           state: updatedState,
@@ -186,7 +204,10 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         _setActiveDrawing(drawing);
 
         // Update the interaction feedback
-        final updatedState = _setInteractionFeedback(state, (canvas) => _drawActiveDrawing(canvas, state, notifier.config));
+        final updatedState = _setInteractionFeedback(
+          state,
+          _createActiveInteractionFeedback(state, notifier.config)!,
+        );
 
         notifier.setBoardState(
           state: updatedState,
@@ -209,7 +230,10 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         _addPointToDrawing(point, state);
 
         // Update the interaction feedback
-        final updatedState = _setInteractionFeedback(state, (canvas) => _drawActiveDrawing(canvas, state, notifier.config));
+        final updatedState = _setInteractionFeedback(
+          state,
+          _createActiveInteractionFeedback(state, notifier.config)!,
+        );
 
         notifier.setBoardState(
           state: updatedState,
