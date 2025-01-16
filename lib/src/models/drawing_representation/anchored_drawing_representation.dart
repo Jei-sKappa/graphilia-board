@@ -10,14 +10,19 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
   });
 
   factory AnchoredDrawingRepresentation.fromMap(Map<String, dynamic> map) {
-    return AnchoredDrawingRepresentation(
-      anchorPoint: Point.fromMap(map['anchorPoint']),
-      endPoint: Point.fromMap(map['endPoint']),
-    );
-  }
+    final type = map['type'];
 
-  @override
-  List<Object?> get props => [anchorPoint, endPoint];
+    // This is used to support class extension
+    // TODO: Consider adding it to all classes DrawingRepresentation, DrawingTool and Drawing
+    if (type == null || type == mapKey) {
+      return AnchoredDrawingRepresentation(
+        anchorPoint: Point.fromMap(map['anchorPoint']),
+        endPoint: Point.fromMap(map['endPoint']),
+      );
+    }
+
+    return DrawingRepresentation.fromMap(map) as AnchoredDrawingRepresentation;
+  }
 
   const AnchoredDrawingRepresentation.initial(Point point)
       : anchorPoint = point,
@@ -30,6 +35,11 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
 
   final Point anchorPoint;
   final Point endPoint;
+
+  static const mapKey = 'anchored_drawing_representation';
+
+  @override
+  List<Object?> get props => [anchorPoint, endPoint];
 
   @override
   AnchoredDrawingRepresentation setFirstPoint(BoardState state, Point point) => copyWith(anchorPoint: point);
@@ -92,7 +102,7 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
 
   @override
   Map<String, dynamic> toMap() => {
-        'type': 'anchored_drawing_representation',
+        'type': mapKey,
         'anchorPoint': anchorPoint.toMap(),
         'endPoint': endPoint.toMap(),
       };
