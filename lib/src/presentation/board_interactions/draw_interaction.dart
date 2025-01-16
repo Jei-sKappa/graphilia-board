@@ -111,10 +111,9 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   InteractionFeedback? _createActiveInteractionFeedback(BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
     if (_interactionState.activeDrawing is CanvasDrawing) {
       return CanvasInteractionFeedback(
-        (canvas) => (_interactionState.activeDrawing as CanvasDrawing).draw(
+        (canvas) => (_interactionState.activeDrawing as CanvasDrawing).drawFeedback(
           state,
           canvas,
-          isSelected: false,
         ),
       );
     } else if (_interactionState.activeDrawing is WidgetDrawing) {
@@ -122,7 +121,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
       return WidgetInteractionFeedback(
         (context) => Positioned.fromRect(
           rect: widgetDrawing.getBounds(),
-          child: widgetDrawing.build(context, state, isSelected: false),
+          child: widgetDrawing.buildFeedback(context, state),
         ),
       );
     } else if (_interactionState.activeDrawing == null) {

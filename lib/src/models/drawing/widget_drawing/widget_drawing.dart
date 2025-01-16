@@ -45,4 +45,12 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
     BoardState<T, BoardStateConfig> state, {
     required bool isSelected,
   });
+
+  /// This method is called when the [Drawing] is being created for the first time.
+  /// 
+  /// See [DrawInteraction] and [InteractionFeedbackLayer] for more information.
+  Widget buildFeedback(
+    BuildContext context,
+    BoardState<T, BoardStateConfig> state,
+  ) => build(context, state, isSelected: false);
 }
