@@ -125,8 +125,10 @@ class DrawInteraction<T> extends BoardInteraction<T> {
           child: widgetDrawing.build(context, state, isSelected: false),
         ),
       );
+    } else if (_interactionState.activeDrawing == null) {
+      return null;
     } else {
-      // TODO: Add a log / Think about how to handle this case (in every case rember that here the activeDrawing can be another type but also null)
+      // TODO: Add a log / Think about how to handle this case
       return null;
     }
   }
@@ -204,15 +206,16 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         _setActiveDrawing(drawing);
 
         // Update the interaction feedback
-        final updatedState = _setInteractionFeedback(
-          state,
-          _createActiveInteractionFeedback(state, notifier.config)!,
-        );
+        final interactionFeedback = _createActiveInteractionFeedback(state, notifier.config);
+        if (interactionFeedback != null) {
+          final updatedState = _setInteractionFeedback(state, interactionFeedback);
 
-        notifier.setBoardState(
-          state: updatedState,
-          shouldAddToHistory: false,
-        );
+          notifier.setBoardState(
+            state: updatedState,
+            shouldAddToHistory: false,
+          );
+        }
+
         return true;
       };
 
@@ -230,15 +233,16 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         _addPointToDrawing(point, state);
 
         // Update the interaction feedback
-        final updatedState = _setInteractionFeedback(
-          state,
-          _createActiveInteractionFeedback(state, notifier.config)!,
-        );
+        final interactionFeedback = _createActiveInteractionFeedback(state, notifier.config);
+        if (interactionFeedback != null) {
+          final updatedState = _setInteractionFeedback(state, interactionFeedback);
 
-        notifier.setBoardState(
-          state: updatedState,
-          shouldAddToHistory: false,
-        );
+          notifier.setBoardState(
+            state: updatedState,
+            shouldAddToHistory: false,
+          );
+        }
+
         return true;
       };
 
