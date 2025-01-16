@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphilia_board/src/core/extensions/extensions.dart';
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/board/board.dart';
 import 'package:graphilia_board/src/presentation/layers/layers.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
@@ -71,11 +72,9 @@ class DrawingsLayerGroup<T> extends StatefulWidget {
   const DrawingsLayerGroup({
     super.key,
     required this.notifier,
-    required this.viewPortSize,
   });
 
   final BoardNotifier<T, BoardStateConfig> notifier;
-  final Size viewPortSize;
 
   @override
   State<DrawingsLayerGroup<T>> createState() => _DrawingsLayerGroupState<T>();
@@ -138,6 +137,8 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final viewPortSize = GraphiliaBoardDetails.of(context).boardSize;
+
     return ValueListenableBuilder(
       // Determine if the visible area is out of the bounds of
       // the prerendered area
@@ -168,8 +169,8 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
           if (areSelectedDrawingsIdsChanged) return true;
 
           // Get the current visible rect in the viewport
-          final scaledViewPortWidth = widget.viewPortSize.width / next.scaleFactor;
-          final scaledViewPortHeight = widget.viewPortSize.height / next.scaleFactor;
+          final scaledViewPortWidth = viewPortSize.width / next.scaleFactor;
+          final scaledViewPortHeight = viewPortSize.height / next.scaleFactor;
           final visibleRect = Rect.fromLTRB(
             next.originOffset.dx,
             next.originOffset.dy,
@@ -190,7 +191,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
         // Get the prerendered rect to optimize the drawings
         // rendering
         final prerenderedRect = _getPrerenderRect(
-          widget.viewPortSize,
+          viewPortSize,
           state,
         );
 

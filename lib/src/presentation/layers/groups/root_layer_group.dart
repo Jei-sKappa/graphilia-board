@@ -15,39 +15,29 @@ class RootLayerGroup<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final viewPortSize = Size(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        );
-
-        return Stack(
-          children: [
-            // Layers that don't need to be transformed
-            Positioned.fill(
-              child: RepaintBoundary(
-                child: GridLayer(
-                  notifier: notifier,
-                ),
-              ),
+    return Stack(
+      children: [
+        // Layers that don't need to be transformed
+        Positioned.fill(
+          child: RepaintBoundary(
+            child: GridLayer(
+              notifier: notifier,
             ),
-            Positioned.fill(
-              child: TransformedLayerGroup(
-                notifier: notifier,
-                interactionController: interactionController,
-                viewPortSize: viewPortSize,
-              ),
-            ),
-            Positioned.fill(
-              child: MouseRegionLayer(
-                notifier: notifier,
-                onExit: interactionController.onPointerExit,
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+        Positioned.fill(
+          child: TransformedLayerGroup(
+            notifier: notifier,
+            interactionController: interactionController,
+          ),
+        ),
+        Positioned.fill(
+          child: MouseRegionLayer(
+            notifier: notifier,
+            onExit: interactionController.onPointerExit,
+          ),
+        ),
+      ],
     );
   }
 }

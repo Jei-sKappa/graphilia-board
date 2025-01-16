@@ -9,12 +9,10 @@ class TransformedLayerGroup<T> extends StatelessWidget {
     super.key,
     required this.notifier,
     required this.interactionController,
-    required this.viewPortSize,
   });
 
   final BoardNotifier<T, BoardStateConfig> notifier;
   final InteractionControllerBase<T> interactionController;
-  final Size viewPortSize;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +50,6 @@ class TransformedLayerGroup<T> extends StatelessWidget {
           Positioned.fill(
             child: DrawingsLayerGroup(
               notifier: notifier,
-              viewPortSize: viewPortSize,
             ),
           ),
           Positioned.fill(

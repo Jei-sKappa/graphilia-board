@@ -18,11 +18,23 @@ class GraphiliaBoardPreview<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRect(
-      child: StaticRootLayerGroup(
-        sketch: sketch,
-        viewPortSize: viewPortSize,
-        originOffset: originOffset,
-        scaleFactor: scaleFactor,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final viewPortSize = Size(
+            constraints.maxWidth,
+            constraints.maxHeight,
+          );
+
+          return GraphiliaBoardDetails(
+            boardSize: viewPortSize,
+            child: StaticRootLayerGroup(
+              sketch: sketch,
+              viewPortSize: viewPortSize,
+              originOffset: originOffset,
+              scaleFactor: scaleFactor,
+            ),
+          );
+        },
       ),
     );
   }

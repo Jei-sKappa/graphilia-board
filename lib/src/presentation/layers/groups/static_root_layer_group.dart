@@ -17,29 +17,19 @@ class StaticRootLayerGroup<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final viewPortSize = this.viewPortSize ?? Size(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        );
-
-        return Stack(
-          children: [
-            const Positioned.fill(
-              child: StaticGridLayer(),
-            ),
-            Positioned.fill(
-              child: StaticDrawingsLayerGroup(
-                sketch: sketch,
-                viewPortSize: viewPortSize,
-                originOffset: originOffset,
-                scaleFactor: scaleFactor,
-              ),
-            ),
-          ],
-        );
-      },
+    return Stack(
+      children: [
+        const Positioned.fill(
+          child: StaticGridLayer(),
+        ),
+        Positioned.fill(
+          child: StaticDrawingsLayerGroup(
+            sketch: sketch,
+            originOffset: originOffset,
+            scaleFactor: scaleFactor,
+          ),
+        ),
+      ],
     );
   }
 }

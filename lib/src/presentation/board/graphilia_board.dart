@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:detailed_gesture_detector/detailed_gesture_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:graphilia_board/src/models/models.dart';
+import 'package:graphilia_board/src/presentation/board/board.dart';
 import 'package:graphilia_board/src/presentation/interaction_controller/interaction_controller.dart';
 import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/layers/layers.dart';
@@ -214,9 +215,21 @@ class _Board<T> extends StatelessWidget {
             child: RepaintBoundary(
               key: notifier.repaintBoundaryKey,
               child: ClipRect(
-                child: RootLayerGroup(
-                  notifier: notifier,
-                  interactionController: interactionController,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final viewPortSize = Size(
+                      constraints.maxWidth,
+                      constraints.maxHeight,
+                    );
+
+                    return GraphiliaBoardDetails(
+                      boardSize: viewPortSize,
+                      child: RootLayerGroup(
+                        notifier: notifier,
+                        interactionController: interactionController,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

@@ -22,7 +22,6 @@ class StaticDrawingsLayerGroup<T> extends StatelessWidget {
   const StaticDrawingsLayerGroup({
     super.key,
     required this.sketch,
-    required this.viewPortSize,
     this.originOffset = Offset.zero,
     this.scaleFactor = 1.0,
   });
@@ -30,7 +29,6 @@ class StaticDrawingsLayerGroup<T> extends StatelessWidget {
   final Sketch<T> sketch;
   final Offset originOffset;
   final double scaleFactor;
-  final Size viewPortSize;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +37,8 @@ class StaticDrawingsLayerGroup<T> extends StatelessWidget {
       // TODO: Check why `sketchDelta` is required
       sketchDelta: const SketchDelta.initial(),
     );
+
+    final viewPortSize = GraphiliaBoardDetails.of(context).boardSize;
 
     final visibleRect = Rect.fromLTRB(
       state.originOffset.dx,
