@@ -75,6 +75,7 @@ class LineRepresentation extends MultiPointDrawingRepresentation with EquatableM
   @override
   Map<String, dynamic> toMap() {
     return {
+      'type': 'line_representation',
       'points': points.map((p) => p.toMap()).toList(),
     };
   }

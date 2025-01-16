@@ -92,6 +92,7 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
 
   @override
   Map<String, dynamic> toMap() => {
+        'type': 'anchored_drawing_representation',
         'anchorPoint': anchorPoint.toMap(),
         'endPoint': endPoint.toMap(),
       };

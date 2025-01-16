@@ -70,6 +70,7 @@ class PlaceholderRectRepresentation extends AnchoredDrawingRepresentation with E
 
   @override
   Map<String, dynamic> toMap() => {
+        'type': 'placeholder_rect_representation',
         'anchorPoint': anchorPoint.toMap(),
         'endPoint': endPoint.toMap(),
       };
