@@ -27,14 +27,14 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
   final double resizeBoundsInflation;
   final _ResizingSelectionState _interactionState;
 
-  bool isStateValid(BoardState<T, BoardStateConfig> state) => state is SelectedState<T, BoardStateConfig> && state.displayRectangularSelection && state.selectedDrawings.isNotEmpty && state.selectionPoints.isNotEmpty;
+  bool isStateValid(BoardState<T> state) => state is SelectedState<T> && state.displayRectangularSelection && state.selectedDrawings.isNotEmpty && state.selectionPoints.isNotEmpty;
 
   @override
   DetailedGestureScaleStartCallbackHandler<T> get handleOnScaleStart => (
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -45,7 +45,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         }
 
         // The state is valid and the interaction state has data
-        state as SelectedState<T, BoardStateConfig>;
+        state as SelectedState<T>;
 
         final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
@@ -142,7 +142,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -153,7 +153,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         }
 
         // The state is valid and the interaction state has data
-        state as SelectedState<T, BoardStateConfig>;
+        state as SelectedState<T>;
 
         final point = event.getPoint(notifier.config.pointPressureCurve).relativeToVisibleArea(state);
 
@@ -199,7 +199,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -210,7 +210,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         }
 
         // The state is valid and the interaction state has data
-        state as SelectedState<T, BoardStateConfig>;
+        state as SelectedState<T>;
 
         final updatedStateDetails = _handleInteractionEnd(state, event, notifier.config);
 
@@ -225,7 +225,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
   @override
   PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -236,7 +236,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         }
 
         // The state is valid and the interaction state has data
-        state as SelectedState<T, BoardStateConfig>;
+        state as SelectedState<T>;
 
         final updatedStateDetails = _handleInteractionEnd(state, event, notifier.config);
 
@@ -251,7 +251,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
   @override
   PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -262,7 +262,7 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         }
 
         // The state is valid and the interaction state has data
-        state as SelectedState<T, BoardStateConfig>;
+        state as SelectedState<T>;
 
         final updatedStateDetails = _handleInteractionEnd(state, event, notifier.config);
 
@@ -274,8 +274,8 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
         return true;
       };
 
-  ({BoardState<T, BoardStateConfig> state, bool shouldAddToHistory}) _handleInteractionEnd(
-    SelectedState<T, BoardStateConfig> state,
+  ({BoardState<T> state, bool shouldAddToHistory}) _handleInteractionEnd(
+    SelectedState<T> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -295,8 +295,8 @@ class ResizeSelectionInteraction<T> extends BoardInteraction<T> {
     }
   }
 
-  SelectedState<T, BoardStateConfig> _updateSketch(
-    SelectedState<T, BoardStateConfig> state,
+  SelectedState<T> _updateSketch(
+    SelectedState<T> state,
     BoardStateConfig config,
   ) {
     if (!_interactionState.hasResizedSelection) return state;

@@ -32,7 +32,7 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return SimplePolygonDrawing(
       id: id,

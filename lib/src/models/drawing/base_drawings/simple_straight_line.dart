@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:graphilia_board/src/core/constants/constants.dart';
 import 'package:graphilia_board/src/core/helpers/helpers.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentation> with SinglePointDrawer {
@@ -113,7 +112,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
 
   @override
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   ) {
@@ -146,7 +145,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
 
   @override
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   ) {
@@ -186,7 +185,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
 
   @override
   void drawSinglePoint(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas,
     Point point,
   ) =>
@@ -199,7 +198,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
 
   @override
   void drawMultiplePoints(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas, {
     required bool isSelected,
   }) {
@@ -227,7 +226,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   @override
   // Override [update] to implement snapping
   SimpleStraightLine<T>? update(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point newPoint,
   ) {
     final shouldUpdate = representation.isPointDistanceEnoughFromLastPoint(

@@ -65,26 +65,26 @@ abstract class Drawing<T> with EquatableMixin {
   @override
   List<Object?> get props => [id, zIndex];
 
-  BoardStateListener<T, BoardStateConfig>? get stateListener => null;
+  BoardStateListener<T>? get stateListener => null;
 
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   );
 
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   );
 
-  Drawing<T>? update(BoardState<T, BoardStateConfig> state, Point newPoint);
+  Drawing<T>? update(BoardState<T> state, Point newPoint);
 
-  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset);
+  Drawing<T> move(BoardState<T> state, Point offset);
 
   Drawing<T> resize(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Rect resizeRect,
     ResizeAnchor anchor,
     Offset delta,
@@ -97,7 +97,7 @@ abstract class Drawing<T> with EquatableMixin {
   /// drawing.
   /// {@endtemplate}
   TapEventSketchResult<T> onTapDown(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     PointerEvent details,
   ) =>
       const EventResult.ignored();
@@ -107,7 +107,7 @@ abstract class Drawing<T> with EquatableMixin {
   /// drawing.
   /// {@endtemplate}
   TapEventSketchResult<T> onTapUp(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     PointerEvent details,
   ) =>
       const EventResult.ignored();

@@ -25,7 +25,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     this.enableCircleRecognition = true,
     this.enableRectangleRecognition = true,
     this.enableTriangleRecognition = true,
-    T Function(BoardState<T, BoardStateConfig>? state)? idGenerator,
+    T Function(BoardState<T>? state)? idGenerator,
   }) : _interactionState = _DrawingState() {
     if (idGenerator != null) {
       this.idGenerator = idGenerator;
@@ -55,26 +55,26 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   ///
   /// The default id generator for [int] is the current time in microseconds
   /// since epoch, and for [String] is UUID v4.
-  late final T Function(BoardState<T, BoardStateConfig>? state) idGenerator;
+  late final T Function(BoardState<T>? state) idGenerator;
 
-  BoardState<T, BoardStateConfig> _removeMouseCursor(
-    BoardState<T, BoardStateConfig> state,
+  BoardState<T> _removeMouseCursor(
+    BoardState<T> state,
   ) {
     return state.copyWith(
       mouseCursor: SystemMouseCursors.none,
     );
   }
 
-  BoardState<T, BoardStateConfig> _restoreMouseCursor(
-    BoardState<T, BoardStateConfig> state,
+  BoardState<T> _restoreMouseCursor(
+    BoardState<T> state,
   ) {
     return state.copyWith(
       mouseCursor: null,
     );
   }
 
-  BoardState<T, BoardStateConfig> _setInteractionFeedback(
-    BoardState<T, BoardStateConfig> state,
+  BoardState<T> _setInteractionFeedback(
+    BoardState<T> state,
     InteractionFeedback interactionFeedback,
   ) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
@@ -90,7 +90,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     );
   }
 
-  BoardState<T, BoardStateConfig> _clearInteractionFeedback(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> _clearInteractionFeedback(BoardState<T> state) {
     if (_interactionState.interactionFeedback == null) return state;
 
     return state.copyWith(
@@ -98,7 +98,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     );
   }
 
-  void _drawPointer(Canvas canvas, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
+  void _drawPointer(Canvas canvas, BoardState<T> state, BoardStateConfig config) {
     if (state.pointerPosition != null) {
       tool.drawPreview(
         canvas,
@@ -108,7 +108,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     }
   }
 
-  InteractionFeedback? _createActiveInteractionFeedback(BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
+  InteractionFeedback? _createActiveInteractionFeedback(BoardState<T> state, BoardStateConfig config) {
     if (_interactionState.activeDrawing is CanvasDrawing) {
       return CanvasInteractionFeedback(
         (canvas) => (_interactionState.activeDrawing as CanvasDrawing).drawFeedback(
@@ -132,7 +132,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     }
   }
 
-  BoardState<T, BoardStateConfig> disposeResources(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> disposeResources(BoardState<T> state) {
     var updatedState = _clearInteractionFeedback(state);
 
     // Restore mouse cursor
@@ -145,7 +145,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   }
 
   @override
-  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {
+  void onRemoved(BoardNotifier<T> notifier) {
     final state = notifier.value;
 
     final updatedState = disposeResources(state);
@@ -159,7 +159,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   @override
   PointerHoverEventListenerHandler<T> get handlePointerHoverEvent => (
         PointerHoverEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -186,7 +186,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -223,7 +223,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -250,7 +250,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -288,7 +288,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   @override
   PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         var updatedState = _addActiveDrawingToSketch(notifier.value, notifier.config);
 
@@ -308,7 +308,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
   @override
   PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         var updatedState = _addActiveDrawingToSketch(notifier.value, notifier.config);
 
@@ -340,7 +340,7 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     _interactionState.activeDrawing = activeDrawing;
   }
 
-  void _addPointToDrawing(Point point, BoardState<T, BoardStateConfig> state) {
+  void _addPointToDrawing(Point point, BoardState<T> state) {
     if (_interactionState.activeDrawing == null) return;
 
     // TODO: Consider determining if the point is far enough away from the
@@ -357,8 +357,8 @@ class DrawInteraction<T> extends BoardInteraction<T> {
     _interactionState.activeDrawing = updatedActiveDrawing;
   }
 
-  BoardState<T, BoardStateConfig> _addActiveDrawingToSketch(
-    BoardState<T, BoardStateConfig> state,
+  BoardState<T> _addActiveDrawingToSketch(
+    BoardState<T> state,
     BoardStateConfig config,
   ) {
     if (_interactionState.activeDrawing == null) return state;

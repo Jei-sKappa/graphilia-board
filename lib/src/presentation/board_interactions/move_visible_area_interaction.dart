@@ -62,7 +62,7 @@ class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) return false;
 
@@ -88,7 +88,7 @@ class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) {
           initializeAll();
@@ -113,7 +113,7 @@ class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         _interactionState.panAnimation?.removeListener(_onAnimate);
         _panAnimationController.reset();
@@ -175,7 +175,7 @@ class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
   @override
   PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (!_isDeviceEnabled(event.kind)) return false;
 
@@ -184,9 +184,9 @@ class MoveVisibleAreaInteraction<T> extends BoardInteraction<T> {
         return true;
       };
 
-  BoardState<T, BoardStateConfig> _updateVisibleArea(
+  BoardState<T> _updateVisibleArea(
     ScaleUpdateDetails scaleUpdateDetails,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     final scale = scaleUpdateDetails.scale;
     final point = Point.fromOffset(scaleUpdateDetails.localFocalPoint);

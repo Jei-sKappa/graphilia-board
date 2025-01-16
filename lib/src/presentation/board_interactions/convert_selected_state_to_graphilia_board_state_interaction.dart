@@ -11,7 +11,7 @@ class ConvertSelectedStateToBoardStateInteraction<T> extends BoardInteraction<T>
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (notifier.value is! SelectedState) {
           return false;

@@ -25,7 +25,7 @@ class GraphiliaBoard<T> extends StatefulWidget {
   });
 
   /// The notifier that controls this canvas.
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   final InteractionControllerBase<T> interactionController;
 
@@ -122,7 +122,7 @@ class _Board<T> extends StatelessWidget {
     required this.interactionController,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
   final InteractionControllerBase<T> interactionController;
 
   @override

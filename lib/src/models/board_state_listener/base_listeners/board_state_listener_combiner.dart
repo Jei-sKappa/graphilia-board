@@ -1,14 +1,14 @@
 import 'package:graphilia_board/graphilia_board.dart';
 
-final class BoardStateListenerCombiner<T, C extends BoardStateConfig> extends BoardStateListener<T, C> {
+final class BoardStateListenerCombiner<T> extends BoardStateListener<T> {
   const BoardStateListenerCombiner(this.graphiliaBoardStatelisteners);
 
   final List<BoardStateListener> graphiliaBoardStatelisteners;
 
   @override
   bool shouldReceiveUpdate(
-    BoardState<T, BoardStateConfig> previous,
-    BoardState<T, BoardStateConfig> next,
+    BoardState<T> previous,
+    BoardState<T> next,
   ) {
     for (final listener in graphiliaBoardStatelisteners) {
       if (listener.shouldReceiveUpdate(previous, next)) {
@@ -20,8 +20,8 @@ final class BoardStateListenerCombiner<T, C extends BoardStateConfig> extends Bo
   }
 }
 
-extension BoardStateListenerCombineExtension<T, C extends BoardStateConfig> on BoardStateListener<T, C> {
-  BoardStateListenerCombiner<T, C> combine(BoardStateListener<T, C> listener) {
-    return BoardStateListenerCombiner<T, C>([this, listener]);
+extension BoardStateListenerCombineExtension<T> on BoardStateListener<T> {
+  BoardStateListenerCombiner<T> combine(BoardStateListener<T> listener) {
+    return BoardStateListenerCombiner<T>([this, listener]);
   }
 }

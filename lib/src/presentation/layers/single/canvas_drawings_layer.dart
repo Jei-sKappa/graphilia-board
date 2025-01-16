@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class CanvasDrawingsLayer<T> extends StatelessWidget {
@@ -12,7 +11,7 @@ class CanvasDrawingsLayer<T> extends StatelessWidget {
   });
 
   final List<CanvasDrawing<T>> drawings;
-  final BoardState<T, BoardStateConfig> state;
+  final BoardState<T> state;
   final bool areDrawingsSelected;
 
   @override
@@ -37,7 +36,7 @@ class CanvasDrawingPainter<T> extends CustomPainter {
   });
 
   final List<CanvasDrawing<T>> drawings;
-  final BoardState<T, BoardStateConfig> state;
+  final BoardState<T> state;
   final bool areDrawingsSelected;
 
   @override

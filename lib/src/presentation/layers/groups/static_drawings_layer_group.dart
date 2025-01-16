@@ -32,7 +32,7 @@ class StaticDrawingsLayerGroup<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = BoardState<T, BoardStateConfig>(
+    final state = BoardState<T>(
       sketch: sketch,
       // TODO: Check why `sketchDelta` is required
       sketchDelta: const SketchDelta.initial(),

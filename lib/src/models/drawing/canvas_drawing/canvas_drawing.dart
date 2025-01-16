@@ -12,7 +12,7 @@ abstract class CanvasDrawing<T> extends Drawing<T> {
   });
 
   void draw(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas, {
     required bool isSelected,
   });
@@ -21,7 +21,7 @@ abstract class CanvasDrawing<T> extends Drawing<T> {
   ///
   /// See [DrawInteraction] and [InteractionFeedbackLayer] for more information.
   void drawFeedback(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas,
   ) =>
       draw(state, canvas, isSelected: false);

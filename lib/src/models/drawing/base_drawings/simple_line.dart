@@ -70,7 +70,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
 
   @override
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   ) {
@@ -81,7 +81,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
 
   @override
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   ) {
@@ -98,7 +98,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
 
   @override
   void drawSinglePoint(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas,
     Point point,
   ) =>
@@ -111,7 +111,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
 
   @override
   void drawMultiplePoints(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas, {
     required bool isSelected,
   }) {

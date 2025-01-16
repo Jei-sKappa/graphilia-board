@@ -19,11 +19,10 @@ class InteractionController<T> extends InteractionControllerBase<T> {
     required super.graphiliaBoardInteractions,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   // TODO: Use a logging package
-  void _log(String message) =>
-      _shouldLog ? debugPrint('log | InteractionController | $message') : null;
+  void _log(String message) => _shouldLog ? debugPrint('log | InteractionController | $message') : null;
 
   // MOUSE REGION CALLBACKS
 
@@ -38,8 +37,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         if (!notifier.config.isPointerDeviceKindSupported(event.kind)) return;
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerExitEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerExitEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerExitHandler provided");
@@ -88,8 +86,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerHoverEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerHoverEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerHoverHandler provided");
@@ -127,8 +124,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerDownEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerDownEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerDownHandler provided");
@@ -166,8 +162,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerMoveEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerMoveEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerMoveHandler provided");
@@ -196,8 +191,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         if (!notifier.config.isPointerDeviceKindSupported(event.kind)) return;
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerUpEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerUpEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerUpHandler provided");
@@ -236,8 +230,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         if (!notifier.config.isPointerDeviceKindSupported(event.kind)) return;
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerCancelEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerCancelEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerCancelHandler provided");
@@ -284,8 +277,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerPanZoomStartEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerPanZoomStartEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerPanZoomStartHandler provided");
@@ -323,8 +315,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions.where(
-            (handler) => handler.handlePointerPanZoomUpdateEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerPanZoomUpdateEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerPanZoomUpdateHandler provided");
@@ -353,8 +344,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         if (!notifier.config.isPointerDeviceKindSupported(event.kind)) return;
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerPanZoomEndEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerPanZoomEndEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerPanZoomEndHandler provided");
@@ -401,8 +391,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         // Delegate the event to the current state
-        final validInteractions = graphiliaBoardInteractions
-            .where((handler) => handler.handlePointerSignalEvent != null);
+        final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handlePointerSignalEvent != null);
 
         if (validInteractions.isNotEmpty) {
           // _log("onPointerSingnalHandler provided");
@@ -423,8 +412,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
   // DETAIL GESTURE DETECTOR CALLBACKS
   @override
   DetailedGestureTapDownCallback? get onTapDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTapDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTapDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -452,8 +440,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapUpCallback? get onTapUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTapUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTapUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -482,8 +469,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapCallback? get onTap {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTap != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTap != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -511,8 +497,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapCancelCallback? get onTapCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTapCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTapCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -541,8 +526,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapCallback? get onSecondaryTap {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryTap != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryTap != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -570,8 +554,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapDownCallback? get onSecondaryTapDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryTapDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryTapDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -590,8 +573,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryTapDown handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryTapDown handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -600,8 +582,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapUpCallback? get onSecondaryTapUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryTapUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryTapUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -630,8 +611,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapCancelCallback? get onSecondaryTapCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryTapCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryTapCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -651,8 +631,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryTapCancel handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryTapCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -661,8 +640,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapDownCallback? get onTertiaryTapDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryTapDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryTapDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -690,8 +668,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapUpCallback? get onTertiaryTapUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryTapUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryTapUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -720,8 +697,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureTapCancelCallback? get onTertiaryTapCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryTapCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryTapCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -741,8 +717,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryTapCancel handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryTapCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -751,8 +726,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDoubleTapDownCallback? get onDoubleTapDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnDoubleTapDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnDoubleTapDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -781,8 +755,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDoubleTapCallback? get onDoubleTap {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnDoubleTap != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnDoubleTap != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -810,8 +783,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDoubleTapCancelCallback? get onDoubleTapCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnDoubleTapCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnDoubleTapCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -839,8 +811,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressDownCallback? get onLongPressDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -866,8 +837,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCancelCallback? get onLongPressCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -895,8 +865,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCallback? get onLongPress {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPress != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPress != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -921,8 +890,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressStartCallback? get onLongPressStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -948,8 +916,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressMoveUpdateCallback? get onLongPressMoveUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressMoveUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressMoveUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -969,8 +936,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnLongPressMoveUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnLongPressMoveUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -979,8 +945,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressUpCallback? get onLongPressUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1008,8 +973,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressEndCallback? get onLongPressEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnLongPressEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnLongPressEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1038,8 +1002,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressDownCallback? get onSecondaryLongPressDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPressDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1056,8 +1019,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressDown handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressDown handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1066,8 +1028,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCancelCallback? get onSecondaryLongPressCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPressCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1086,8 +1047,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressCancel handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1096,8 +1056,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCallback? get onSecondaryLongPress {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPress != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPress != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1113,8 +1072,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPress handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPress handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1123,8 +1081,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressStartCallback? get onSecondaryLongPressStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPressStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1141,8 +1098,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressStart handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressStart handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1150,10 +1106,8 @@ class InteractionController<T> extends InteractionControllerBase<T> {
   }
 
   @override
-  DetailedGestureLongPressMoveUpdateCallback?
-      get onSecondaryLongPressMoveUpdate {
-    final validInteractions = graphiliaBoardInteractions.where(
-        (handler) => handler.handleOnSecondaryLongPressMoveUpdate != null);
+  DetailedGestureLongPressMoveUpdateCallback? get onSecondaryLongPressMoveUpdate {
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressMoveUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1173,8 +1127,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressMoveUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressMoveUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1183,8 +1136,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressUpCallback? get onSecondaryLongPressUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPressUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1203,8 +1155,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressUp handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressUp handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1213,8 +1164,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressEndCallback? get onSecondaryLongPressEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnSecondaryLongPressEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnSecondaryLongPressEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1234,8 +1184,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnSecondaryLongPressEnd handled by ${interaction.runtimeType}");
+          _log("handleOnSecondaryLongPressEnd handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1244,8 +1193,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressDownCallback? get onTertiaryLongPressDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPressDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1262,8 +1210,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressDown handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressDown handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1272,8 +1219,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCancelCallback? get onTertiaryLongPressCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPressCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1292,8 +1238,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressCancel handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1302,8 +1247,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressCallback? get onTertiaryLongPress {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPress != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPress != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1319,8 +1263,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPress handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPress handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1329,8 +1272,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressStartCallback? get onTertiaryLongPressStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPressStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1347,8 +1289,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressStart handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressStart handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1356,10 +1297,8 @@ class InteractionController<T> extends InteractionControllerBase<T> {
   }
 
   @override
-  DetailedGestureLongPressMoveUpdateCallback?
-      get onTertiaryLongPressMoveUpdate {
-    final validInteractions = graphiliaBoardInteractions.where(
-        (handler) => handler.handleOnTertiaryLongPressMoveUpdate != null);
+  DetailedGestureLongPressMoveUpdateCallback? get onTertiaryLongPressMoveUpdate {
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressMoveUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1379,8 +1318,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressMoveUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressMoveUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1389,8 +1327,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressUpCallback? get onTertiaryLongPressUp {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPressUp != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressUp != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1409,8 +1346,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressUp handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressUp handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1419,8 +1355,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureLongPressEndCallback? get onTertiaryLongPressEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnTertiaryLongPressEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnTertiaryLongPressEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1440,8 +1375,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnTertiaryLongPressEnd handled by ${interaction.runtimeType}");
+          _log("handleOnTertiaryLongPressEnd handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1450,8 +1384,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragDownCallback? get onVerticalDragDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnVerticalDragDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnVerticalDragDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1468,8 +1401,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnVerticalDragDown handled by ${interaction.runtimeType}");
+          _log("handleOnVerticalDragDown handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1478,8 +1410,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragStartCallback? get onVerticalDragStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnVerticalDragStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnVerticalDragStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1496,8 +1427,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnVerticalDragStart handled by ${interaction.runtimeType}");
+          _log("handleOnVerticalDragStart handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1506,8 +1436,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragUpdateCallback? get onVerticalDragUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnVerticalDragUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnVerticalDragUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1527,8 +1456,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnVerticalDragUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnVerticalDragUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1537,8 +1465,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragEndCallback? get onVerticalDragEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnVerticalDragEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnVerticalDragEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1564,8 +1491,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragCancelCallback? get onVerticalDragCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnVerticalDragCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnVerticalDragCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1584,8 +1510,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnVerticalDragCancel handled by ${interaction.runtimeType}");
+          _log("handleOnVerticalDragCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1594,8 +1519,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragDownCallback? get onHorizontalDragDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnHorizontalDragDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnHorizontalDragDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1612,8 +1536,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnHorizontalDragDown handled by ${interaction.runtimeType}");
+          _log("handleOnHorizontalDragDown handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1622,8 +1545,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragStartCallback? get onHorizontalDragStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnHorizontalDragStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnHorizontalDragStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1640,8 +1562,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnHorizontalDragStart handled by ${interaction.runtimeType}");
+          _log("handleOnHorizontalDragStart handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1650,8 +1571,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragUpdateCallback? get onHorizontalDragUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnHorizontalDragUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnHorizontalDragUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1671,8 +1591,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnHorizontalDragUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnHorizontalDragUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1681,8 +1600,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragEndCallback? get onHorizontalDragEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnHorizontalDragEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnHorizontalDragEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1699,8 +1617,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnHorizontalDragEnd handled by ${interaction.runtimeType}");
+          _log("handleOnHorizontalDragEnd handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1709,8 +1626,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragCancelCallback? get onHorizontalDragCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnHorizontalDragCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnHorizontalDragCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1729,8 +1645,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnHorizontalDragCancel handled by ${interaction.runtimeType}");
+          _log("handleOnHorizontalDragCancel handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -1739,8 +1654,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragDownCallback? get onPanDown {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnPanDown != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnPanDown != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1766,8 +1680,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragStartCallback? get onPanStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnPanStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnPanStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1793,8 +1706,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragUpdateCallback? get onPanUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnPanUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnPanUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1823,8 +1735,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragEndCallback? get onPanEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnPanEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnPanEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1850,8 +1761,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureDragCancelCallback? get onPanCancel {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnPanCancel != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnPanCancel != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1908,8 +1818,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureScaleUpdateCallback? get onScaleUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnScaleUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnScaleUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1938,8 +1847,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureScaleEndCallback? get onScaleEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnScaleEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnScaleEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1968,8 +1876,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureForcePressStartCallback? get onForcePressStart {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnForcePressStart != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnForcePressStart != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -1995,8 +1902,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureForcePressPeakCallback? get onForcePressPeak {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnForcePressPeak != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnForcePressPeak != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -2022,8 +1928,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureForcePressUpdateCallback? get onForcePressUpdate {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnForcePressUpdate != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnForcePressUpdate != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -2040,8 +1945,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
         );
 
         if (handled) {
-          _log(
-              "handleOnForcePressUpdate handled by ${interaction.runtimeType}");
+          _log("handleOnForcePressUpdate handled by ${interaction.runtimeType}");
           break;
         }
       }
@@ -2050,8 +1954,7 @@ class InteractionController<T> extends InteractionControllerBase<T> {
 
   @override
   DetailedGestureForcePressEndCallback? get onForcePressEnd {
-    final validInteractions = graphiliaBoardInteractions
-        .where((handler) => handler.handleOnForcePressEnd != null);
+    final validInteractions = graphiliaBoardInteractions.where((handler) => handler.handleOnForcePressEnd != null);
 
     if (validInteractions.isEmpty) return null;
 
@@ -2076,8 +1979,8 @@ class InteractionController<T> extends InteractionControllerBase<T> {
   }
 }
 
-extension _InteractionDataHelper<T> on BoardState<T, BoardStateConfig> {
-  BoardState<T, BoardStateConfig> trackPointerPosition(
+extension _InteractionDataHelper<T> on BoardState<T> {
+  BoardState<T> trackPointerPosition(
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -2091,7 +1994,7 @@ extension _InteractionDataHelper<T> on BoardState<T, BoardStateConfig> {
     );
   }
 
-  BoardState<T, BoardStateConfig> initializeInteractionData(
+  BoardState<T> initializeInteractionData(
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -2112,7 +2015,7 @@ extension _InteractionDataHelper<T> on BoardState<T, BoardStateConfig> {
     );
   }
 
-  BoardState<T, BoardStateConfig> updateInteractionData(
+  BoardState<T> updateInteractionData(
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -2130,7 +2033,7 @@ extension _InteractionDataHelper<T> on BoardState<T, BoardStateConfig> {
     );
   }
 
-  BoardState<T, BoardStateConfig> removeInteractionData(
+  BoardState<T> removeInteractionData(
     PointerEvent event,
     BoardStateConfig config, {
     bool keepPointerPosition = false,
@@ -2153,7 +2056,7 @@ extension _InteractionDataHelper<T> on BoardState<T, BoardStateConfig> {
     );
   }
 
-  BoardState<T, BoardStateConfig> maybeUpdateScaleFactorAndOrigin(
+  BoardState<T> maybeUpdateScaleFactorAndOrigin(
     PointerSignalEvent event,
     BoardStateConfig config,
   ) {

@@ -31,19 +31,19 @@ class SelectInteraction<T> extends BoardInteraction<T> {
 
   final _SelectingState _interactionState;
 
-  BoardState<T, BoardStateConfig> _setPrecisionMouseCursor(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> _setPrecisionMouseCursor(BoardState<T> state) {
     return state.copyWith(
       mouseCursor: SystemMouseCursors.precise,
     );
   }
 
-  BoardState<T, BoardStateConfig> _restoreMouseCursor(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> _restoreMouseCursor(BoardState<T> state) {
     return state.copyWith(
       mouseCursor: null,
     );
   }
 
-  BoardState<T, BoardStateConfig> _setInteractionFeedback(BoardState<T, BoardStateConfig> state, CanvasPaintCallback canvasPaintCallback) {
+  BoardState<T> _setInteractionFeedback(BoardState<T> state, CanvasPaintCallback canvasPaintCallback) {
     final previousInteractionFeedback = _interactionState.interactionFeedback;
     _interactionState.interactionFeedback = CanvasInteractionFeedback(canvasPaintCallback);
 
@@ -57,7 +57,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
     );
   }
 
-  BoardState<T, BoardStateConfig> _clearInteractionFeedback(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> _clearInteractionFeedback(BoardState<T> state) {
     if (_interactionState.interactionFeedback == null) return state;
 
     return state.copyWith(
@@ -65,7 +65,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
     );
   }
 
-  void _drawLazo(Canvas canvas, List<Point> selectionPoints, BoardState<T, BoardStateConfig> state, BoardStateConfig config) {
+  void _drawLazo(Canvas canvas, List<Point> selectionPoints, BoardState<T> state, BoardStateConfig config) {
     if (selectionPoints.isEmpty) return;
 
     // The selection points are more than one
@@ -83,7 +83,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
     );
   }
 
-  BoardState<T, BoardStateConfig> disposeResources(BoardState<T, BoardStateConfig> state) {
+  BoardState<T> disposeResources(BoardState<T> state) {
     var updatedState = _clearInteractionFeedback(state);
 
     // Restore mouse cursor
@@ -96,7 +96,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
   }
 
   @override
-  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {
+  void onRemoved(BoardNotifier<T> notifier) {
     final state = notifier.value;
 
     final updatedState = disposeResources(state);
@@ -110,7 +110,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
   @override
   PointerHoverEventListenerHandler<T> get handlePointerHoverEvent => (
         PointerHoverEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -129,7 +129,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
         ScaleStartDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         final state = notifier.value;
 
@@ -153,7 +153,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
         ScaleUpdateDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -182,7 +182,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
         ScaleEndDetails details,
         PointerEvent initialEvent,
         PointerEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         // Actual implementation of the pointer up event
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
@@ -209,7 +209,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
   @override
   PointerCancelEventListenerHandler<T> get handlePointerCancelEvent => (
         PointerCancelEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -235,7 +235,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
   @override
   PointerExitEventListenerHandler<T> get handlePointerExitEvent => (
         PointerExitEvent event,
-        BoardNotifier<T, BoardStateConfig> notifier,
+        BoardNotifier<T> notifier,
       ) {
         if (_interactionState.selectionPoints.isEmpty || _interactionState.selectionRect == null) {
           _interactionState.initialize();
@@ -260,8 +260,8 @@ class SelectInteraction<T> extends BoardInteraction<T> {
         return true;
       };
 
-  ({BoardState<T, BoardStateConfig> state, bool shouldAddToHistory}) _handleInteractionEnd(
-    BoardState<T, BoardStateConfig> state,
+  ({BoardState<T> state, bool shouldAddToHistory}) _handleInteractionEnd(
+    BoardState<T> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {
@@ -283,7 +283,7 @@ class SelectInteraction<T> extends BoardInteraction<T> {
 
     // Add to undo history only if the state has become a [SelectedState]
     // because it means that the user has selected something
-    if (updatedState is SelectedState<T, BoardStateConfig>) {
+    if (updatedState is SelectedState<T>) {
       return (state: updatedState, shouldAddToHistory: true);
     }
 
@@ -292,8 +292,8 @@ class SelectInteraction<T> extends BoardInteraction<T> {
     return (state: updatedState, shouldAddToHistory: false);
   }
 
-  BoardState<T, BoardStateConfig>? _tryConvertBoardStateToSelectedState(
-    BoardState<T, BoardStateConfig> state,
+  BoardState<T>? _tryConvertBoardStateToSelectedState(
+    BoardState<T> state,
     PointerEvent event,
     BoardStateConfig config,
   ) {

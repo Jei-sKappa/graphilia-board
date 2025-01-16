@@ -26,7 +26,7 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return HighlighterLine(
       id: id,

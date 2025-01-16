@@ -3,7 +3,6 @@ import 'package:flutter/painting.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:graphilia_board/src/core/core.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/board_state.dart';
 
 class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDrawingRepresentation> with EquatableMixin {
@@ -35,7 +34,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
   List<Object?> get props => [...super.props, expression, unit];
 
   @override
-  ScaleFactorListener<T, BoardStateConfig> get stateListener => ScaleFactorListener<T, BoardStateConfig>();
+  ScaleFactorListener<T> get stateListener => ScaleFactorListener<T>();
 
   double unitMultiplier(num value) => value * unit;
 
@@ -91,7 +90,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
 
   @override
   void draw(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Canvas canvas, {
     required bool isSelected,
   }) {
@@ -264,7 +263,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
 
   @override
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   ) =>
@@ -272,7 +271,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
 
   @override
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   ) =>

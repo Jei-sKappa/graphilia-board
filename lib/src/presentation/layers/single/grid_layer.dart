@@ -15,7 +15,7 @@ class GridLayer<T> extends StatelessWidget {
     this.spacing = _kGridSpacing,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   final double spacing;
 

@@ -34,7 +34,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
 
   @override
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   ) {
@@ -50,7 +50,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
 
   @override
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   ) {
@@ -65,7 +65,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  Drawing<T> move(BoardState<T, BoardStateConfig> state, Point offset) {
+  Drawing<T> move(BoardState<T> state, Point offset) {
     final movedDrawings = drawings.map((d) => d.move(state, offset)).toList();
 
     return copyWith(
@@ -75,7 +75,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
 
   @override
   Drawing<T> resize(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Rect resizeRect,
     ResizeAnchor anchor,
     Offset delta,
@@ -88,7 +88,7 @@ class DrawingGroup<T> extends Drawing<T> with EquatableMixin {
   }
 
   @override
-  Drawing<T>? update(BoardState<T, BoardStateConfig> state, Point newPoint) {
+  Drawing<T>? update(BoardState<T> state, Point newPoint) {
     final updatedDrawings = drawings.map((d) => d.update(state, newPoint)).whereType<Drawing<T>>().toList();
 
     return copyWith(

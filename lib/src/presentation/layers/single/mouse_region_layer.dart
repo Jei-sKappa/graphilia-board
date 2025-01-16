@@ -10,7 +10,7 @@ class MouseRegionLayer<T> extends StatelessWidget {
     required this.onExit,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
   final void Function(PointerExitEvent)? onExit;
 
   @override

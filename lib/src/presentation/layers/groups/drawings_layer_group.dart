@@ -37,7 +37,7 @@ class _CategoryGroup<T> {
   }
 
   final List<Drawing<T>> drawings;
-  final BoardStateListener<T, BoardStateConfig>? stateListener;
+  final BoardStateListener<T>? stateListener;
   final _DrawingCatergory<T> catergory;
 }
 
@@ -74,7 +74,7 @@ class DrawingsLayerGroup<T> extends StatefulWidget {
     required this.notifier,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   @override
   State<DrawingsLayerGroup<T>> createState() => _DrawingsLayerGroupState<T>();
@@ -85,7 +85,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
 
   Rect _getPrerenderRect(
     Size viewPortSize,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     // Render double the viewport bounds to avoid flickering when scrolling.
     // TODO: !!! Consider lowering the area to render to avoid performance issues.
@@ -103,7 +103,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
 
   CanvasDrawingsLayer<T> _canvasDrawingLayerBuilder(
     _CategoryGroup<T> group,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) =>
       CanvasDrawingsLayer<T>(
         drawings: List.castFrom(group.drawings),
@@ -113,7 +113,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
 
   WidgetDrawingsLayer<T> _widgetDrawingLayerBuilder(
     _CategoryGroup<T> group,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) =>
       WidgetDrawingsLayer<T>(
         drawings: List.castFrom(group.drawings),
@@ -125,7 +125,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
     _CategoryGroup<T> group,
     Widget Function(
       _CategoryGroup<T> group,
-      BoardState<T, BoardStateConfig> state,
+      BoardState<T> state,
     ) layerBuilder,
   ) =>
       ValueListenableBuilder(
@@ -154,12 +154,12 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
 
           // TODO: Check only if the selected drawings in the visible area changed
           final prevSelectedDrawingsIds = switch (previous) {
-            SelectedState<T, BoardStateConfig> s => s.selectedDrawings.map((e) => e.id).toList(),
+            SelectedState<T> s => s.selectedDrawings.map((e) => e.id).toList(),
             _ => null,
           };
           // TODO: Check only if the selected drawings in the visible area changed
           final selectedDrawingsIds = switch (next) {
-            SelectedState<T, BoardStateConfig> s => s.selectedDrawings.map((e) => e.id).toList(),
+            SelectedState<T> s => s.selectedDrawings.map((e) => e.id).toList(),
             _ => null,
           };
           final areSelectedDrawingsIdsChanged = !(const DeepCollectionEquality().equals(
@@ -211,7 +211,7 @@ class _DrawingsLayerGroupState<T> extends State<DrawingsLayerGroup<T>> {
         // Set the selected drawings
         late final List<T> selectedDrawingsIds;
 
-        if (state is SelectedState<T, BoardStateConfig>) {
+        if (state is SelectedState<T>) {
           // TODO: Check only if the selected drawings in the visible area changed
           selectedDrawingsIds = state.selectedDrawings.expandDrawingGroups().map((e) => e.id).toList();
         } else {

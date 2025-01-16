@@ -1,14 +1,14 @@
 import 'package:graphilia_board/graphilia_board.dart';
 
-final class DrawingsListener<T, C extends BoardStateConfig> extends BoardStateListener<T, C> {
+final class DrawingsListener<T> extends BoardStateListener<T> {
   const DrawingsListener({required this.listenedDrawingsIds});
 
   final List<T> listenedDrawingsIds;
 
   @override
   bool shouldReceiveUpdate(
-    BoardState<T, BoardStateConfig> previous,
-    BoardState<T, BoardStateConfig> next,
+    BoardState<T> previous,
+    BoardState<T> next,
   ) {
     final delta = next.sketchDelta;
 

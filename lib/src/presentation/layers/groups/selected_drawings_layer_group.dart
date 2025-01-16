@@ -12,7 +12,7 @@ class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
     super.key,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
       // example due to a movement of the drawings
       valueListenable: notifier.select(
         (value) {
-          if (value is SelectedState<T, BoardStateConfig>) {
+          if (value is SelectedState<T>) {
             // TODO: Check only if the selected drawings in the visible area changed
             return value.selectedDrawings;
           }

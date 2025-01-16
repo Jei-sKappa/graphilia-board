@@ -24,7 +24,7 @@ class SimpleStraightLineTool<T> extends SimpleDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return SimpleStraightLine(
       id: id,

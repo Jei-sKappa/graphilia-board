@@ -26,7 +26,7 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return HighlighterPolygonDrawing(
       id: id,

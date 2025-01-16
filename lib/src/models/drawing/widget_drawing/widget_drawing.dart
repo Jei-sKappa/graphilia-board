@@ -11,7 +11,7 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
 
   @override
   bool isInsidePolygon(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     List<Point> vertices,
     PointsInPolygonMode mode,
   ) =>
@@ -19,7 +19,7 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
 
   @override
   bool isPointInside(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point,
     double tolerance,
   ) =>
@@ -42,15 +42,16 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
 
   Widget build(
     BuildContext context,
-    BoardState<T, BoardStateConfig> state, {
+    BoardState<T> state, {
     required bool isSelected,
   });
 
   /// This method is called when the [Drawing] is being created for the first time.
-  /// 
+  ///
   /// See [DrawInteraction] and [InteractionFeedbackLayer] for more information.
   Widget buildFeedback(
     BuildContext context,
-    BoardState<T, BoardStateConfig> state,
-  ) => build(context, state, isSelected: false);
+    BoardState<T> state,
+  ) =>
+      build(context, state, isSelected: false);
 }

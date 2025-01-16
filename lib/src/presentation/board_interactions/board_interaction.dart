@@ -4,7 +4,7 @@ abstract class BoardInteraction<T> {
   const BoardInteraction();
 
   /// Triggered when the interaction is removed from the available interactions
-  void onRemoved(BoardNotifier<T, BoardStateConfig> notifier) {}
+  void onRemoved(BoardNotifier<T> notifier) {}
 
   // MOUSE REGION EVENT HANDLERS
 

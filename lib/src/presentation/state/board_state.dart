@@ -16,7 +16,7 @@ typedef UpdatedSketchDetails<T> = ({
 /// {@endtemplate}
 
 // TODO: !!! RENAME THIS TO BoardState
-class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
+class BoardState<T> with EquatableMixin {
   /// {@macro graphilia_board_state}
   const BoardState({
     this.originOffset = Offset.zero,
@@ -42,7 +42,7 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
     required this.sketchDelta,
   });
 
-  BoardState.fromOther(BoardState<T, C> other)
+  BoardState.fromOther(BoardState<T> other)
       : originOffset = other.originOffset,
         strokePoints = other.strokePoints,
         activePointerIds = other.activePointerIds,
@@ -99,16 +99,16 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
         sketchDelta,
       ];
 
-  BoardStateCopyWith<T, C> get copyWith => _BoardStateCopyWithImpl<T, C>(this);
+  BoardStateCopyWith<T> get copyWith => _BoardStateCopyWithImpl<T>(this);
 
   StateLayerPainter? get paintStateLayer => null;
 
-  bool shouldRepaintStateLayer(BoardState<T, BoardStateConfig> other) => false;
+  bool shouldRepaintStateLayer(BoardState<T> other) => false;
 
   /// Returns the oldState while preserving the necessary data in the current
   /// state.
   @mustCallSuper
-  BoardState<T, C> trasformFrom(BoardState<T, C> other, bool isUndo) {
+  BoardState<T> trasformFrom(BoardState<T> other, bool isUndo) {
     if (sketchDelta.version == other.sketchDelta.version) return this;
 
     final transformedState = copyWith(
@@ -118,10 +118,10 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
 
     // TODO: Check if this is necessary
     // TODO: [BoardState] should not be aware of [SelectedState]
-    if (other is! SelectedState<T, C>) return transformedState;
+    if (other is! SelectedState<T>) return transformedState;
 
     // Redirect the transformation to the [SelectedState] state
-    return SelectedState.trasformFromSelectingState<T, C>(
+    return SelectedState.trasformFromSelectingState<T>(
       transformedState,
       other,
       isUndo,
@@ -129,7 +129,7 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
   }
 
   /// Returns a new state with the unnecessary data removed.
-  BoardState<T, C> clear() {
+  BoardState<T> clear() {
     return copyWith(
       sketchDelta: SketchDelta.delete(
         sketch.drawings,
@@ -140,8 +140,8 @@ class BoardState<T, C extends BoardStateConfig> with EquatableMixin {
 }
 
 // CopyWith Helper
-abstract class BoardStateCopyWith<T, C extends BoardStateConfig> {
-  BoardState<T, C> call({
+abstract class BoardStateCopyWith<T> {
+  BoardState<T> call({
     Offset? originOffset,
     List<Point>? strokePoints,
     List<int>? activePointerIds,
@@ -155,13 +155,13 @@ abstract class BoardStateCopyWith<T, C extends BoardStateConfig> {
   });
 }
 
-class _BoardStateCopyWithImpl<T, C extends BoardStateConfig> implements BoardStateCopyWith<T, C> {
+class _BoardStateCopyWithImpl<T> implements BoardStateCopyWith<T> {
   _BoardStateCopyWithImpl(this._state);
 
-  final BoardState<T, C> _state;
+  final BoardState<T> _state;
 
   @override
-  BoardState<T, C> call({
+  BoardState<T> call({
     Offset? originOffset,
     List<Point>? strokePoints,
     List<int>? activePointerIds,

@@ -175,6 +175,6 @@ class BoardStateConfig<T> with EquatableMixin {
 
 typedef BoardTapHandler<T> = TapEventSketchResult<T> Function(
   PointerEvent details,
-  BoardState<T, BoardStateConfig> state,
+  BoardState<T> state,
   Drawing<T> drawing,
 );

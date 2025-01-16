@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
@@ -34,7 +33,7 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return SimpleLine(
       id: id,

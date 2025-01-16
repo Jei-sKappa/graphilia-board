@@ -59,13 +59,13 @@ abstract class DrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   );
 
   void drawPreview(
     Canvas canvas,
     Point point,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   );
 
   DrawingTool<T> copyWith();

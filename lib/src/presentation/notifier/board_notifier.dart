@@ -9,7 +9,7 @@ import 'package:value_notifier_tools/value_notifier_tools.dart';
 /// {@template graphilia_board_notifier}
 /// This class controls the state and behavior for a [GraphiliaBoard] widget.
 /// {@endtemplate}
-class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardState<T, C>> with HistoryValueNotifierMixin<BoardState<T, C>> {
+class BoardNotifier<T> extends ValueNotifier<BoardState<T>> with HistoryValueNotifierMixin<BoardState<T>> {
   /// {@macro graphilia_board_notifier}
   BoardNotifier({
     required BoardStateConfig<T> config,
@@ -46,9 +46,9 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
 
   @override
   @protected
-  BoardState<T, C> transformHistoryValue(
-    BoardState<T, C> newValue,
-    BoardState<T, C> currentValue,
+  BoardState<T> transformHistoryValue(
+    BoardState<T> newValue,
+    BoardState<T> currentValue,
   ) =>
       currentValue.trasformFrom(newValue, _hasTriggeredUndo!);
 
@@ -80,7 +80,7 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
   /// date. Avoid using this as much as possible, use the specific methods
   /// instead.
   void setBoardState({
-    required BoardState<T, C> state,
+    required BoardState<T> state,
     bool shouldAddToHistory = true,
   }) {
     if (shouldAddToHistory) {
@@ -185,18 +185,18 @@ class BoardNotifier<T, C extends BoardStateConfig> extends ValueNotifier<BoardSt
 
   /// Only valid if state is [SelectedState]
   void toggleDisplayRectangularSelection() {
-    if (value is! SelectedState<T, C>) return;
+    if (value is! SelectedState<T>) return;
 
-    final state = value as SelectedState<T, C>;
+    final state = value as SelectedState<T>;
     temporaryValue = state.copyWith(
       displayRectangularSelection: !state.displayRectangularSelection,
     );
   }
 
   void setDisplayRectangularSelection(bool enabled) {
-    if (value is! SelectedState<T, C>) return;
+    if (value is! SelectedState<T>) return;
 
-    final state = value as SelectedState<T, C>;
+    final state = value as SelectedState<T>;
     temporaryValue = state.copyWith(
       displayRectangularSelection: enabled,
     );

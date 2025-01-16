@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 class WidgetDrawingsLayer<T> extends StatelessWidget {
@@ -12,7 +11,7 @@ class WidgetDrawingsLayer<T> extends StatelessWidget {
   });
 
   final List<WidgetDrawing<T>> drawings;
-  final BoardState<T, BoardStateConfig> state;
+  final BoardState<T> state;
   final bool areDrawingsSelected;
 
   @override

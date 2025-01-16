@@ -27,7 +27,7 @@ class InteractionFeedbackLayer<T> extends StatelessWidget {
     required this.notifier,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:r_tree/r_tree.dart';
 import 'package:graphilia_board/src/models/models.dart';
-import 'package:graphilia_board/src/presentation/notifier/notifier.dart';
 import 'package:graphilia_board/src/presentation/state/state.dart';
 
 part 'sketch_delta.dart';
@@ -67,7 +66,7 @@ class Sketch<T> {
   Drawing<T>? getDrawingById(T id) => _drawingsMapCache[id];
 
   List<Drawing<T>> getDrawingsByPoint(
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
     Point point, {
     required double tolerance,
   }) {

@@ -13,7 +13,7 @@ class LinedLayer<T> extends StatelessWidget {
     this.spacing = 25,
   });
 
-  final BoardNotifier<T, BoardStateConfig> notifier;
+  final BoardNotifier<T> notifier;
 
   final double spacing;
 

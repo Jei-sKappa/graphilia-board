@@ -24,7 +24,7 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
     Point firstPoint,
     T id,
     int zIndex,
-    BoardState<T, BoardStateConfig> state,
+    BoardState<T> state,
   ) {
     return HighlighterCircleDrawing(
       id: id,

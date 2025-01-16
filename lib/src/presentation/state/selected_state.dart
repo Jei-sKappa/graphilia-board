@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 import 'package:graphilia_board/src/core/constants/undefined.dart';
 
-class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with EquatableMixin {
+class SelectedState<T> extends BoardState<T> with EquatableMixin {
   const SelectedState({
     super.originOffset,
     super.strokePoints,
@@ -69,7 +69,7 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
       ];
 
   @override
-  SelectedStateCopyWith<T, C> get copyWith => _SelectedStateCopyWithImpl<T, C>(this);
+  SelectedStateCopyWith<T> get copyWith => _SelectedStateCopyWithImpl<T>(this);
 
   // TODO: Make the inflation factor customizable
   /// The [selectedDrawingsBounds] rect inflated by 5 pixels.
@@ -112,8 +112,8 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
       };
 
   @override
-  bool shouldRepaintStateLayer(BoardState<T, BoardStateConfig> other) {
-    if (other is! SelectedState<T, BoardStateConfig>) return true;
+  bool shouldRepaintStateLayer(BoardState<T> other) {
+    if (other is! SelectedState<T>) return true;
 
     if (displayRectangularSelection != other.displayRectangularSelection) return true;
 
@@ -125,12 +125,12 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
   }
 
   @override
-  BoardState<T, C> trasformFrom(BoardState<T, C> other, isUndo) {
+  BoardState<T> trasformFrom(BoardState<T> other, isUndo) {
     final rollbackedState = super.trasformFrom(other, isUndo);
 
-    if (rollbackedState is! SelectedState<T, C>) return rollbackedState;
+    if (rollbackedState is! SelectedState<T>) return rollbackedState;
 
-    if (other is! SelectedState<T, C>) {
+    if (other is! SelectedState<T>) {
       return rollbackedState.copyWith(
         selectionPoints: [],
         selectionRect: null,
@@ -152,9 +152,9 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
   }
 
   /// Intented to use only by [SelectingState]
-  static SelectedState<T, C> trasformFromSelectingState<T, C extends BoardStateConfig>(
-    BoardState<T, C> state,
-    SelectedState<T, C> other,
+  static SelectedState<T> trasformFromSelectingState<T>(
+    BoardState<T> state,
+    SelectedState<T> other,
     isUndo,
   ) =>
       SelectedState._(
@@ -209,9 +209,9 @@ class SelectedState<T, C extends BoardStateConfig> extends BoardState<T, C> with
 }
 
 // CopyWith helpers
-abstract class SelectedStateCopyWith<T, C extends BoardStateConfig> implements BoardStateCopyWith<T, C> {
+abstract class SelectedStateCopyWith<T> implements BoardStateCopyWith<T> {
   @override
-  SelectedState<T, C> call({
+  SelectedState<T> call({
     Offset? originOffset,
     List<Point>? strokePoints,
     List<int>? activePointerIds,
@@ -231,13 +231,13 @@ abstract class SelectedStateCopyWith<T, C extends BoardStateConfig> implements B
   });
 }
 
-class _SelectedStateCopyWithImpl<T, C extends BoardStateConfig> implements SelectedStateCopyWith<T, C> {
+class _SelectedStateCopyWithImpl<T> implements SelectedStateCopyWith<T> {
   _SelectedStateCopyWithImpl(this._state);
 
-  final SelectedState<T, C> _state;
+  final SelectedState<T> _state;
 
   @override
-  SelectedState<T, C> call({
+  SelectedState<T> call({
     Offset? originOffset,
     List<Point>? strokePoints,
     List<int>? activePointerIds,
@@ -283,6 +283,6 @@ class _SelectedStateCopyWithImpl<T, C extends BoardStateConfig> implements Selec
   }
 }
 
-extension SelectedStateCast<T, C extends BoardStateConfig> on BoardState<T, C> {
-  SelectedState<T, C> get asSelectedState => this as SelectedState<T, C>;
+extension SelectedStateCast<T> on BoardState<T> {
+  SelectedState<T> get asSelectedState => this as SelectedState<T>;
 }
