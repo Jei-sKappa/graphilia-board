@@ -23,7 +23,7 @@ class PlaceholderRectRepresentation extends AnchoredDrawingRepresentation with E
     required super.size,
   }) : super.fromSize();
 
-  static const mapKey = 'placeholder_rect_representation';
+  static const typeKey = 'placeholder_rect_representation';
 
   @override
   List<Object?> get props => [super.props];
@@ -72,7 +72,7 @@ class PlaceholderRectRepresentation extends AnchoredDrawingRepresentation with E
 
   @override
   Map<String, dynamic> toMap() => {
-        'type': mapKey,
+        'type': typeKey,
         'anchorPoint': anchorPoint.toMap(),
         'endPoint': endPoint.toMap(),
       };

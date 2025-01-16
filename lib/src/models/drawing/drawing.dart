@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/gestures.dart';
 import 'package:graphilia_board/graphilia_board.dart';
 
+export 'base_drawings/base_drawings.dart';
 export 'canvas_drawing/canvas_drawing.dart';
 export 'widget_drawing/widget_drawing.dart';
 export 'connectable_drawing_mixin.dart';

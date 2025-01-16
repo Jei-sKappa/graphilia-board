@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:graphilia_board/src/models/models.dart';
 
-class HighlighterStraightLine<T> extends SimpleStraightLine<T> {
-  const HighlighterStraightLine({
+class HighlighterCircleDrawing<T> extends SimpleCircleDrawing<T> {
+  const HighlighterCircleDrawing({
     required super.id,
     required super.zIndex,
     required super.representation,
@@ -11,8 +11,8 @@ class HighlighterStraightLine<T> extends SimpleStraightLine<T> {
     required super.width,
   });
 
-  factory HighlighterStraightLine.fromMap(Map<String, dynamic> map) {
-    return HighlighterStraightLine(
+  factory HighlighterCircleDrawing.fromMap(Map<String, dynamic> map) {
+    return HighlighterCircleDrawing(
       id: map['id'],
       zIndex: map['zIndex'],
       representation: AnchoredDrawingRepresentation.fromMap(map['representation']),
@@ -21,15 +21,17 @@ class HighlighterStraightLine<T> extends SimpleStraightLine<T> {
     );
   }
 
+  static const typeKey = 'highlighter_circle';
+
   @override
-  HighlighterStraightLine<T> copyWith({
+  HighlighterCircleDrawing<T> copyWith({
     T? id,
     int? zIndex,
     AnchoredDrawingRepresentation? representation,
     Color? color,
     double? width,
   }) {
-    return HighlighterStraightLine(
+    return HighlighterCircleDrawing(
       id: id ?? this.id,
       zIndex: zIndex ?? this.zIndex,
       representation: representation ?? this.representation,
@@ -41,7 +43,7 @@ class HighlighterStraightLine<T> extends SimpleStraightLine<T> {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_straight_line',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),

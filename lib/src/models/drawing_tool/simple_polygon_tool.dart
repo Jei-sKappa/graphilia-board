@@ -22,6 +22,8 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
 
   final PolygonTemplate polygonTemplate;
 
+  static const typeKey = 'simple_polygon_tool';
+
   @override
   List<Object?> get props => [...super.props, polygonTemplate];
 
@@ -60,7 +62,7 @@ class SimplePolygonDrawingTool<T> extends SimpleDrawingTool<T> with EquatableMix
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_polygon_tool',
+      'type': typeKey,
       'color': super.color.value,
       'width': super.width,
       'shouldScale': super.shouldScale,

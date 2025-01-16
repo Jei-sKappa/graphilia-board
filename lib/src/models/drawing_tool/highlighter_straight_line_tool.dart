@@ -17,6 +17,8 @@ class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
     );
   }
 
+  static const typeKey = 'highlighter_straight_line_tool';
+
   @override
   HighlighterStraightLine<T> createDrawing(
     Point firstPoint,
@@ -46,10 +48,10 @@ class HighlighterStraightLineTool<T> extends SimpleStraightLineTool<T> {
     );
   }
 
-    @override
+  @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_straight_line_tool',
+      'type': typeKey,
       'color': color.value,
       'width': width,
       'shouldScale': shouldScale,

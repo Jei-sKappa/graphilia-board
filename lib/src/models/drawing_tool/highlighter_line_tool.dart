@@ -19,6 +19,8 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
     );
   }
 
+  static const typeKey = 'highlighter_line_tool';
+
   @override
   HighlighterLine<T> createDrawing(
     Point firstPoint,
@@ -54,7 +56,7 @@ class HighlighterLineTool<T> extends SimpleLineTool<T> {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_line_tool',
+      'type': typeKey,
       'color': color.value,
       'width': width,
       'shouldScale': shouldScale,

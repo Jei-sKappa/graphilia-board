@@ -14,7 +14,7 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
 
     // This is used to support class extension
     // TODO: Consider adding it to all classes DrawingRepresentation, DrawingTool and Drawing
-    if (type == null || type == mapKey) {
+    if (type == null || type == typeKey) {
       return AnchoredDrawingRepresentation(
         anchorPoint: Point.fromMap(map['anchorPoint']),
         endPoint: Point.fromMap(map['endPoint']),
@@ -36,7 +36,7 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
   final Point anchorPoint;
   final Point endPoint;
 
-  static const mapKey = 'anchored_drawing_representation';
+  static const typeKey = 'anchored_drawing_representation';
 
   @override
   List<Object?> get props => [anchorPoint, endPoint];
@@ -102,7 +102,7 @@ class AnchoredDrawingRepresentation extends MultiPointDrawingRepresentation with
 
   @override
   Map<String, dynamic> toMap() => {
-        'type': mapKey,
+        'type': typeKey,
         'anchorPoint': anchorPoint.toMap(),
         'endPoint': endPoint.toMap(),
       };

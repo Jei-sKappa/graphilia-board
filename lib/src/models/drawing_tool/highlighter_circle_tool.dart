@@ -17,6 +17,8 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
     );
   }
 
+  static const typeKey = 'highlighter_circle_tool';
+
   @override
   HighlighterCircleDrawing<T> createDrawing(
     Point firstPoint,
@@ -49,7 +51,7 @@ class HighlighterCircleDrawingTool<T> extends SimpleCircleDrawingTool<T> {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_circle_tool',
+      'type': typeKey,
       'color': color.value,
       'width': width,
       'shouldScale': shouldScale,

@@ -24,6 +24,8 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
 
   final bool simulatePressure;
 
+  static const typeKey = 'simple_line_tool';
+
   @override
   List<Object?> get props => [...super.props, simulatePressure];
 
@@ -59,10 +61,10 @@ class SimpleLineTool<T> extends SimpleDrawingTool<T> with EquatableMixin {
     );
   }
 
-    @override
+  @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_line_tool',
+      'type': typeKey,
       'color': color.value,
       'width': width,
       'shouldScale': shouldScale,

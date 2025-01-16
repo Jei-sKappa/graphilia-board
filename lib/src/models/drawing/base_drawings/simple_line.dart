@@ -13,8 +13,6 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     required this.simulatePressure,
   });
 
-  final bool simulatePressure;
-
   factory SimpleLine.fromMap(Map<String, dynamic> map) {
     return SimpleLine(
       id: map['id'],
@@ -26,11 +24,15 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
     );
   }
 
+  final bool simulatePressure;
+
   // Cache used to store the outline points of the line
   List<Point>? _outlinePointsCache;
 
   // Cache used to store the bounds of the line
   Rect? _boundsCache;
+
+  static const typeKey = 'simple_line';
 
   /// Returns the outline points of the line
   ///
@@ -179,7 +181,7 @@ class SimpleLine<T> extends SimpleDrawing<T, LineRepresentation> with SinglePoin
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_line',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),

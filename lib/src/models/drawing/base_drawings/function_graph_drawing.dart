@@ -29,6 +29,8 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
 
   final double unit;
 
+  static const typeKey = 'function_graph';
+
   @override
   List<Object?> get props => [...super.props, expression, unit];
 
@@ -309,7 +311,7 @@ class FunctionGraphDrawing<T> extends RepresentableCanvasDrawing<T, AnchoredDraw
 
   @override
   Map<String, dynamic> toMap() => {
-        'type': 'function_graph',
+        'type': typeKey,
         'id': id,
         'zIndex': zIndex,
         'representation': representation.toMap(),

@@ -17,6 +17,8 @@ class SimpleStraightLineTool<T> extends SimpleDrawingTool<T> {
     );
   }
 
+  static const typeKey = 'simple_straight_line_tool';
+
   @override
   SimpleStraightLine<T> createDrawing(
     Point firstPoint,
@@ -49,7 +51,7 @@ class SimpleStraightLineTool<T> extends SimpleDrawingTool<T> {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_straight_line_tool',
+      'type': typeKey,
       'color': super.color.value,
       'width': super.width,
       'shouldScale': super.shouldScale,

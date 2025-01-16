@@ -21,7 +21,7 @@ class LineRepresentation extends MultiPointDrawingRepresentation with EquatableM
 
   final List<Point> points;
 
-  static const mapKey = 'line_representation';
+  static const typeKey = 'line_representation';
 
   @override
   List<Object?> get props => [points];
@@ -77,7 +77,7 @@ class LineRepresentation extends MultiPointDrawingRepresentation with EquatableM
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': mapKey,
+      'type': typeKey,
       'points': points.map((p) => p.toMap()).toList(),
     };
   }

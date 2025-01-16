@@ -2,57 +2,58 @@ import 'dart:ui';
 
 import 'package:graphilia_board/src/models/models.dart';
 
-// ignore: must_be_immutable
-class HighlighterLine<T> extends SimpleLine<T> {
-  HighlighterLine({
+class HighlighterPolygonDrawing<T> extends SimplePolygonDrawing<T> {
+  const HighlighterPolygonDrawing({
     required super.id,
     required super.zIndex,
     required super.representation,
     required super.color,
     required super.width,
-    required super.simulatePressure,
+    required super.polygonTemplate,
   });
 
-  factory HighlighterLine.fromMap(Map<String, dynamic> map) {
-    return HighlighterLine(
+  factory HighlighterPolygonDrawing.fromMap(Map<String, dynamic> map) {
+    return HighlighterPolygonDrawing(
       id: map['id'],
       zIndex: map['zIndex'],
-      representation: LineRepresentation.fromMap(map['representation']),
+      representation: AnchoredDrawingRepresentation.fromMap(map['representation']),
       color: Color(map['color']),
       width: map['width'],
-      simulatePressure: map['simulatePressure'],
+      polygonTemplate: PolygonTemplate.fromJson(map['polygonTemplate']),
     );
   }
 
+  static const typeKey = 'highlighter_polygon';
+
   @override
-  HighlighterLine<T> copyWith({
+  HighlighterPolygonDrawing<T> copyWith({
     T? id,
     int? zIndex,
-    LineRepresentation? representation,
+    AnchoredDrawingRepresentation? representation,
     Color? color,
     double? width,
-    bool? simulatePressure,
+    PolygonTemplate? polygonTemplate,
   }) {
-    return HighlighterLine(
+    return HighlighterPolygonDrawing(
       id: id ?? this.id,
       zIndex: zIndex ?? this.zIndex,
       representation: representation ?? this.representation,
       color: color ?? this.color,
       width: width ?? this.width,
-      simulatePressure: simulatePressure ?? this.simulatePressure,
+      polygonTemplate: polygonTemplate ?? this.polygonTemplate,
     );
   }
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_line',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),
       'color': color.value,
       'width': width,
-      'simulatePressure': simulatePressure,
+      'polygonTemplate': polygonTemplate.toJson(),
     };
   }
 }

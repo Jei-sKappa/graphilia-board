@@ -24,6 +24,8 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
   /// Whether the drawing should be scaled based on the zoom level.
   final bool shouldScale;
 
+  static const typeKey = 'function_graph_tool';
+
   @override
   List<Object?> get props => [expression, shouldScale];
 
@@ -67,7 +69,7 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
         representation: AnchoredDrawingRepresentation.initial(firstPoint),
         expression: expression,
       );
-  
+
   @override
   FunctionGraphDrawingTool<T> copyWith({
     Expression? expression,
@@ -77,11 +79,11 @@ class FunctionGraphDrawingTool<T> extends DrawingTool<T> with EquatableMixin {
         expression: expression ?? this.expression,
         shouldScale: shouldScale ?? this.shouldScale,
       );
-  
+
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'function_graph_tool',
+      'type': typeKey,
       'expression': expression.toString(),
       'shouldScale': shouldScale,
     };

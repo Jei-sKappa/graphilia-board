@@ -26,6 +26,8 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
     );
   }
 
+  static const typeKey = 'simple_straight_line';
+
   // TODO: Make this configurable in the config
   static double snapThreshold = kDefaultSnapTreshold;
 
@@ -264,7 +266,7 @@ class SimpleStraightLine<T> extends SimpleDrawing<T, AnchoredDrawingRepresentati
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_straight_line',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),

@@ -17,6 +17,8 @@ class SimpleCircleDrawingTool<T> extends SimpleDrawingTool<T> {
     );
   }
 
+  static const typeKey = 'simple_circle_tool';
+
   @override
   SimpleCircleDrawing<T> createDrawing(
     Point firstPoint,
@@ -49,7 +51,7 @@ class SimpleCircleDrawingTool<T> extends SimpleDrawingTool<T> {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_circle_tool',
+      'type': typeKey,
       'color': super.color.value,
       'width': super.width,
       'shouldScale': super.shouldScale,

@@ -19,6 +19,8 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
     );
   }
 
+  static const typeKey = 'highlighter_polygon_tool';
+
   @override
   HighlighterPolygonDrawing<T> createDrawing(
     Point firstPoint,
@@ -51,10 +53,10 @@ class HighlighterPolygonDrawingTool<T> extends SimplePolygonDrawingTool<T> {
     );
   }
 
-    @override
+  @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'highlighter_polygon_tool',
+      'type': typeKey,
       'color': color.value,
       'width': width,
       'shouldScale': shouldScale,

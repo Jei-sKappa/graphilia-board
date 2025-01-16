@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:graphilia_board/graphilia_board.dart';
 
-export 'base_drawings/base_drawings.dart';
 export 'representable_canvas_drawing.dart';
 export 'single_point_drawer.dart';
 

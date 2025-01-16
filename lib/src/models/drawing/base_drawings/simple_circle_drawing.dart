@@ -21,6 +21,8 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
     );
   }
 
+  static const typeKey = 'simple_circle';
+
   double get diameter => getBounds().width;
 
   double get radius => diameter / 2;
@@ -123,7 +125,7 @@ class SimpleCircleDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresentat
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_circle',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),

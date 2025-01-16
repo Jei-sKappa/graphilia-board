@@ -29,6 +29,8 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
 
   final PolygonTemplate polygonTemplate;
 
+  static const typeKey = 'simple_polygon_drawing';
+
   @override
   List<Object?> get props => [...super.props, polygonTemplate];
 
@@ -154,7 +156,7 @@ class SimplePolygonDrawing<T> extends SimpleDrawing<T, AnchoredDrawingRepresenta
   @override
   Map<String, dynamic> toMap() {
     return {
-      'type': 'simple_polygon_drawing',
+      'type': typeKey,
       'id': id,
       'zIndex': zIndex,
       'representation': representation.toMap(),
