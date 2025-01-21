@@ -34,8 +34,8 @@ class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
       ).where(
         (previous, next) {
           // TODO: This can be expensive, try to optimize it
-          final areSelectedDrawingsIdsChanged = !(const DeepCollectionEquality().equals(previous, next));
-          return areSelectedDrawingsIdsChanged;
+          final areSelectedDrawingsChanged = !(const DeepCollectionEquality().equals(previous, next));
+          return areSelectedDrawingsChanged;
         },
       ),
       builder: (context, selectedDrawings, _) {
