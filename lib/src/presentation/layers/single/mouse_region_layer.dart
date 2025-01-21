@@ -19,6 +19,7 @@ class MouseRegionLayer<T> extends StatelessWidget {
       valueListenable: notifier.select((state) => state.mouseCursor),
       builder: (context, mouseCursor, _) {
         return MouseRegion(
+          opaque: false,
           cursor: notifier.config.isPointerDeviceKindSupported(PointerDeviceKind.mouse) && mouseCursor != null ? mouseCursor : MouseCursor.defer,
           onExit: onExit,
         );
