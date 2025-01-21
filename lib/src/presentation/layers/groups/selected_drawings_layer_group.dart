@@ -45,29 +45,32 @@ class SelectedDrawingsLayerGroup<T> extends StatelessWidget {
 
         final (:widgetDrawings, :canvasDrawings) = groupDrawings(selectedDrawings);
 
-        return Stack(
-          children: [
-            if (widgetDrawings.isNotEmpty)
-              Positioned.fill(
-                child: RepaintBoundary(
-                  child: WidgetDrawingsLayer(
-                    drawings: widgetDrawings,
-                    state: notifier.value,
-                    areDrawingsSelected: true,
+        // TODO: Insted of ignoring the pointer, for every element, we should provide an option to enable/disable the pointer when selecting directly inside the Drawing class (or somewhere else)
+        return IgnorePointer(
+          child: Stack(
+            children: [
+              if (widgetDrawings.isNotEmpty)
+                Positioned.fill(
+                  child: RepaintBoundary(
+                    child: WidgetDrawingsLayer(
+                      drawings: widgetDrawings,
+                      state: notifier.value,
+                      areDrawingsSelected: true,
+                    ),
                   ),
                 ),
-              ),
-            if (canvasDrawings.isNotEmpty)
-              Positioned.fill(
-                child: RepaintBoundary(
-                  child: CanvasDrawingsLayer(
-                    drawings: canvasDrawings,
-                    state: notifier.value,
-                    areDrawingsSelected: true,
+              if (canvasDrawings.isNotEmpty)
+                Positioned.fill(
+                  child: RepaintBoundary(
+                    child: CanvasDrawingsLayer(
+                      drawings: canvasDrawings,
+                      state: notifier.value,
+                      areDrawingsSelected: true,
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         );
       },
     );
