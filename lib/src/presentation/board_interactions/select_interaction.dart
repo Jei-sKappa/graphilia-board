@@ -299,18 +299,37 @@ class SelectInteraction<T> extends BoardInteraction<T> {
   ) {
     if (!targetDrawing.overlapsFollow) return [];
 
+    final targetDrawingBounds = targetDrawing.getBounds();
+
     final drawingInSelectionBounds = state.sketch.getDrawingsByRect(
-      targetDrawing.getBounds(),
+      targetDrawingBounds,
     );
 
-    final selectedDrawings = <Drawing<T>>[];
+    final overlappingDrawings = <Drawing<T>>[];
     for (final drawing in drawingInSelectionBounds) {
       // This is necessary to prevent StackOverflow when recursively calling
       // this function when [selectionRect] is a drawing's bounds, because
       // [state.sketch.getDrawingsByRect] will also return the drawing itself
       if (drawing.id == targetDrawing.id) continue;
 
-      selectedDrawings.add(drawing);
+      // Only drawings with zIndex bigger than the target drawing should be
+      // considered
+      // This is also necessary to prevent StackOverflow when recursively
+      // calling. The '=' in the comparison is mandatory because the zIndex
+      // can be the same and this will cause an infinite loop
+      if (drawing.zIndex <= targetDrawing.zIndex) continue;
+
+      final isInsideSelection = drawing.isInsidePolygon(
+        state,
+        targetDrawingBounds.vertices.map((e) => Point.fromOffset(e)).toList(),
+        PointsInPolygonMode.partial,
+      );
+
+      if (!isInsideSelection) continue;
+
+      // The drawing is inside the selection polygon
+
+      overlappingDrawings.add(drawing);
 
       if (!drawing.overlapsFollow) continue;
 
@@ -328,14 +347,10 @@ class SelectInteraction<T> extends BoardInteraction<T> {
 
       // There is at least one drawing that is inside the bounds of this drawing
 
-      // Get only the drawings that are above the current drawing by checking
-      // the z-index.
-      final overlappingDrawings = drawingsInThisBounds.where((d) => d.zIndex >= drawing.zIndex);
-
-      selectedDrawings.addAll(overlappingDrawings);
+      overlappingDrawings.addAll(drawingsInThisBounds);
     }
 
-    return selectedDrawings;
+    return overlappingDrawings;
   }
 
   List<Drawing<T>> _getDrawingsInSelectionRect(
