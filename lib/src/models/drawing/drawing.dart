@@ -67,6 +67,14 @@ abstract class Drawing<T> with EquatableMixin {
 
   BoardStateListener<T>? get stateListener => null;
 
+  /// Whether the overlapping drawings should be updated when this drawing gets
+  /// modified. (e.g. when this drawing is moved, resized, etc.)
+  /// 
+  /// Suggestion: Imagine you have an image and you want to write on top of it. If you set
+  /// this to true, when the image is moved, the text will also be moved to the
+  /// new position.
+  bool get overlapsFollow => false;
+
   bool isPointInside(
     BoardState<T> state,
     Point point,

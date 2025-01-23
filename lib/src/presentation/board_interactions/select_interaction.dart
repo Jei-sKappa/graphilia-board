@@ -292,6 +292,93 @@ class SelectInteraction<T> extends BoardInteraction<T> {
     return (state: updatedState, shouldAddToHistory: false);
   }
 
+  List<Drawing<T>> _getOverlappingDrawings(
+    BoardState<T> state,
+    BoardStateConfig config,
+    Drawing<T> targetDrawing,
+  ) {
+    if (!targetDrawing.overlapsFollow) return [];
+
+    final drawingInSelectionBounds = state.sketch.getDrawingsByRect(
+      targetDrawing.getBounds(),
+    );
+
+    final selectedDrawings = <Drawing<T>>[];
+    for (final drawing in drawingInSelectionBounds) {
+      // This is necessary to prevent StackOverflow when recursively calling
+      // this function when [selectionRect] is a drawing's bounds, because
+      // [state.sketch.getDrawingsByRect] will also return the drawing itself
+      if (drawing.id == targetDrawing.id) continue;
+
+      selectedDrawings.add(drawing);
+
+      if (!drawing.overlapsFollow) continue;
+
+      // The drawing has overlapsFollow set to true
+
+      // Get the drawings that are in the same rect as this drawing using
+      // recursive call
+      final drawingsInThisBounds = _getOverlappingDrawings(
+        state,
+        config,
+        drawing,
+      );
+
+      if (drawingsInThisBounds.isEmpty) continue;
+
+      // There is at least one drawing that is inside the bounds of this drawing
+
+      // Get only the drawings that are above the current drawing by checking
+      // the z-index.
+      final overlappingDrawings = drawingsInThisBounds.where((d) => d.zIndex >= drawing.zIndex);
+
+      selectedDrawings.addAll(overlappingDrawings);
+    }
+
+    return selectedDrawings;
+  }
+
+  List<Drawing<T>> _getDrawingsInSelectionRect(
+    BoardState<T> state,
+    BoardStateConfig config,
+  ) {
+    // In order to select a drawing, at least one point of the drawing
+    // must be inside the selection polygon
+    final drawingInSelectionBounds = state.sketch.getDrawingsByRect(
+      _interactionState.selectionRect!,
+    );
+
+    final selectedDrawings = <Drawing<T>>[];
+    for (final drawing in drawingInSelectionBounds) {
+      // TODO: This is useful only when the selection is a "lazo selection" so that we check if the drawing is inside the actual selection's irregular shape. If the selection is a rectangular selection, we should remove this check.
+      final isInsideSelection = drawing.isInsidePolygon(
+        state,
+        _interactionState.selectionPoints,
+        config.selectionMode,
+      );
+
+      if (!isInsideSelection) continue;
+
+      // The drawing is inside the selection polygon
+
+      selectedDrawings.add(drawing);
+
+      final overlappingDrawings = _getOverlappingDrawings(
+        state,
+        config,
+        drawing,
+      );
+
+      if (overlappingDrawings.isEmpty) continue;
+
+      // There is at least one drawing that is inside the bounds of this drawing
+
+      selectedDrawings.addAll(overlappingDrawings);
+    }
+
+    return selectedDrawings.toSet().toList();
+  }
+
   BoardState<T>? _tryConvertBoardStateToSelectedState(
     BoardState<T> state,
     PointerEvent event,
@@ -309,23 +396,10 @@ class SelectInteraction<T> extends BoardInteraction<T> {
       config,
     );
 
-    // In order to select a drawing, at least one point of the drawing
-    // must be inside the selection polygon
-    final drawingInSelectionBounds = state.sketch.getDrawingsByRect(
-      _interactionState.selectionRect!,
+    final selectedDrawings = _getDrawingsInSelectionRect(
+      state,
+      config,
     );
-
-    final selectedDrawings = <Drawing<T>>[];
-    for (final drawing in drawingInSelectionBounds) {
-      final isInsideSelection = drawing.isInsidePolygon(
-        state,
-        _interactionState.selectionPoints,
-        config.selectionMode,
-      );
-      if (isInsideSelection) {
-        selectedDrawings.add(drawing);
-      }
-    }
 
     // Get the total bounds of the selected drawings
     final bounds = getTotalBounds(selectedDrawings);
