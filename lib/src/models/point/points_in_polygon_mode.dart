@@ -1,4 +1,0 @@
-enum PointsInPolygonMode {
-  total,
-  partial,
-}
