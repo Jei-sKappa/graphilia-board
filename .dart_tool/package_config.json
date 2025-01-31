@@ -198,9 +198,15 @@
       "rootUri": "../plugins/drawing/graphilia_board_widget_drawing",
       "packageUri": "lib/",
       "languageVersion": "3.6"
+    },
+    {
+      "name": "graphilia_board_selected_state",
+      "rootUri": "../plugins/state/graphilia_board_selected_state",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-31T13:23:45.307550Z",
+  "generated": "2025-01-31T14:20:17.625351Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/jac/Developer/dependencies/flutter",

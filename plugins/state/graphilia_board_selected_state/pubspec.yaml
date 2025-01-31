@@ -1,0 +1,21 @@
+name: graphilia_board_selected_state
+description: "Plugin for graphilia_board_core that provides a selected state for the board."
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.6.1
+  flutter: ">=1.17.0"
+
+resolution: workspace
+
+dependencies:
+  graphilia_board_core: 0.0.1
+  flutter:
+    sdk: flutter
+  equatable: ^2.0.7
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter

@@ -6,5 +6,6 @@
     "core",
     "canvas_drawing",
     "widget_drawing",
+    "selected_state",
   ],
 }
