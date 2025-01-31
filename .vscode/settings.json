@@ -2,4 +2,7 @@
   "conventionalCommits.gitmoji": false,
   "conventionalCommits.promptFooter": false,
   "dart.lineLength": 280,
+  "conventionalCommits.scopes": [
+    "core"
+  ],
 }

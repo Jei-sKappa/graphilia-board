@@ -1,0 +1,26 @@
+name: graphilia_board_core
+description: "A fully customizable and interactive drawing board for Flutter."
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.6.1
+  flutter: ">=1.17.0"
+
+resolution: workspace
+
+dependencies:
+  collection: ^1.18.0
+  detailed_gesture_detector:
+    git:
+      url: https://github.com/Jei-sKappa/detailed-gesture-detector.git
+      ref: main
+  equatable: ^2.0.7
+  flutter:
+    sdk: flutter
+  value_notifier_tools: ^0.1.2
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
