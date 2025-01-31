@@ -1,0 +1,20 @@
+name: graphilia_board_widget_drawing
+description: "A new Flutter package project."
+version: 0.0.1
+homepage: null
+
+environment:
+  sdk: ^3.6.1
+  flutter: ">=1.17.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  graphilia_board_core: 0.0.1
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter

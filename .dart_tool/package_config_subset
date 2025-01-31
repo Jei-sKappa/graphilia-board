@@ -122,4 +122,12 @@ graphilia_board_core
 3.6
 file:///Users/jac/Developer/projects/personal/graphilia_board/graphilia_board_core/
 file:///Users/jac/Developer/projects/personal/graphilia_board/graphilia_board_core/lib/
+graphilia_board_canvas_drawing
+3.6
+file:///Users/jac/Developer/projects/personal/graphilia_board/plugins/drawing/graphilia_board_canvas_drawing/
+file:///Users/jac/Developer/projects/personal/graphilia_board/plugins/drawing/graphilia_board_canvas_drawing/lib/
+graphilia_board_widget_drawing
+3.6
+file:///Users/jac/Developer/projects/personal/graphilia_board/plugins/drawing/graphilia_board_widget_drawing/
+file:///Users/jac/Developer/projects/personal/graphilia_board/plugins/drawing/graphilia_board_widget_drawing/lib/
 2
