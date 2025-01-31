@@ -186,9 +186,15 @@
       "rootUri": "../graphilia_board_core",
       "packageUri": "lib/",
       "languageVersion": "3.6"
+    },
+    {
+      "name": "graphilia_board_canvas_drawing",
+      "rootUri": "../plugins/drawing/graphilia_board_canvas_drawing",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-31T13:00:12.588027Z",
+  "generated": "2025-01-31T13:09:41.518035Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/jac/Developer/dependencies/flutter",

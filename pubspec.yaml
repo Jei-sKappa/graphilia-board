@@ -4,3 +4,4 @@ environment:
   sdk: ^3.6.0
 workspace:
   - graphilia_board_core
+  - plugins/drawing/graphilia_board_canvas_drawing

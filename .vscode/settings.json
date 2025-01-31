@@ -3,6 +3,7 @@
   "conventionalCommits.promptFooter": false,
   "dart.lineLength": 280,
   "conventionalCommits.scopes": [
-    "core"
+    "core",
+    "canvas_drawing",
   ],
 }
