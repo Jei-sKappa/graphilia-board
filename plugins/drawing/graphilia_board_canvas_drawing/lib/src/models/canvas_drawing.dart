@@ -10,9 +10,8 @@ abstract class CanvasDrawing<T> extends Drawing<T> {
 
   void draw(
     BoardState<T> state,
-    Canvas canvas, {
-    required bool isSelected,
-  });
+    Canvas canvas,
+  );
 
   /// This method is called when the [Drawing] is being created for the first time.
   ///
@@ -21,5 +20,5 @@ abstract class CanvasDrawing<T> extends Drawing<T> {
     BoardState<T> state,
     Canvas canvas,
   ) =>
-      draw(state, canvas, isSelected: false);
+      draw(state, canvas);
 }

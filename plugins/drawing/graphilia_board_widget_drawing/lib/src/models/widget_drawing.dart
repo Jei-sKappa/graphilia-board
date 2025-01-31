@@ -9,9 +9,8 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
 
   Widget build(
     BuildContext context,
-    BoardState<T> state, {
-    required bool isSelected,
-  });
+    BoardState<T> state,
+  );
 
   /// This method is called when the [Drawing] is being created for the first time.
   ///
@@ -20,5 +19,5 @@ abstract class WidgetDrawing<T> extends Drawing<T> {
     BuildContext context,
     BoardState<T> state,
   ) =>
-      build(context, state, isSelected: false);
+      build(context, state);
 }
