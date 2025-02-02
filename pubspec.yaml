@@ -4,7 +4,7 @@ environment:
   sdk: ^3.6.0
 workspace:
   - graphilia_board_core
-  - plugins/drawing/graphilia_board_canvas_drawing
-  - plugins/drawing/graphilia_board_widget_drawing
-  - plugins/state/graphilia_board_selected_state
-  - plugins/ui/layer/graphilia_board_interaction_feedback
+  - plugins/graphilia_board_canvas_drawing
+  - plugins/graphilia_board_widget_drawing
+  - plugins/graphilia_board_selected_state
+  - plugins/graphilia_board_interaction_feedback

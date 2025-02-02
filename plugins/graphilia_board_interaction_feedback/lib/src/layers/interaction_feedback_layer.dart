@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:graphilia_board_interaction_feedback/graphilia_board_interaction_feedback.dart';
+import '../../graphilia_board_interaction_feedback.dart';
 import 'package:value_notifier_tools/value_notifier_tools.dart';
 
 class InteractionFeedbackLayer<T> extends StatelessWidget {

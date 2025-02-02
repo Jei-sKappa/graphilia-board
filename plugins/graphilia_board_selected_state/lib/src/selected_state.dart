@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:graphilia_board_core/graphilia_board_core.dart';
-import 'package:graphilia_board_selected_state/graphilia_board_selected_state.dart';
+import '../graphilia_board_selected_state.dart';
 
 // TODO: Make this customizable
 /// Default radius for resize rect's anchor
