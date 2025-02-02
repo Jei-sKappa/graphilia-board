@@ -204,9 +204,15 @@
       "rootUri": "../plugins/state/graphilia_board_selected_state",
       "packageUri": "lib/",
       "languageVersion": "3.6"
+    },
+    {
+      "name": "graphilia_board_interaction_feedback",
+      "rootUri": "../plugins/ui/layer/graphilia_board_interaction_feedback",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-31T14:20:17.625351Z",
+  "generated": "2025-02-02T15:06:06.056102Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/jac/Developer/dependencies/flutter",

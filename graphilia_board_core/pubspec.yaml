@@ -18,7 +18,6 @@ dependencies:
   equatable: ^2.0.7
   flutter:
     sdk: flutter
-  value_notifier_tools: ^0.1.2
 
 dev_dependencies:
   flutter_lints: ^5.0.0
